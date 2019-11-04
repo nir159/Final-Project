@@ -1,0 +1,51 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+.sizeControl{
+	background: none;
+	font-size: 20px;
+	font-family: "montserrat";
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+	padding: 10px 20px;
+	border: 1px solid #3498db;
+	color: #3498db;
+}
+.colorControl{
+	background: none;
+	font-size: 20px;
+	font-family: "montserrat";
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+	padding: 10px 20px;
+}
+.red{
+	border: 1px solid #ff0000;
+	color: #ff0000;
+}
+.yellow{
+	border: 1px solid #ffee00;
+	color: #ffee00;
+}
+.green{
+	border: 1px solid #00ff00;
+	color: #00ff00;
+}
+.blue{
+	border: 1px solid #0000ff;
+	color: #0000ff;
+}
+.black{
+	border: 1px solid #000000;
+	color: #000000;
+}
+
+#canvas {
+	border: 2px solid black;
+}
