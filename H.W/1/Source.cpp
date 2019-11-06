@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include "Student.h"
 
 #define MAX_STUDENTS 10
 
@@ -12,102 +13,7 @@
 
 using namespace std;
 
-class Course
-{
-public:
-	//Methods
-	void init(string name, int test1, int test2, int exam);
 
-	int* getGradesList();
-	string getName();
-	double getFinalGrade();
-
-
-private:
-	string _name;
-	int _grades[3]; //array of size 3 => test1, test2, exam
-	double _avg;
-};
-
-class Student
-{
-public:
-	void init(string name, Course** courses, int crsCount);
-
-	string getName();
-	void setName(string name);
-	int getCrsCount();
-	Course** getCourses();
-	double getAvg();
-
-
-private:
-	string _name;
-	Course** _Courses;//array of pointers to Course
-	int _crsCount;
-};
-
-
-void Student::init(string name, Course** courses, int crsCount)
-{
-	_name = name;
-	_Courses = courses;
-	_crsCount = crsCount;
-
-
-
-}
-string Student::getName()
-{
-	return _name;
-}
-void Student::setName(string name)
-{
-	_name = name;
-}
-
-double Student::getAvg()
-{
-	double sum = 0;
-	for (int i = 0; i < _crsCount; i++)
-	{
-		sum += _Courses[i]->getFinalGrade();
-
-	}
-
-	return sum / _crsCount;
-}
-
-int Student::getCrsCount()
-{
-	return _crsCount;
-}
-Course** Student::getCourses()
-{
-	return _Courses;
-}
-
-
-void Course::init(string name, int test1, int test2, int exam)
-{
-	_name = name;
-	_grades[0] = test1;
-	_grades[1] = test2;
-	_grades[2] = exam;
-}
-
-int* Course::getGradesList()
-{
-	return _grades;
-}
-string Course::getName()
-{
-	return _name;
-}
-double Course::getFinalGrade()
-{
-	return (_grades[0] * 0.25 + _grades[1] * 0.25 + _grades[2] * 0.5);
-}
 
 
 Student* newStudent()
@@ -256,4 +162,3 @@ int main()
 	system("pause");
 	return 0;
 }
-
