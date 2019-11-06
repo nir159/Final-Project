@@ -13,11 +13,13 @@ int* Course::getGradesList()
 {
 	return _grades;
 }
-std::string Course::getName()
-{
-	return _name;
-}
+
 double Course::getFinalGrade()
 {
 	return (_grades[0] * 0.25 + _grades[1] * 0.25 + _grades[2] * 0.5);
+}
+
+std::string Course::getName()
+{
+	return _name;
 }
