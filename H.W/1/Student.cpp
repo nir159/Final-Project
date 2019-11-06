@@ -1,5 +1,12 @@
 #include "Student.h"
 
+std::string Student::getName(){
+	return _name;
+}
+void Student::setName(std::string name){
+	_name = name;
+}
+
 void Student::init(std::string name, Course** courses, int crsCount)
 {
 	_name = name;
@@ -8,14 +15,6 @@ void Student::init(std::string name, Course** courses, int crsCount)
 
 
 
-}
-std::string Student::getName()
-{
-	return _name;
-}
-void Student::setName(std::string name)
-{
-	_name = name;
 }
 
 double Student::getAvg()
