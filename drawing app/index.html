@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html Lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+		<link rel="stylesheet" href="style.css"/>
+		<title>Drawing Board</title>
+	</head>
+	<body>
+		<script src="canvas.js"></script>
+		<button onclick="plus()" class="sizeControl">+</button>
+		<button onclick="minus()" class="sizeControl">-</button>
+		<button onclick="resetSize()" class="sizeControl">reset size</button>
+		<button onclick="switchColor('red')" class="colorControl red">red</button>
+		<button onclick="switchColor('yellow')" class="colorControl yellow">yellow</button>
+		<button onclick="switchColor('green')" class="colorControl green">green</button>
+		<button onclick="switchColor('blue')" class="colorControl blue">blue</button>
+		<button onclick="switchColor('black')" class="colorControl black">black</button>
+		<canvas id="canvas"></canvas>
+	</body>
+</html>
