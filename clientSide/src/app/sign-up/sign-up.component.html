@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col s8 offset-s2">
+        <div class="card">
+            <div class="sm-jumbotron center-align">
+                <h3>User Registration</h3>
+            </div>
+            <form class="col s12 white" #userRegistrationForm="ngForm">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="text" name="UserName" #UserName="ngModel" [(ngModel)]="user.UserName">
+                        <label>UserName</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" name="Password" #Password="ngModel" [(ngModel)]="user.Password">
+                        <label>Password</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text" name="Email" #Email="ngModel" [(ngModel)]="user.Email">
+                        <label>Email</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="text" name="FirstName" #FirstName="ngModel" [(ngModel)]="user.FirstName">
+                        <label>FirstName</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" name="LastName" #LastName="ngModel" [(ngModel)]="user.LastName">
+                        <label>LastName</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button class="btn-large btn-submit" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
