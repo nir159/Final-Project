@@ -7,12 +7,14 @@
             <form class="col s12 white" #userRegistrationForm="ngForm">
                 <div class="row">
                     <div class="input-field col s6">
-                        <input type="text" name="UserName" #UserName="ngModel" [(ngModel)]="user.UserName">
-                        <label>UserName</label>
+                        <input id="username" class="validate" type="text" name="UserName" #UserName="ngModel" [(ngModel)]="user.UserName" required>
+                        <label for="username">UserName</label>
+                        <span class="helper-text" data-error="Required field!"></span>
                     </div>
                     <div class="input-field col s6">
-                        <input type="text" name="Password" #Password="ngModel" [(ngModel)]="user.Password">
-                        <label>Password</label>
+                        <input id="password" class="validate" type="text" name="Password" #Password="ngModel" [(ngModel)]="user.Password" minlength="3" required>
+                        <label for="password">Password</label>
+                        <span class="helper-text" data-error="change password"></span>
                     </div>
                 </div>
                 <div class="row">
