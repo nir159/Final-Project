@@ -1,0 +1,9 @@
+<ul>Info:
+    <li>username: </li>
+    <li>email: <button class="btn btn-primary">Change email</button></li>
+</ul>
+<input type="text" class="form-control" [(ngModel)]="fileName">
+<button class="btn btn-primary" [disabled]="fileName === ''" (click)="createFile()">Add File</button>
+<ul>Your Files:
+    <li *ngFor="let file of files; let i = index">{{ i+1 }}.{{ file }}<button class="btn btn-primary">Edit</button><button class="btn btn-primary" (click)="removeFile(file)">Remove</button></li>
+</ul>
