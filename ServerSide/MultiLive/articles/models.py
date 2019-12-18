@@ -13,5 +13,8 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+    def snippet(self):
+        return self.body[:50] + '...'
+
 # python manage.py makemigrations
 # python manage.py migrate
