@@ -3,6 +3,14 @@ from django.shortcuts import render, redirect
 from .models import Article
 from django.contrib.auth.decorators import login_required
 from . import forms
+from rest_framework import viewsets
+from .serializers import ArticleSerializer
+from .models import Article
+
+
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer()
 
 
 # Create your views here.
