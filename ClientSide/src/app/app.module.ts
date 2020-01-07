@@ -11,6 +11,8 @@ import { AboutComponent } from './about/about.component';
 import { WorkSpaceComponent } from './work-space/work-space.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { from } from 'rxjs';
+import { UserPageComponent } from './user-page/user-page.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,13 +21,15 @@ import { from } from 'rxjs';
     UserAuthComponent,
     AboutComponent,
     WorkSpaceComponent,
-    HomePageComponent
+    HomePageComponent,
+    UserPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    CanvasWhiteboardModule
+    CanvasWhiteboardModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

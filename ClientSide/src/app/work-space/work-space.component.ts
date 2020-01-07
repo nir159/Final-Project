@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {CanvasWhiteboardComponent} from 'ng2-canvas-whiteboard';
 
 @Component({
   selector: 'app-work-space',
@@ -7,6 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class WorkSpaceComponent implements OnInit {
+
+  @ViewChild('canvasWhiteboard', {static: true}) canvasWhiteboard: CanvasWhiteboardComponent;
+
+  onCanvasClear(){
+    let context = this.canvasWhiteboard.context;
+    console.log(context);
+  }
+
   constructor() { }
 
   ngOnInit() {
