@@ -198,3 +198,5 @@ speed-measure-plugin*.json
 **/crashlytics.properties
 **/crashlytics-build.properties
 **/fabric.properties
+
+**/.git*
