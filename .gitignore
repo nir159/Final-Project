@@ -200,3 +200,4 @@ speed-measure-plugin*.json
 **/fabric.properties
 
 **/.git*
+**/.git
