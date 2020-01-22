@@ -1,4 +1,4 @@
-<div id="header" class="nav-collapse">
+<div id="header" class="nav-collapse nav-solid">
     <div class="row clearfix">
         <div class="col-1">
 
@@ -21,25 +21,25 @@
 <nav id="nav-main">
 <ul>
     <li>
-        <a routerLink="/home">Home</a>
+        <a routerLink="/home" (click)="setActiveTab('home')" [class.active]="activetab === 'home'">Home</a>
     </li>
     <li>
-        <a routerLink="/about">About</a>
+        <a routerLink="/about" (click)="setActiveTab('about')" [class.active]="activetab === 'about'">About</a>
     </li>
     <li>
-        <a routerLink="/gallery">Gallery</a>
+        <a routerLink="/gallery" (click)="setActiveTab('gallery')" [class.active]="activetab === 'gallery'">Gallery</a>
     </li>
     <li>
-        <a routerLink="/services">Services</a>
+        <a routerLink="/services" (click)="setActiveTab('services')" [class.active]="activetab === 'services'">Services</a>
     </li>
     <li>
-        <a routerLink="/testimonials">Testimonials</a>
+        <a routerLink="/testimonials" (click)="setActiveTab('testimonials')" [class.active]="activetab === 'testimonials'">Testimonials</a>
     </li>
     <li>
-        <a routerLink="/clients">Clients</a>
+        <a routerLink="/clients" (click)="setActiveTab('clients')" [class.active]="activetab === 'clients'">Clients</a>
     </li>
     <li>
-        <a routerLink="/pricing">Pricing</a>
+        <a routerLink="/pricing" (click)="setActiveTab('pricing')" [class.active]="activetab === 'pricing'">Pricing</a>
     </li>
 </ul>
 </nav>
