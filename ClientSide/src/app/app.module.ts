@@ -13,7 +13,21 @@ import { PricingComponent } from './pricing/pricing.component';
 import { HeaderComponent } from './header/header.component';
 import { SocialComponent } from './social/social.component';
 import { NavigationComponent } from './navigation/navigation.component';
-import { ConfigService } from './config.service'
+import { ConfigService } from './config.service';
+import { BoardsComponent } from './boards/boards.component';
+import { BoardComponent } from './board/board.component';
+import { EditBoardComponent } from './edit-board/edit-board.component';
+import { CanvasWhiteboardModule } from 'ng2-canvas-whiteboard';
+import { NotfoundComponent } from './notfound/notfound.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { PagerService } from './pager.service';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+import { ContactusComponent } from './contactus/contactus.component';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -27,13 +41,27 @@ import { ConfigService } from './config.service'
     PricingComponent,
     HeaderComponent,
     SocialComponent,
-    NavigationComponent
+    NavigationComponent,
+    BoardsComponent,
+    BoardComponent,
+    EditBoardComponent,
+    NotfoundComponent,
+    PaginationComponent,
+    LoginComponent,
+    SignupComponent,
+    ContactusComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CanvasWhiteboardModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserModule,
   ],
-  providers: [ConfigService],
+  providers: [ConfigService, PagerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

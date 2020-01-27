@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfigService } from '../config.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-gallery',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GalleryComponent implements OnInit {
 
-  constructor() { }
+  gallery;
+
+  constructor(private config: ConfigService) { }
 
   ngOnInit() {
+    this.gallery = this.getImages();
   }
 
+  getImages() {
+    return this.config.getConfig().gallery;
+  }
 }

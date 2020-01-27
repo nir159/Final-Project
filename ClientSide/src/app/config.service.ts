@@ -13,4 +13,8 @@ export class ConfigService {
   getConfig() {
     return this.config;
   }
+
+  getBoardById(id: number) {
+    return this.config.boards.boardslist[id-1];
+  }
 }

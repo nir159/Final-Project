@@ -1,0 +1,11 @@
+<div class="board-block-content">
+    <h3>{{ board.title }}</h3>
+    <p class="board-sub">author: {{ board.author }}, last checked: {{ board.latestedit | date:'dd.MM.yyyy' }}</p>
+    <div class="board-image">
+        <img src="{{ board.image }}" alt="{{ board.title }}">
+    </div>
+    <ul>
+        {{ board.description }}
+    </ul>
+    <a routerLink="/board/{{ board.id }}">EDIT BOARD</a>
+</div>

@@ -5,10 +5,6 @@
             <!--Logo-->
             <div id="logo">
 
-                <!--Logo that is shown on the banner-->
-                <img src="assets/images/logo.png" id="banner-logo" alt="Landing Page"/>
-                <!--End of Banner Logo-->
-
                 <!--The Logo that is shown on the sticky Navigation Bar-->
                 <img src="assets/images/logo-2.png" id="navigation-logo" alt="Landing Page"/>
                 <!--End of Navigation Logo-->
@@ -21,25 +17,31 @@
 <nav id="nav-main">
 <ul>
     <li>
-        <a routerLink="/home" (click)="setActiveTab('home')" [class.active]="activetab === 'home'">Home</a>
+        <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
     </li>
     <li>
-        <a routerLink="/about" (click)="setActiveTab('about')" [class.active]="activetab === 'about'">About</a>
+        <a routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About</a>
     </li>
     <li>
-        <a routerLink="/gallery" (click)="setActiveTab('gallery')" [class.active]="activetab === 'gallery'">Gallery</a>
+        <a routerLink="/gallery" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Gallery</a>
     </li>
     <li>
-        <a routerLink="/services" (click)="setActiveTab('services')" [class.active]="activetab === 'services'">Services</a>
+        <a routerLink="/services" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Services</a>
     </li>
     <li>
-        <a routerLink="/testimonials" (click)="setActiveTab('testimonials')" [class.active]="activetab === 'testimonials'">Testimonials</a>
+        <a routerLink="/testimonials" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Testimonials</a>
     </li>
     <li>
-        <a routerLink="/clients" (click)="setActiveTab('clients')" [class.active]="activetab === 'clients'">Clients</a>
+        <a routerLink="/clients" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Clients</a>
     </li>
     <li>
-        <a routerLink="/pricing" (click)="setActiveTab('pricing')" [class.active]="activetab === 'pricing'">Pricing</a>
+        <a routerLink="/pricing" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Pricing</a>
+    </li>
+    <li>
+        <a routerLink="/boards" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Boards</a>
+    </li>
+    <li *ngIf="userLoggedIn">
+        <a routerLink="/home" (click)="logout();">Logout</a>
     </li>
 </ul>
 </nav>

@@ -1,0 +1,32 @@
+
+<div class="row clearfix">
+    <div class="section-heading">
+        <h3>{{ board.title }}</h3>
+        <h2 class="section-title">{{ board.description }}</h2>
+    </div>
+</div>
+<div style="height: 400px">
+    <canvas-whiteboard #canvasWhiteboard
+                        [drawButtonClass]="'drawButtonClass'"
+                        [drawButtonText]="'Draw'"
+                        [clearButtonClass]="'clearButtonClass'"
+                        [clearButtonText]="'Clear'"
+                        [undoButtonText]="'Undo'"
+                        [undoButtonEnabled]="true"
+                        [redoButtonText]="'Redo'"
+                        [redoButtonEnabled]="true"
+                        [colorPickerEnabled]="true"
+                        [saveDataButtonEnabled]="true"
+                        [saveDataButtonText]="'Save'"
+                        [lineWidth]="5"
+                        [strokeColor]="'rgb(0,0,0)'"
+                        [shouldDownloadDrawing]="true"
+                        (onBatchUpdate)="sendBatchUpdate($event)"
+                        (onClear)="onCanvasClear()"
+                        (onUndo)="onCanvasUndo($event)"
+                        (onRedo)="onCanvasRedo($event)">
+    </canvas-whiteboard>
+</div>
+<div style="text-align:center;">
+    <a (click)="goBack()" class="button">BACK</a>
+</div>
