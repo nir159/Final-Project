@@ -21,6 +21,14 @@ export class ApiService {
     return this.http.get(this.baseurl + '/users/', {headers: this.httpHeaders});
   }
 
+  isloggedIn() {
+    if (localStorage.getItem('currentUser')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   /* getAllMovies(): Observable<any>{
     return this.http.get(this.baseurl + '/movies/', {headers: this.httpHeaders});
   }

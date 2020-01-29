@@ -27,7 +27,8 @@ import { ContactusComponent } from './contactus/contactus.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { UserComponent } from './user/user.component';
+import { CreateBoardComponent } from './create-board/create-board.component';
+import { UserDashboardModule } from './user-dashboard/user-dashboard.module'
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { UserComponent } from './user/user.component';
     LoginComponent,
     SignupComponent,
     ContactusComponent,
-    UserComponent
+    CreateBoardComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +61,7 @@ import { UserComponent } from './user/user.component';
     FormsModule,
     HttpClientModule,
     BrowserModule,
+    UserDashboardModule
   ],
   providers: [ConfigService, PagerService],
   bootstrap: [AppComponent]

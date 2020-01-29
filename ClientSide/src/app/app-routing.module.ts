@@ -14,6 +14,8 @@ import { RouteguardService } from './routeguard.service'
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ContactusComponent } from './contactus/contactus.component';
+import { CreateBoardComponent } from './create-board/create-board.component';
+import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -27,7 +29,10 @@ const routes: Routes = [
   {path: 'testimonials', component: TestimonialComponent},
   {path: 'clients', component: ClientsComponent},
   {path: 'pricing', component: PricingComponent},
+  {path: 'contactus', component: ContactusComponent, outlet: 'popup'},
+  {path: 'dashboard', loadChildren: () => UserDashboardModule, canActivate: [RouteguardService]},
   {path: 'boards', component: BoardsComponent, canActivate: [RouteguardService]},
+  {path: 'create-board', component: CreateBoardComponent, canActivate: [RouteguardService]},
   {path: 'board/:id', component: EditBoardComponent},
   {path: '404', component: NotfoundComponent},
   {path: '**', redirectTo: '/404'}

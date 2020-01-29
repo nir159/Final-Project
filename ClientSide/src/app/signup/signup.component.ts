@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
       error => {
         console.log(error);
       }
-    ); */ 
+    ); */
     localStorage.setItem('currentUser', JSON.stringify(formData));
     this.router.navigate(['/boards']);
   }

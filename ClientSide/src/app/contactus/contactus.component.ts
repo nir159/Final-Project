@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contactus',
@@ -10,12 +11,11 @@ export class ContactusComponent implements OnInit {
 
   contactusForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private router: Router, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.contactusForm = this.fb.group({
-      'firstName' : [null, Validators.required],
-      'lastName' : [null, Validators.required],
+      'name' : [null, Validators.required],
       'email' : [null, [Validators.required, Validators.email]],
       'message' : [null, Validators.required],
     });
@@ -25,4 +25,7 @@ export class ContactusComponent implements OnInit {
     console.log(formData);
   }
 
+  cancel() {
+    this.router.navigate([{outlets: {popup: null}}]);
+  }
 }

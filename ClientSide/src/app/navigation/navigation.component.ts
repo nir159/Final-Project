@@ -8,6 +8,7 @@ import * as $ from 'jquery';
 })
 export class NavigationComponent implements OnInit {
   
+  profileImage: string;
   userLoggedIn = true;
 
   constructor() { }
@@ -54,6 +55,10 @@ export class NavigationComponent implements OnInit {
       localStorage.removeItem('currentUser');
     }
     this.userLoggedIn = false;
+  }
+
+  getUser() {
+    
   }
 
 }
