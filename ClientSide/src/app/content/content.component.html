@@ -1,0 +1,33 @@
+<!--Content Section-->
+<div id="services" class="scrollto clearfix">
+
+    <div class="row no-padding-bottom clearfix">
+
+        <!--Content of the Left Side-->
+        <div class="col-3">
+            <div class="section-heading">
+                <h3>{{ content.tagline }}</h3>
+                <h2 class="section-title">{{ content.title }}</h2>
+                <p class="section-subtitle">{{ content.description }}</p>
+            </div>
+            <a href="#" data-videoid="UYJ5IjBRlW8" data-videosite="youtube" class="button video link-lightbox">
+                {{ content.buttontext }} <i class="fa fa-play" aria-hidden="true"></i>
+            </a>
+        </div>
+        <!--End Content Left Side-->
+
+        <!--Content of the Right Side-->
+        <div class="col-3">
+            <p *ngFor="let paragraph of content.paragraphs">{{ paragraph }}</p>
+        </div>
+        <!--End Content Right Side-->
+
+        <div class="col-3">
+            <img src="assets/images/gallery-images/gallery-image-3.jpg" alt="bg"/>
+        </div>
+
+    </div>
+
+
+</div>
+<!--End of Content Section-->
