@@ -1,16 +1,16 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import BoardSerializer, BoardMiniSerializer
-from .models import Board
+from .serializers import UserSerializer, UserMiniSerializer
+from .models import User
 from rest_framework.response import Response
 # Create your views here.
 
 
 class BoardViewSet(viewsets.ModelViewSet):
-    queryset = Board.objects.all()
-    serializer_class = BoardSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
     def list(self, request, *args, **kwargs):
-        boards = Board.objects.all()
-        serializer = BoardMiniSerializer(boards, many=True)
+        users = User.objects.all()
+        serializer = UserMiniSerializer(users, many=True)
         return Response(serializer.data)
