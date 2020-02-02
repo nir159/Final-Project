@@ -14,3 +14,4 @@ class BoardViewSet(viewsets.ModelViewSet):
         users = User.objects.all()
         serializer = UserMiniSerializer(users, many=True)
         return Response(serializer.data)
+
