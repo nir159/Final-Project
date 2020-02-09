@@ -7,7 +7,7 @@
                         <img src="{{ user.userImage }}" alt="User"/>
                         <q>{{ user.bio }}</q>
                         <footer>
-                            <a href="link" class="button">SIGN OUT</a>
+                            <a (click)="logout()" class="button">SIGN OUT</a>
                         </footer>
                     </blockquote>
                 </div>
@@ -16,16 +16,12 @@
         <div class="col-2-3">
             <div class="panel">
                 <div class="panel-body">
-                        <div class="pricing-block-content">
-                            <h3>{{ user.firstName }} {{ user.lastName }}</h3>
-                            <div class="pricing">
-                                <p>{{ user.bio }}</p>
-                            </div>
-                            <ul>
-                                <li>{{ user.email }}</li>
-                            </ul>
-                            
+                    <div class="pricing-block-content">
+                        <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+                        <div class="pricing">
+                            <p>{{ user.email }}</p>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>

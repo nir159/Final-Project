@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-navigation',
@@ -9,9 +10,9 @@ import * as $ from 'jquery';
 export class NavigationComponent implements OnInit {
   
   profileImage: string;
-  userLoggedIn = true;
+  userLoggedIn = true;// localStorage.getItem('currentUser');
 
-  constructor() { }
+  constructor(private api: ApiService) { }
 
   ngOnInit() {
 

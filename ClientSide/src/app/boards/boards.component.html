@@ -10,7 +10,7 @@
             <app-board [board]="board"></app-board>
         </div>
     </div>
-    <div class="row clearfix" *ngIf="pager.totalPages != 1">
+    <div class="row clearfix" *ngIf="pager.totalPages > 1">
         <app-pagination [pager]="pager" (setPageEmitter)="setPage($event)"></app-pagination>
     </div>
 </section>

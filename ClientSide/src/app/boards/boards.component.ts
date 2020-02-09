@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../config.service';
 import { PagerService } from '../pager.service';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-boards',
@@ -10,19 +11,29 @@ import { PagerService } from '../pager.service';
 export class BoardsComponent implements OnInit {
 
   boards;
-  allItems: any[];
+  allItems: any;
   pages: any[];
   pageSize = 3;
   pager: any = {};
   
 
-  constructor(private config: ConfigService, private pagerService: PagerService) { }
+  constructor(private api: ApiService, private config: ConfigService, private pagerService: PagerService) { }
 
   ngOnInit() {
     this.boards = this.getBoards();
-    this.allItems = this.boards.boardslist;
-    this.setPage(1);
+    this.api.getBoards(localStorage.getItem('currentUser')).subscribe(
+      data => {
+        this.allItems = data;
+      },
+      error => {
+        this.allItems = this.boards.boardslist;
+        console.log(error);
+      }).add(() => {
+        this.setPage(1);
+    });
   }
+
+  
 
   getBoards() {
     return this.config.getConfig().boards;
@@ -30,8 +41,7 @@ export class BoardsComponent implements OnInit {
 
   setPage(pageNumber: number) {
     // create a pager
-    this.pager = this.pagerService.getPager(this.allItems.length, pageNumber, this.pageSize)
-    
+    this.pager = this.pagerService.getPager(this.allItems.length, pageNumber, this.pageSize);
     this.pages = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 }

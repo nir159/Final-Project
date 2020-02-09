@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
+import { Location } from '@angular/common';
+import { ConfigService } from '../config.service';
 
 @Component({
   selector: 'app-create-board',
@@ -13,25 +15,29 @@ export class CreateBoardComponent implements OnInit {
   createBoardForm: FormGroup;
   returnUrl: string;
 
-  constructor(private fb: FormBuilder, private router: Router, private api: ApiService) { }
+  constructor(private config: ConfigService, private fb: FormBuilder, private router: Router, private location: Location, private api: ApiService) { }
 
   ngOnInit() {
     this.createBoardForm = this.fb.group({
-      'email' : [null, [Validators.required, Validators.email]],
-      'password' : [null, Validators.required],
+      'name' : [null, [Validators.required]],
+      'desc' : [null, Validators.required],
     });
-
   }
 
+  get name() { return this.createBoardForm.get('name'); }
+  get desc() { return this.createBoardForm.get('desc'); }
+
   createBoard(formData: NgForm){
-    /* this.api.getAllUsers().subscribe(
+    this.api.createBoard(JSON.stringify(formData)).subscribe(
       data => {
-        //if the user exist: redirecting to boards;
+        // go to the board this.router.navigate([this.returnUrl]);
+        this.location.back();
       },
       error => {
         console.log(error);
+        //this.config.getConfig().boards.boardslist.push(formData);
       }
-    ); */
+    );
     // first confirm user...
   }
 }

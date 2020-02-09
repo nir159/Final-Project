@@ -13,15 +13,17 @@
               <span class="ion-at form-control-icon"></span> 
             </div> -->
             <div class="form-group">
-                <input type="text" class="form-control input-lg" name="boardName" placeholder="Board Name" formControlName="boardName">
-                <span class="ion-at form-control-icon"></span> 
+                <input type="text" class="form-control input-lg" name="name" placeholder="Board Name" formControlName="name">
+                <span class="ion-ios-copy form-control-icon"></span>
+                <div *ngIf="name.touched && name.invalid">Required</div>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control input-lg" name="author" placeholder="Author" formControlName="author">
-              <span class="ion-at form-control-icon"></span> 
+              <input type="text" class="form-control input-lg" name="desc" placeholder="Description...." formControlName="desc">
+              <span class="ion-md-paper form-control-icon"></span>
+              <div *ngIf="desc.touched && desc.invalid">Required</div>
             </div>
   
-            <button type="submit" class="btn btn-block btn-success"> Update</button>
+            <button type="submit" class="btn btn-block btn-success" [disabled]="!createBoardForm.valid"> Create</button>
   
           </form>
   

@@ -1,11 +1,10 @@
-
 <div class="row clearfix">
     <div class="section-heading">
         <h3>{{ board.title }}</h3>
         <h2 class="section-title">{{ board.description }}</h2>
     </div>
 </div>
-<div style="height: 400px">
+<div style="height: 600px">
     <canvas-whiteboard #canvasWhiteboard
                         [drawButtonClass]="'drawButtonClass'"
                         [drawButtonText]="'Draw'"
@@ -18,7 +17,7 @@
                         [colorPickerEnabled]="true"
                         [saveDataButtonEnabled]="true"
                         [saveDataButtonText]="'Save'"
-                        [lineWidth]="5"
+                        [lineWidth]="lineWidth"
                         [strokeColor]="'rgb(0,0,0)'"
                         [shouldDownloadDrawing]="true"
                         (onBatchUpdate)="sendBatchUpdate($event)"
@@ -26,6 +25,9 @@
                         (onUndo)="onCanvasUndo($event)"
                         (onRedo)="onCanvasRedo($event)">
     </canvas-whiteboard>
+    <ul>
+        <li *ngFor="let move of moves"><a>{{ move }}</a></li>
+    </ul>
 </div>
 <div style="text-align:center;">
     <a (click)="goBack()" class="button">BACK</a>

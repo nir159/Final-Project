@@ -2,7 +2,6 @@ import { NgModule, ContentChild } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { ClientsComponent } from './clients/clients.component';
-import { PricingComponent } from './pricing/pricing.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { ContentComponent } from './content/content.component';
 import { IntroComponent } from './intro/intro.component';
@@ -28,7 +27,6 @@ const routes: Routes = [
   {path: 'services', component: ContentComponent},
   {path: 'testimonials', component: TestimonialComponent},
   {path: 'clients', component: ClientsComponent},
-  {path: 'pricing', component: PricingComponent},
   {path: 'contactus', component: ContactusComponent, outlet: 'popup'},
   {path: 'dashboard', loadChildren: () => UserDashboardModule, canActivate: [RouteguardService]},
   {path: 'boards', component: BoardsComponent, canActivate: [RouteguardService]},

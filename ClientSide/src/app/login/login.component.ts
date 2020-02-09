@@ -18,23 +18,17 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.fb.group({
       'email' : [null, [Validators.required, Validators.email]],
-      'password' : [null, Validators.required],
+      'pw' : [null, [Validators.required, Validators.minLength(4)]],
     });
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  login(formData: NgForm){
-    /* this.api.getAllUsers().subscribe(
-      data => {
-        //if the user exist: redirecting to boards;
-      },
-      error => {
-        console.log(error);
-      }
-    ); */
-    // first confirm user...
+  get email() { return this.loginForm.get('email'); }
+  get pw() { return this.loginForm.get('pw'); }
+
+  login(formData: NgForm) {
     localStorage.setItem('currentUser', JSON.stringify(formData));
-    this.router.navigate([this.returnUrl]);
+    this.router.navigate([this.returnUrl]); 
   }
 }
