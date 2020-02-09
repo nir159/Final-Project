@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   returnUrl: string;
+  logFail = false;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private api: ApiService) { }
 
@@ -27,8 +28,21 @@ export class LoginComponent implements OnInit {
   get email() { return this.loginForm.get('email'); }
   get pw() { return this.loginForm.get('pw'); }
 
-  login(formData: NgForm) {
-    localStorage.setItem('currentUser', JSON.stringify(formData));
-    this.router.navigate([this.returnUrl]); 
+  login(formData){
+    this.api.login(formData.email).subscribe(
+      data => {
+		if (data.length && data[0].pw == formData.pw) {
+			console.log("logged");
+			localStorage.setItem('currentUser', data[0]);
+			this.router.navigate([this.returnUrl]); 
+		}
+		else{
+			this.logFail = true;
+		}
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }

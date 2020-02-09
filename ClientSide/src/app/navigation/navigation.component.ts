@@ -58,8 +58,8 @@ export class NavigationComponent implements OnInit {
     this.userLoggedIn = false;
   }
 
-  getUser() {
-    
+  logged() {
+    this.userLoggedIn = true;
   }
 
 }
