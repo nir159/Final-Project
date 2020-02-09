@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  baseurl = "http://127.0.0.1:8000/"; 
+  baseurl = "http://127.0.0.1:8000/";
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
   constructor(private http: HttpClient) { }
@@ -16,13 +16,16 @@ export class ApiService {
     return this.http.get(this.baseurl + '/users/', {headers: this.httpHeaders});
   }
 
-  login(email: string): Observable<any> {
-    return this.http.get(this.baseurl + 'my_users/get_user/?search=' + email, {headers: this.httpHeaders});
+  login(id: number): Observable<any> {
+    return this.http.get(this.baseurl + 'my_users/my_users/' + id + '/', {headers: this.httpHeaders});
   }
 
-  signup(user): Observable<any> {
-    const newUser = {first_name: user.firstName, last_name: user.lastName, email: user.email, pw: user.pw};
-    return this.http.post(this.baseurl + 'my_users/my_users/', newUser, {headers: this.httpHeaders});
+  signup(user: string): Observable<any> {
+    const newUser = JSON.parse(user);
+    const newNewUser = {first_name: newUser.firstName, last_name: newUser.lastName, email: newUser.email, pw: newUser.pw};
+	//console.log(newUser);
+	console.log(newNewUser);
+    return this.http.post(this.baseurl + 'my_users/my_users/', newNewUser, {headers: this.httpHeaders});
   }
   
   createBoard(user: string): Observable<any> {

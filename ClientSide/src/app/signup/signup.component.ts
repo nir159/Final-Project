@@ -13,7 +13,6 @@ export class SignupComponent implements OnInit {
 
   returnUrl: string;
   signupForm: FormGroup;
-  signFail = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private location: Location, private fb: FormBuilder, private api: ApiService) { }
 
@@ -22,7 +21,7 @@ export class SignupComponent implements OnInit {
       'firstName' : [null, Validators.required],
       'lastName' : [null, Validators.required],
       'email' : [null, [Validators.required, Validators.email]],
-      'pw' : [null, [Validators.required, Validators.minLength(4)]],
+      'password' : [null, [Validators.required, Validators.minLength(4)]],
       'rePassword' : [null, Validators.required],
     }, {validator: this.checkPasswords});
 
@@ -32,26 +31,25 @@ export class SignupComponent implements OnInit {
   get firstName() { return this.signupForm.get('firstName'); }
   get lastName() { return this.signupForm.get('lastName'); }
   get email() { return this.signupForm.get('email'); }
-  get pw() { return this.signupForm.get('pw'); }
+  get password() { return this.signupForm.get('password'); }
   get rePassword() { return this.signupForm.get('rePassword'); }
-  get confirmPassword() { return this.signupForm.get('pw').value == this.signupForm.get('rePassword').value; }
+  get confirmPassword() { return this.signupForm.get('password').value == this.signupForm.get('rePassword').value; }
 
   checkPasswords(group: FormGroup) {
-    if (group.get('pw') && group.get('rePassword')){
-      return group.get('pw').value == group.get('rePassword').value ? null : { notSame: true };
+    if (group.get('password') && group.get('rePassword')){
+      return group.get('password').value == group.get('rePassword').value ? null : { notSame: true };
   }
     return null;
   }
 
   signup = (formData: NgForm) => {
-    this.api.signup(formData).subscribe(
+    this.api.signup(JSON.stringify(formData)).subscribe(
       data => {
         localStorage.setItem('currentUser', JSON.stringify(formData));
         this.router.navigate([this.returnUrl]);
       },
       error => {
         console.log(error);
-		this.signFail = true;
       }
     );
   }
