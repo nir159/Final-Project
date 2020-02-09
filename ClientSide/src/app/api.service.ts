@@ -8,9 +8,25 @@ import { Observable } from 'rxjs';
 export class ApiService {
 
   baseurl = "http://127.0.0.1:8000/"; 
-  httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
+  httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  userLogged = false;
 
   constructor(private http: HttpClient) { }
+
+  logged() {
+    this.userLogged = true;
+  }
+
+  logout() {
+    if (localStorage.getItem('currentUser')) {
+      localStorage.removeItem('currentUser');
+    }
+    this.userLogged = false;
+  }
+
+  isUserLogged() {
+    return this.userLogged;
+  }
   
   getAllUsers(): Observable<any>{
     return this.http.get(this.baseurl + '/users/', {headers: this.httpHeaders});

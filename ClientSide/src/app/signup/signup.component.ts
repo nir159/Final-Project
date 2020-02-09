@@ -47,11 +47,12 @@ export class SignupComponent implements OnInit {
     this.api.signup(formData).subscribe(
       data => {
         localStorage.setItem('currentUser', JSON.stringify(formData));
+        this.api.logged();
         this.router.navigate([this.returnUrl]);
       },
       error => {
         console.log(error);
-		this.signFail = true;
+		    this.signFail = true;
       }
     );
   }

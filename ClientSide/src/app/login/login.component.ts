@@ -33,7 +33,8 @@ export class LoginComponent implements OnInit {
       data => {
 		if (data.length && data[0].pw == formData.pw) {
 			console.log("logged");
-			localStorage.setItem('currentUser', data[0]);
+      localStorage.setItem('currentUser', data[0]);
+      this.api.logged();
 			this.router.navigate([this.returnUrl]); 
 		}
 		else{

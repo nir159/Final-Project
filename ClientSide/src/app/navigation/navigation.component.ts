@@ -10,7 +10,6 @@ import { ApiService } from '../api.service';
 export class NavigationComponent implements OnInit {
   
   profileImage: string;
-  userLoggedIn = true;// localStorage.getItem('currentUser');
 
   constructor(private api: ApiService) { }
 
@@ -50,16 +49,4 @@ export class NavigationComponent implements OnInit {
       }
     }); */
   }
-
-  logout(){
-    if (localStorage.getItem('currentUser')) {
-      localStorage.removeItem('currentUser');
-    }
-    this.userLoggedIn = false;
-  }
-
-  logged() {
-    this.userLoggedIn = true;
-  }
-
 }

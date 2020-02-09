@@ -39,8 +39,8 @@
                 <li>
                     <a routerLink="/boards" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Boards</a>
                 </li>
-                <li *ngIf="userLoggedIn">
-                    <a routerLink="/home" (click)="logout();">Logout</a>
+                <li *ngIf="api.isUserLogged()">
+                    <a routerLink="/home" (click)="api.logout();">Logout</a>
                 </li>
                 <li>
                     <a [routerLink]="[{outlets: {popup: ['contactus']}}]">CONTACT US</a>
