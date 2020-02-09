@@ -19,7 +19,7 @@
                     <div *ngIf="lastName.touched && lastName.invalid">Required</div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control input-lg" name="email" placeholder="Email" formControlName="email">
+                    <input (focus)="signFail=false" type="text" class="form-control input-lg" name="email" placeholder="Email" formControlName="email">
                     <span  class="ion-ios-at form-control-icon"></span>
                     <div *ngIf="email.invalid && (email.dirty || email.touched)">
                         <div *ngIf="email.errors.required; else badEmail">Required</div>
@@ -41,13 +41,14 @@
                 </div>
     
                 <button type="submit" class="btn btn-block btn-success" [disabled]="!signupForm.valid">Sign Up</button>
-    
-                <p class="text-center">
-                    <small>Already have an account? <a routerLink="/login">Login</a></small>
-    
-                </p>
   
               </form>
+			  <p *ngIf="signFail">User with that email exists!</p>
+	
+				<p class="text-center">
+					<small>Already have an account? <a routerLink="/login">Login</a></small>
+
+				</p>
           </div>
         </div>
   
