@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['first_name', 'last_name', 'email', 'pw']
 
 
-'''class UserMiniSerializer(serializers.ModelSerializer):
+class UserMiniSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['first_name', 'last_name']'''
+        model = MyUser
+        fields = ['first_name', 'last_name']
