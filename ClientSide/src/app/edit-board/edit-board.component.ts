@@ -14,7 +14,6 @@ export class EditBoardComponent implements OnInit {
   @ViewChild('canvasWhiteboard', {static: true}) canvasWhiteboard: CanvasWhiteboardComponent;
   board;
   lineWidth = 5;
-  moves = [];
 
   onCanvasClear(){
     let context = this.canvasWhiteboard.context;
@@ -22,7 +21,6 @@ export class EditBoardComponent implements OnInit {
   }
 
   sendBatchUpdate(info) {
-    this.moves.push(info);
     console.log(info);
   }
 

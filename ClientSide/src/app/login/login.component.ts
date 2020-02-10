@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private api: ApiService) { }
 
+  errorMsg = '';
+
   ngOnInit() {
     this.loginForm = this.fb.group({
       'email' : [null, [Validators.required, Validators.email]],
@@ -31,17 +33,24 @@ export class LoginComponent implements OnInit {
   login(formData){
     this.api.login(formData.email).subscribe(
       data => {
-		if (data.length && data[0].pw == formData.pw) {
-			console.log("logged");
-      localStorage.setItem('currentUser', data[0]);
-      this.api.logged();
-			this.router.navigate([this.returnUrl]); 
-		}
-		else{
-			this.logFail = true;
-		}
+        if(!data.length) {
+          this.errorMsg = "User doesn't exist!";
+          this.logFail = true;
+          return;
+        }
+        if(!data[0].pw == formData.pw) {
+          this.errorMsg = "Wrong password!";
+          this.logFail = true;
+          return;
+        }
+        console.log("logged");
+        localStorage.setItem('currentUser', data[0]);
+        this.api.logged();
+        this.router.navigate([this.returnUrl]);
       },
       error => {
+        this.errorMsg = "Server communication error!";
+        this.logFail = true;
         console.log(error);
       }
     );

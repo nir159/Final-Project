@@ -11,7 +11,11 @@ export class ApiService {
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   userLogged = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    if (localStorage.getItem('currentUser')) {
+      localStorage.removeItem('currentUser');
+    }
+  }
 
   logged() {
     this.userLogged = true;

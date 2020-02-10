@@ -25,9 +25,6 @@
                         (onUndo)="onCanvasUndo($event)"
                         (onRedo)="onCanvasRedo($event)">
     </canvas-whiteboard>
-    <ul>
-        <li *ngFor="let move of moves"><a>{{ move }}</a></li>
-    </ul>
 </div>
 <div style="text-align:center;">
     <a (click)="goBack()" class="button">BACK</a>
