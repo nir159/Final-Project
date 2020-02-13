@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class ApiService { 
 
   baseurl = "http://127.0.0.1:8000/"; 
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
@@ -22,8 +22,8 @@ export class ApiService {
   isUserLogged() {
     return this.userLogged;
   }
-  
-  getAllUsers(): Observable<any>{
+
+  getAllUsers(): Observable<any> {
     return this.http.get(this.baseurl + '/users/', {headers: this.httpHeaders});
   }
 
@@ -36,7 +36,7 @@ export class ApiService {
     return this.http.post(this.baseurl + 'my_users/my_users/', newUser, {headers: this.httpHeaders});
   }
   
-  getBoards(user: string) {
+  getBoards(email: string) { 
     return this.http.get(this.baseurl + 'boards' + '/myuser/', {headers: this.httpHeaders});
   }
 
