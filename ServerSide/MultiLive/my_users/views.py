@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from rest_framework import viewsets, status
-from .serializers import UserSerializer, UserMiniSerializer
+from .serializers import UserSerializer#, UserMiniSerializer
 from .models import MyUser
 from rest_framework.response import Response
 from rest_framework import generics
@@ -15,10 +15,10 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = MyUser.objects.all()
     serializer_class = UserSerializer
 
-    def list(self, request, *args, **kwargs):
+    '''def list(self, request, *args, **kwargs):
         my_users = MyUser.objects.all()
         serializer = UserMiniSerializer(my_users, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data)'''
 
 
 class UserAPIView(generics.ListCreateAPIView):
