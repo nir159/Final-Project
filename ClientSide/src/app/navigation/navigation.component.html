@@ -12,7 +12,7 @@
             </div>
             <!--End of Logo-->
             <aside>
-                <app-user-profile-icon [profileImage]="profileImage"></app-user-profile-icon>
+                <app-user-profile-icon [profileImage]="this.api.isUserLogged() ? '../assets/images/user-images/user-1.jpg' : '../assets/images/user-images/default-user.jpg'"></app-user-profile-icon>
                 <app-social></app-social>
             </aside>
             <!--Main Navigation-->

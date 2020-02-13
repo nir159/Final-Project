@@ -8,13 +8,10 @@ import { ApiService } from '../api.service';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
-  
-  profileImage: string;
 
   constructor(private api: ApiService) { }
 
   ngOnInit() {
-
     (<any>$)(document).ready(function () {
       (<any>$)('#nav-mobile').html((<any>$)('#nav-main').html());
       (<any>$)('#nav-trigger span').on('click',function() {

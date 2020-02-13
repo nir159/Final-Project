@@ -17,16 +17,7 @@ export class ApiService {
     }
   }
 
-  logged() {
-    this.userLogged = true;
-  }
-
-  logout() {
-    if (localStorage.getItem('currentUser')) {
-      localStorage.removeItem('currentUser');
-    }
-    this.userLogged = false;
-  }
+  // user authentication
 
   isUserLogged() {
     return this.userLogged;
@@ -45,12 +36,41 @@ export class ApiService {
     return this.http.post(this.baseurl + 'my_users/my_users/', newUser, {headers: this.httpHeaders});
   }
   
+  getBoards(user: string) {
+    return this.http.get(this.baseurl + 'boards' + '/myuser/', {headers: this.httpHeaders});
+  }
+
+  logged() {
+    this.userLogged = true;
+  }
+
+  logout() {
+    if (localStorage.getItem('currentUser')) {
+      localStorage.removeItem('currentUser');
+    }
+    this.userLogged = false;
+  }
+
+  // board control
+
   createBoard(user: string): Observable<any> {
     return this.http.post(this.baseurl + '/boards/', user, {headers: this.httpHeaders});
   }
-  
-  getBoards(user: string) {
-    return this.http.get(this.baseurl + 'boards' + '/myuser/', {headers: this.httpHeaders});
+
+  shareBoard() {
+
+  }
+
+  removeBoard() {
+
+  }
+
+  saveCanvas() {
+
+  }
+
+  getCanvas() {
+
   }
 
   /* getAllMovies(): Observable<any>{

@@ -18,9 +18,10 @@ export class BoardComponent implements OnInit {
   removeBoard() {
     let list = this.config.getConfig().boards.boardslist;
     list.splice(list.indexOf(this.board), 1);
+    // this.api.removeBoard(user, board);
   }
 
   shareBoard() {
-    //get user
+    // this.api.shareBoard(srcUser, targetUser, boardId, msg);
   }
 }

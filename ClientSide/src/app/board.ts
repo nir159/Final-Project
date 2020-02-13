@@ -1,10 +1,11 @@
 import { User } from './user';
 
 export class Board {
-    id: string;
+    id: number;
     name: string;
     owner: User;
-    creationTime: Date;
+    last_opened: Date;
     desc: string;
-    jsonBoard: string;
+    creation_time: Date;
+    json_board: string;
 }

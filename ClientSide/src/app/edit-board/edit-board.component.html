@@ -4,6 +4,12 @@
         <h2 class="section-title">{{ board.description }}</h2>
     </div>
 </div>
+<div id="history">
+    <h2 id="historyTitle">HistoryList</h2>
+    <ul>
+        <li *ngFor="let change of updates.reverse(); let i=index"><a style="cursor: pointer;" (click)="hideUpdates(updates.length-i-1)">{{ change[0].selectedShape }}</a></li>
+    </ul>
+</div>
 <div style="height: 600px">
     <canvas-whiteboard #canvasWhiteboard
                         [drawButtonClass]="'drawButtonClass'"
@@ -19,11 +25,12 @@
                         [saveDataButtonText]="'Save'"
                         [lineWidth]="lineWidth"
                         [strokeColor]="'rgb(0,0,0)'"
-                        [shouldDownloadDrawing]="true"
+                        [shouldDownloadDrawing]="false"
                         (onBatchUpdate)="sendBatchUpdate($event)"
                         (onClear)="onCanvasClear()"
                         (onUndo)="onCanvasUndo($event)"
-                        (onRedo)="onCanvasRedo($event)">
+                        (onRedo)="onCanvasRedo($event)"
+                        (onSave)="onCanvasSave($event)">
     </canvas-whiteboard>
 </div>
 <div style="text-align:center;">
