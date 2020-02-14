@@ -9,6 +9,7 @@ import { ConfigService } from '../config.service';
 })
 export class BoardComponent implements OnInit {
   @Input() board: any;
+  @Output() resetBoards = new EventEmitter();
 
   constructor(private api: ApiService, private config: ConfigService) { }
 
@@ -18,10 +19,22 @@ export class BoardComponent implements OnInit {
   removeBoard() {
     let list = this.config.getConfig().boards.boardslist;
     list.splice(list.indexOf(this.board), 1);
-    // this.api.removeBoard(user, board);
+    /*this.api.removeBoard(localStorage.getItem('currentUser'), board).subscribe(
+      data => {
+        this.resetBoards.emit();
+      },
+      error => {
+        console.log(error);
+      });*/
   }
 
   shareBoard() {
-    // this.api.shareBoard(srcUser, targetUser, boardId, msg);
+    /*this.api.shareBoard(localStorage.getItem('currentUser'), targetUser, boardId, msg).subscribe(
+      data => {
+        this.resetBoards.emit();
+      },
+      error => {
+        console.log(error);
+      });*/
   }
 }

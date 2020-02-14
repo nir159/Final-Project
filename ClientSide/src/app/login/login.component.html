@@ -1,8 +1,6 @@
-<section id="pricing" class="secondary-color text-center scrollto clearfix ">
+<section class="secondary-color text-center scrollto clearfix ">
   <div class="row clearfix">
-
     <div class="container">
-
       <div class="center-form panel">
         <div class="panel-body">
             <h4 class="text-center"><i  class="ion-ios-log-in"></i> Login</h4>
@@ -11,7 +9,7 @@
             <div class="form-group">
                 <input (focus)="logFail=false" type="text" class="form-control input-lg" name="email" placeholder="Email" formControlName="email">
                 <span class="ion-ios-at form-control-icon"></span>
-                <div *ngIf="email.invalid && (email.dirty || email.touched || !email.empty)">
+                <div *ngIf="email.empty && email.invalid && (email.dirty || email.touched)">
                     <div *ngIf="email.errors.required; else badEmail">Required</div>
                     <ng-template #badEmail>Invalid Email</ng-template>
                 </div>
@@ -19,7 +17,7 @@
             <div class="form-group">
                 <input (focus)="logFail=false" type="password" class="form-control input-lg" name="pw" placeholder="Password" formControlName="pw">
                 <span class="ion-ios-key form-control-icon"></span> 
-                <div *ngIf="pw.invalid && (pw.dirty || pw.touched || !pw.empty)">
+                <div *ngIf="pw.empty && pw.invalid && (pw.dirty || pw.touched)">
                     <div *ngIf="pw.errors.required; else short">Required</div>
                     <ng-template #short>Too short</ng-template>
                 </div>

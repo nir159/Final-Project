@@ -57,11 +57,11 @@ export class ApiService {
     return this.http.post(this.baseurl + '/boards/', user, {headers: this.httpHeaders});
   }
 
-  shareBoard() {
-
+  removeBoard(user: string, boardId: string) {
+    return this.http.delete(this.baseurl + '/users/' + boardId + '/', {headers: this.httpHeaders});
   }
 
-  removeBoard() {
+  shareBoard() {
 
   }
 
@@ -69,7 +69,7 @@ export class ApiService {
 
   }
 
-  getCanvas() {
+  getCanvas(user: string, canvasId: string) {
 
   }
 

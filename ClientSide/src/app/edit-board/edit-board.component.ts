@@ -30,7 +30,7 @@ export class EditBoardComponent implements OnInit, OnDestroy {
       this.router.navigate(['404']);
     }
     /*
-    this.updates = this.api.getCanvas();
+    this.updates = this.api.getCanvas(localStorage.getItem('currentUser'));
     this.updates.forEach(shape => {
       this._canvasWhiteboardService.drawCanvas(shape);
     });

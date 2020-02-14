@@ -20,7 +20,7 @@ export class BoardsComponent implements OnInit {
   constructor(private api: ApiService, private config: ConfigService, private pagerService: PagerService) { }
 
   ngOnInit() {
-    this.boards = this.getBoards();
+    this.boards = this.config.getConfig().boards;
     this.api.getBoards(localStorage.getItem('currentUser')).subscribe(
       data => {
         this.allItems = data;
@@ -33,10 +33,17 @@ export class BoardsComponent implements OnInit {
     });
   }
 
-  
-
-  getBoards() {
-    return this.config.getConfig().boards;
+  resetBoards() {
+    this.api.getBoards(localStorage.getItem('currentUser')).subscribe(
+      data => {
+        this.allItems = data;
+      },
+      error => {
+        this.allItems = this.boards.boardslist;
+        console.log(error);
+      }).add(() => {
+        this.setPage(1);
+    });
   }
 
   setPage(pageNumber: number) {
