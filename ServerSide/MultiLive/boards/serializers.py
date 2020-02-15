@@ -6,7 +6,7 @@ from .models import Board
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = ['id', 'name', 'owner', 'desc', 'creation_time', 'json_board']
+        fields = ['id', 'name', 'owner', 'desc', 'creation_time', 'last_opened', 'json_board']
 
 
 class BoardMiniSerializer(serializers.ModelSerializer):

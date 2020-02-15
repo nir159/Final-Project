@@ -30,6 +30,6 @@ def get_boards_email(request, email):
     user = json.loads(req)
 
     if len(user) > 0:
-        return redirect('/boards/get_boards_id/?search={}'.format(user[0]['id']), status=403)
+        return redirect('/boards/get_boards_id/?search={}'.format(user[0]['id']))  # , status=403)
     else:
         raise Http404

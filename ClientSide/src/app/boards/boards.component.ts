@@ -17,40 +17,40 @@ export class BoardsComponent implements OnInit {
   pageSize = 3;
   pager: any = {};
   user = localStorage.getItem('currentUser');
+  owner = "";
 
   constructor(private api: ApiService, private config: ConfigService, private pagerService: PagerService) { }
 
   ngOnInit() {
     this.boards = this.config.getConfig().boards;
-    this.api.getBoards(JSON.parse(localStorage.getItem('currentUser')).email).subscribe(
-      res => {
-        console.log("data is " + res[0]);
-        this.allItems = res;
-      },
-      error => {
-        this.allItems = this.boards.boardslist;
-        console.log(error);
-      }).add(() => {
-        this.setPage(1);
-    });
+    this.resetBoards();
   }
 
   resetBoards() {
-    this.api.getBoards(localStorage.getItem('currentUser')).subscribe(
+    this.api.getId(JSON.parse(localStorage.getItem('currentUser')).email).subscribe(
       data => {
-        this.allItems = data;
+        this.owner = data[0].first_name + " " + data[0].last_name;
+        this.api.getBoards(data[0].id).subscribe(
+          res => {
+            this.allItems = res;
+          },
+          error => {
+            this.allItems = this.boards.boardslist;
+            console.log(error);
+        }).add(() => {
+          this.setPage(1);
+      });
       },
       error => {
         this.allItems = this.boards.boardslist;
         console.log(error);
-      }).add(() => {
-        this.setPage(1);
-    });
+      });
   }
 
   setPage(pageNumber: number) {
     // create a pager
     this.pager = this.pagerService.getPager(this.allItems.length, pageNumber, this.pageSize);
     this.pages = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    console.log(this.pages);
   }
 }

@@ -35,9 +35,13 @@ export class ApiService {
     const newUser = {first_name: user.firstName, last_name: user.lastName, email: user.email, pw: user.pw};
     return this.http.post(this.baseurl + 'my_users/my_users/', newUser, {headers: this.httpHeaders});
   }
+
+  getId(email: string) {
+    return this.http.get(this.baseurl + 'my_users/get_user/?search=' + email, {headers: this.httpHeaders});
+  }
   
-  getBoards(email: string) {
-    return this.http.get(this.baseurl + 'boards/get_boards_email/' + email + '/', {headers: this.httpHeaders});
+  getBoards(id: number) {
+    return this.http.get(this.baseurl + 'boards/get_boards_id/?search=' + id, {headers: this.httpHeaders});
   }
 
   logged() {
