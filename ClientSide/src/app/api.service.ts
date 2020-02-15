@@ -36,8 +36,8 @@ export class ApiService {
     return this.http.post(this.baseurl + 'my_users/my_users/', newUser, {headers: this.httpHeaders});
   }
   
-  getBoards(email: string) { 
-    return this.http.get(this.baseurl + 'boards' + '/myuser/', {headers: this.httpHeaders});
+  getBoards(email: string) {
+    return this.http.get(this.baseurl + 'boards/get_boards_email/' + email + '/', {headers: this.httpHeaders});
   }
 
   logged() {

@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
         if(!data.length) {
           this.errorMsg = "User doesn't exist!";
           this.logFail = true;
+          console.log("Success"); 
           return;
         }
         if(!data[0].pw == formData.pw) {
@@ -43,8 +44,8 @@ export class LoginComponent implements OnInit {
           this.logFail = true;
           return;
         }
-        console.log("logged");
-        localStorage.setItem('currentUser', data[0]);
+        console.log(data[0]);
+        localStorage.setItem('currentUser', JSON.stringify(data[0]));
         this.api.logged();
         this.router.navigate([this.returnUrl]);
       },

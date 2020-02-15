@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../config.service';
 import { PagerService } from '../pager.service';
 import { ApiService } from '../api.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-boards',
@@ -21,9 +22,10 @@ export class BoardsComponent implements OnInit {
 
   ngOnInit() {
     this.boards = this.config.getConfig().boards;
-    this.api.getBoards(localStorage.getItem('currentUser')).subscribe(
-      data => {
-        this.allItems = data;
+    this.api.getBoards(JSON.parse(localStorage.getItem('currentUser')).email).subscribe(
+      res => {
+        console.log("data is " + res[0]);
+        this.allItems = res;
       },
       error => {
         this.allItems = this.boards.boardslist;
