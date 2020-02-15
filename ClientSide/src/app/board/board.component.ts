@@ -15,18 +15,20 @@ export class BoardComponent implements OnInit {
   constructor(private api: ApiService, private config: ConfigService) { }
 
   ngOnInit() {
+    
   }
   
   removeBoard() {
-    let list = this.config.getConfig().boards.boardslist;
-    list.splice(list.indexOf(this.board), 1);
-    /*this.api.removeBoard(localStorage.getItem('currentUser'), board).subscribe(
+    this.api.removeBoard(this.board.owner, this.board.id).subscribe(
       data => {
         this.resetBoards.emit();
       },
       error => {
+        let list = this.config.getConfig().boards.boardslist;
+        list.splice(list.indexOf(this.board), 1);
         console.log(error);
-      });*/
+        this.resetBoards.emit();
+    });
   }
 
   shareBoard() {

@@ -84,17 +84,12 @@ export const configuration = {
         tagline: 'boards section',
         title: 'Your Boards',
         boardslist: [
-            {id: 1, title: 'my-board 1', author: 'You', latestedit: '2012-04-23T18:25:43.511Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-1.jpg'},
-            {id: 2, title: 'my-board 2', author: 'You', latestedit: '2020-01-01T07:22Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-2.jpg'},
-            {id: 3, title: 'my-board 3', author: 'You', latestedit: '2020-01-01T07:22Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-3.jpg'},
-            {id: 4, title: 'my-board 4', author: 'You', latestedit: '2020-01-01T07:22Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-4.jpg'},
-            {id: 5, title: 'my-board 5', author: 'You', latestedit: '2020-01-01T07:22Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-5.jpg'},
-            {id: 6, title: 'my-board 6', author: 'You', latestedit: '2020-01-01T07:22Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-6.jpg'},
-            {id: 7, title: 'my-board 7', author: 'You', latestedit: '2020-01-01T07:22Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-3.jpg'},
-            {id: 8, title: 'my-board 8', author: 'You', latestedit: '2020-01-01T07:22Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-2.jpg'},
-            {id: 9, title: 'my-board 9', author: 'You', latestedit: '2020-01-01T07:22Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-4.jpg'},
-            {id: 10, title: 'my-board 10', author: 'You', latestedit: '2020-01-01T07:22Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-5.jpg'},
-            {id: 11, title: 'my-board 11', author: 'You', latestedit: '2020-01-01T07:22Z', description: 'some desc...', image: '../../assets/images/gallery-images/gallery-image-1.jpg'},
+            {id: 1, name: 'my-board 1', owner: 'You', last_opened: '2012-04-23T18:25:43.511Z', desc: 'some desc...'},
+            {id: 2, name: 'my-board 2', owner: 'You', last_opened: '2020-01-01T07:22Z', desc: 'some desc...'},
+            {id: 3, name: 'my-board 3', owner: 'You', last_opened: '2020-01-01T07:22Z', desc: 'some desc...'},
+            {id: 4, name: 'my-board 4', owner: 'You', last_opened: '2020-01-01T07:22Z', desc: 'some desc...'},
+            {id: 5, name: 'my-board 5', owner: 'You', last_opened: '2020-01-01T07:22Z', desc: 'some desc...'},
+            {id: 6, name: 'my-board 6', owner: 'You', last_opened: '2020-01-01T07:22Z', desc: 'some desc...'},
         ]
     },
 };

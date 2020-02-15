@@ -37,20 +37,21 @@ export class BoardsComponent implements OnInit {
           error => {
             this.allItems = this.boards.boardslist;
             console.log(error);
-        }).add(() => {
-          this.setPage(1);
-      });
+          }).add(() => {
+            this.setPage(1);
+        });
       },
       error => {
         this.allItems = this.boards.boardslist;
+        this.owner = "You";
         console.log(error);
-      });
+        this.setPage(1);
+    });
   }
 
   setPage(pageNumber: number) {
     // create a pager
     this.pager = this.pagerService.getPager(this.allItems.length, pageNumber, this.pageSize);
     this.pages = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
-    console.log(this.pages);
   }
 }

@@ -7,7 +7,7 @@
           <div class="panel-body">
           <h4 class="text-center"><i class="ion-log-in"></i> Create New Board</h4>
   
-          <form [formGroup]="createBoardForm" (ngSubmit)="createBoard(postEditForm.value)">
+          <form [formGroup]="createBoardForm" (ngSubmit)="createBoard(createBoardForm.value)">
             <!-- <div class="form-group">
               <input type="text" class="form-control input-lg" name="id" placeholder="Id" formControlName="id">
               <span class="ion-at form-control-icon"></span> 

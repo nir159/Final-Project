@@ -2,20 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
-import { Location } from '@angular/common';
+import { Location, DatePipe } from '@angular/common';
 import { ConfigService } from '../config.service';
 
 @Component({
   selector: 'app-create-board',
   templateUrl: './create-board.component.html',
-  styleUrls: ['./create-board.component.css']
+  styleUrls: ['./create-board.component.css'],
+  providers: [DatePipe]
 })
 export class CreateBoardComponent implements OnInit {
 
   createBoardForm: FormGroup;
   returnUrl: string;
 
-  constructor(private config: ConfigService, private fb: FormBuilder, private router: Router, private location: Location, private api: ApiService) { }
+  constructor(private config: ConfigService, private datePipe: DatePipe, private fb: FormBuilder, private router: Router, private location: Location, private api: ApiService) { }
 
   ngOnInit() {
     this.createBoardForm = this.fb.group({
@@ -28,9 +29,9 @@ export class CreateBoardComponent implements OnInit {
   get desc() { return this.createBoardForm.get('desc'); }
 
   createBoard(formData: NgForm){
-    this.api.createBoard(JSON.stringify(formData)).subscribe(
+    let myDate = new Date();
+    this.api.createBoard(formData, this.datePipe.transform(myDate, 'yyyy-MM-dd')).subscribe(
       data => {
-        // go to the board this.router.navigate([this.returnUrl]);
         this.location.back();
       },
       error => {

@@ -10,6 +10,7 @@ export class ApiService {
   baseurl = "http://127.0.0.1:8000/"; 
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   userLogged = false;
+  userId = -1;
 
   constructor(private http: HttpClient) {
     if (localStorage.getItem('currentUser')) {
@@ -18,6 +19,10 @@ export class ApiService {
   }
 
   // user authentication
+
+  getUserId() {
+    return this.userId;
+  }
 
   isUserLogged() {
     return this.userLogged;
@@ -41,6 +46,7 @@ export class ApiService {
   }
   
   getBoards(id: number) {
+    this.userId = id;
     return this.http.get(this.baseurl + 'boards/get_boards_id/?search=' + id, {headers: this.httpHeaders});
   }
 
@@ -52,16 +58,19 @@ export class ApiService {
     if (localStorage.getItem('currentUser')) {
       localStorage.removeItem('currentUser');
     }
+    this.userId = -1;
     this.userLogged = false;
   }
 
   // board control
 
-  createBoard(user: string): Observable<any> {
-    return this.http.post(this.baseurl + '/boards/', user, {headers: this.httpHeaders});
+  createBoard(board, currDate): Observable<any> {
+    const newBoard = {name: board.name, owner : this.userId, last_opened: currDate, desc: board.desc, creation_time: currDate, json_board: '{}'};
+    console.log(newBoard)
+    return this.http.post(this.baseurl + 'my_users/my_users/', newBoard, {headers: this.httpHeaders});
   }
 
-  removeBoard(user: string, boardId: string) {
+  removeBoard(userId: number, boardId: number) {
     return this.http.delete(this.baseurl + '/users/' + boardId + '/', {headers: this.httpHeaders});
   }
 
