@@ -66,12 +66,11 @@ export class ApiService {
 
   createBoard(board, currDate): Observable<any> {
     const newBoard = {name: board.name, owner : this.userId, last_opened: currDate, desc: board.desc, creation_time: currDate, json_board: '{}'};
-    console.log(newBoard)
-    return this.http.post(this.baseurl + 'my_users/my_users/', newBoard, {headers: this.httpHeaders});
+    return this.http.post(this.baseurl + 'boards/boards/', newBoard, {headers: this.httpHeaders});
   }
 
   removeBoard(userId: number, boardId: number) {
-    return this.http.delete(this.baseurl + '/users/' + boardId + '/', {headers: this.httpHeaders});
+    return this.http.delete(this.baseurl + 'boards/boards/' + boardId + '/', {headers: this.httpHeaders});
   }
 
   shareBoard() {
