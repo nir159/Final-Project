@@ -10,7 +10,6 @@ import { JsonPipe } from '@angular/common';
   styleUrls: ['./boards.component.css']
 })
 export class BoardsComponent implements OnInit {
-
   boards;
   allItems: any;
   pages: any[];

@@ -7,7 +7,7 @@
     <ul>
         {{ board.desc }}
     </ul>
-    <a routerLink="/board/{{ board.id }}" class="button"><i class="ion-md-create"></i></a>
+    <a routerLink="/board/{{ board.id }}" (setBoardId)="setCanvas()" class="button"><i class="ion-md-create"></i></a>
     <a routerLink="/shareBoard" (click)="shareBoard()" class="button"><i class="ion-md-share-alt"></i></a>
     <a routerLink="/boards" (click)="removeBoard()" class="button"><i class="ion-md-close"></i></a>
 </div>

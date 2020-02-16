@@ -29,12 +29,10 @@ export class EditBoardComponent implements OnInit, OnDestroy {
     if(!this.board) {
       this.router.navigate(['404']);
     }
-    /*
-    this.updates = this.api.getCanvas(localStorage.getItem('currentUser'));
+    this.updates = JSON.parse(this.api.getCanvas()).json_canvas;
     this.updates.forEach(shape => {
       this._canvasWhiteboardService.drawCanvas(shape);
     });
-    */
   }
 
   ngOnDestroy() {
@@ -70,7 +68,9 @@ export class EditBoardComponent implements OnInit, OnDestroy {
         } */
         this.updates.push([change]);
         // this.currUpdate++;
-        // this.saveCanvas(); // auto save canvas
+        /* if (this.updates.length%5 == 0) {
+          this.saveCanvas(); // auto save canvas
+        } */
       }
     });
   }
@@ -88,7 +88,7 @@ export class EditBoardComponent implements OnInit, OnDestroy {
   }
   
   saveCanvas() {
-    // this.api.saveCanvas(userInfo, this.updates);
+    this.api.saveCanvas(this.updates);
   }
 
   onCanvasSave(e) {
