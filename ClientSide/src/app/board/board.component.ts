@@ -31,8 +31,8 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  setId() {
-    this.api.setCanvas(this.board.json_board );
+  setBoard() {
+    this.api.setBoard(this.board);
   }
 
   shareBoard() {

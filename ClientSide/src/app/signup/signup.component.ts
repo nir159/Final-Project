@@ -43,12 +43,20 @@ export class SignupComponent implements OnInit {
     return null;
   }
 
-  signup = (formData: NgForm) => {
+  signup = (formData) => {
     this.api.signup(formData).subscribe(
       data => {
-        localStorage.setItem('currentUser', JSON.stringify(formData));
-        this.api.logged();
-        this.router.navigate([this.returnUrl]);
+        this.api.login(formData.email).subscribe(
+          data => {
+            localStorage.setItem('currentUser', JSON.stringify(formData));
+            this.api.logged(data[0].id);
+            this.router.navigate([this.returnUrl]);
+          },
+          error => {
+            console.log(error);
+            this.signFail = true;
+          }
+        );
       },
       error => {
         console.log(error);

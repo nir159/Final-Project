@@ -17,6 +17,7 @@ export class EditBoardComponent implements OnInit, OnDestroy {
   lineWidth = 5;
   boardUrl;
   updates = [];
+  boardString = "";
   // currUpdate = 0; [ngClass]="{'danger-zone':i>this.currUpdate}"
 
   constructor(private api: ApiService, private _canvasWhiteboardService: CanvasWhiteboardService, private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService, private router: Router, private location: Location, private route: ActivatedRoute, private config: ConfigService) {
@@ -25,13 +26,21 @@ export class EditBoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.board = this.config.getBoardById(+this.route.snapshot.paramMap.get('id'));
+    this.board = this.api.getBoard();
     if(!this.board) {
       this.router.navigate(['404']);
     }
-    this.updates = JSON.parse(this.api.getCanvas()).json_canvas;
-    this.updates.forEach(shape => {
-      this._canvasWhiteboardService.drawCanvas(shape);
+    console.log(this.api.getBoard().json_board.split('|'));
+    this.api.getBoard().json_board.split('|').forEach(change => {
+      change = JSON.parse(change);
+      console.log(change);
+      if(change.selectedShape == undefined) {
+        change.selectedShapeOptions = JSON.parse(change.selectedShapeOptions);
+        this.updates[this.updates.length-1].push(change);
+      }
+      else {
+        this.updates.push([change]);
+      }
     });
   }
 
@@ -72,6 +81,12 @@ export class EditBoardComponent implements OnInit, OnDestroy {
           this.saveCanvas(); // auto save canvas
         } */
       }
+      if (this.boardString.length == 0) {
+        this.boardString = this.boardString.concat(JSON.stringify(change));
+      }
+      else {
+        this.boardString = this.boardString.concat("|" + JSON.stringify(change));
+      }
     });
   }
 
@@ -88,7 +103,12 @@ export class EditBoardComponent implements OnInit, OnDestroy {
   }
   
   saveCanvas() {
-    this.api.saveCanvas(this.updates);
+    this.api.saveCanvas(this.boardString).subscribe(
+      data => {
+      },
+      error => {
+        console.log(error);
+    });
   }
 
   onCanvasSave(e) {

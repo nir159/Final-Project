@@ -13,7 +13,7 @@ export class BoardsComponent implements OnInit {
   boards;
   allItems: any;
   pages: any[];
-  pageSize = 3;
+  pageSize = 6;
   pager: any = {};
   user = localStorage.getItem('currentUser');
   owner = "";

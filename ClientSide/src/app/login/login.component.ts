@@ -44,19 +44,14 @@ export class LoginComponent implements OnInit {
           this.logFail = true;
           return;
         }
-        console.log(data[0]);
         localStorage.setItem('currentUser', JSON.stringify(data[0]));
-        this.api.logged();
+        this.api.logged(data[0].id);
         this.router.navigate([this.returnUrl]);
       },
       error => {
         this.errorMsg = "Server communication error!";
         this.logFail = true;
         console.log(error);
-        // test
-        localStorage.setItem('currentUser', '{"first_name": "Nir", "last_name": "159", "email": "nir1125111@gmail.com", "pw": "wb32xZ8rPeve4R3"}');
-        this.api.logged();
-        this.router.navigate([this.returnUrl]);
       }
     );
   }

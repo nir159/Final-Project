@@ -11,7 +11,7 @@ export class ApiService {
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   userLogged = false;
   userId = -1;
-  boardCanvas = '';
+  board;
 
   constructor(private http: HttpClient) {
     if (localStorage.getItem('currentUser')) {
@@ -50,8 +50,10 @@ export class ApiService {
     return this.http.get(this.baseurl + 'boards/get_boards_id/?search=' + this.userId, {headers: this.httpHeaders});
   }
 
-  logged() {
+  logged(id: number) {
+    console.log(id);
     this.userLogged = true;
+    this.userId = id;
   }
 
   logout() {
@@ -64,12 +66,13 @@ export class ApiService {
 
   // board control
 
-  setCanvas(canvas) {
-    this.boardCanvas = canvas;
+  setBoard(board) {
+    this.board = board;
   }
 
   createBoard(board, currDate): Observable<any> {
     const newBoard = {name: board.name, owner : this.userId, last_opened: currDate, desc: board.desc, creation_time: currDate, json_board: '{}'};
+    console.log(newBoard);
     return this.http.post(this.baseurl + 'boards/boards/', newBoard, {headers: this.httpHeaders});
   }
 
@@ -77,8 +80,8 @@ export class ApiService {
     return this.http.delete(this.baseurl + 'boards/boards/' + boardId + '/', {headers: this.httpHeaders});
   }
 
-  getCanvas() {
-    return this.boardCanvas;
+  getBoard() {
+    return this.board;
   }
 
   shareBoard() {
@@ -86,8 +89,9 @@ export class ApiService {
   }
 
   saveCanvas(shapes) {
-    const canvas = {json_board: shapes};
-    return this.http.put(this.baseurl + "/users", canvas, {headers: this.httpHeaders})
+    const newBoard = {name: this.board.name, owner : this.board.owner, last_opened: this.board.last_opened, desc: this.board.desc, creation_time: this.board.creation_time, json_board: shapes.toString()};
+    console.log(newBoard);
+    return this.http.put(this.baseurl + 'boards/boards/' + this.board.id + '/', newBoard, {headers: this.httpHeaders})
   }
 
   /* getAllMovies(): Observable<any>{

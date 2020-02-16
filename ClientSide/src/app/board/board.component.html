@@ -2,12 +2,12 @@
     <h3>{{ board.name }}</h3>
     <p class="board-sub">owner: {{ owner }}, last opened: {{ board.last_opened | date:'dd.MM.yyyy' }}</p>
     <div class="board-image">
-        <img src="../../assets/images/gallery-images/gallery-image-1.jpg" alt="{{ board.name }}">
+        <img src="../../assets/images/gallery-images/gallery-image-{{ board.id%6+1 }}.jpg" alt="{{ board.name }}">
     </div>
     <ul>
         {{ board.desc }}
     </ul>
-    <a routerLink="/board/{{ board.id }}" (setBoardId)="setCanvas()" class="button"><i class="ion-md-create"></i></a>
+    <a routerLink="/board/{{ board.id }}" (click)="setBoard()" class="button"><i class="ion-md-create"></i></a>
     <a routerLink="/shareBoard" (click)="shareBoard()" class="button"><i class="ion-md-share-alt"></i></a>
     <a routerLink="/boards" (click)="removeBoard()" class="button"><i class="ion-md-close"></i></a>
 </div>
