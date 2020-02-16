@@ -31,6 +31,10 @@ export class BoardComponent implements OnInit {
     });
   }
 
+  setId() {
+    this.api.setCanvas(this.board.json_board );
+  }
+
   shareBoard() {
     /*this.api.shareBoard(localStorage.getItem('currentUser'), targetUser, boardId, msg).subscribe(
       data => {

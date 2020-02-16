@@ -11,6 +11,7 @@ export class ApiService {
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   userLogged = false;
   userId = -1;
+  boardCanvas = '';
 
   constructor(private http: HttpClient) {
     if (localStorage.getItem('currentUser')) {
@@ -46,8 +47,7 @@ export class ApiService {
   }
   
   getBoards(id: number) {
-    this.userId = id;
-    return this.http.get(this.baseurl + 'boards/get_boards_id/?search=' + id, {headers: this.httpHeaders});
+    return this.http.get(this.baseurl + 'boards/get_boards_id/?search=' + this.userId, {headers: this.httpHeaders});
   }
 
   logged() {
@@ -64,6 +64,10 @@ export class ApiService {
 
   // board control
 
+  setCanvas(canvas) {
+    this.boardCanvas = canvas;
+  }
+
   createBoard(board, currDate): Observable<any> {
     const newBoard = {name: board.name, owner : this.userId, last_opened: currDate, desc: board.desc, creation_time: currDate, json_board: '{}'};
     console.log(newBoard)
@@ -74,16 +78,17 @@ export class ApiService {
     return this.http.delete(this.baseurl + '/users/' + boardId + '/', {headers: this.httpHeaders});
   }
 
+  getCanvas() {
+    return this.boardCanvas;
+  }
+
   shareBoard() {
 
   }
 
-  saveCanvas() {
-
-  }
-
-  getCanvas(user: string, canvasId: string) {
-
+  saveCanvas(shapes) {
+    const canvas = {json_board: shapes};
+    return this.http.put(this.baseurl + "/users", canvas, {headers: this.httpHeaders})
   }
 
   /* getAllMovies(): Observable<any>{
