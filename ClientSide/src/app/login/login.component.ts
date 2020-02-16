@@ -52,6 +52,10 @@ export class LoginComponent implements OnInit {
         this.errorMsg = "Server communication error!";
         this.logFail = true;
         console.log(error);
+
+        localStorage.setItem('currentUser', JSON.stringify("data[0]"));
+        this.api.logged(0);
+        this.router.navigate([this.returnUrl]);
       }
     );
   }

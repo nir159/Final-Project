@@ -72,7 +72,6 @@ export class ApiService {
 
   createBoard(board, currDate): Observable<any> {
     const newBoard = {name: board.name, owner : this.userId, last_opened: currDate, desc: board.desc, creation_time: currDate, json_board: '{}'};
-    console.log(newBoard);
     return this.http.post(this.baseurl + 'boards/boards/', newBoard, {headers: this.httpHeaders});
   }
 
@@ -84,8 +83,9 @@ export class ApiService {
     return this.board;
   }
 
-  shareBoard() {
-
+  shareBoard(targetId, board) {
+    const newBoard = {name: board.name, owner : targetId, last_opened: board.last_opened, desc: board.desc, creation_time: board.creation_time, json_board: board.json_board};
+    return this.http.post(this.baseurl + 'boards/boards/', newBoard, {headers: this.httpHeaders});
   }
 
   saveCanvas(shapes) {

@@ -9,17 +9,17 @@
             <div class="form-group">
                 <input (focus)="logFail=false" type="text" class="form-control input-lg" name="email" placeholder="Email" formControlName="email">
                 <span class="ion-ios-at form-control-icon"></span>
-                <div *ngIf="email.empty && email.invalid && (email.dirty || email.touched)">
-                    <div *ngIf="email.errors.required; else badEmail">Required</div>
-                    <ng-template #badEmail>Invalid Email</ng-template>
+                <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                  <div *ngIf="email.errors.required">Required</div>
+                  <div *ngIf="!email.errors.required">Invalid Email</div>
                 </div>
             </div>
             <div class="form-group">
                 <input (focus)="logFail=false" type="password" class="form-control input-lg" name="pw" placeholder="Password" formControlName="pw">
-                <span class="ion-ios-key form-control-icon"></span> 
-                <div *ngIf="pw.empty && pw.invalid && (pw.dirty || pw.touched)">
-                    <div *ngIf="pw.errors.required; else short">Required</div>
-                    <ng-template #short>Too short</ng-template>
+                <span class="ion-ios-key form-control-icon"></span>
+                <div *ngIf="pw.invalid && (pw.dirty || pw.touched)">
+                  <div *ngIf="pw.errors.required">Required</div>
+                  <div *ngIf="!pw.errors.required">Too short</div>
                 </div>
             </div>
 

@@ -77,9 +77,9 @@ export class EditBoardComponent implements OnInit, OnDestroy {
         } */
         this.updates.push([change]);
         // this.currUpdate++;
-        /* if (this.updates.length%5 == 0) {
+        if (this.updates.length && this.updates.length%10 == 0) {
           this.saveCanvas(); // auto save canvas
-        } */
+        }
       }
       if (this.boardString.length == 0) {
         this.boardString = this.boardString.concat(JSON.stringify(change));

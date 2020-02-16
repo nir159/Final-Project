@@ -34,14 +34,4 @@ export class BoardComponent implements OnInit {
   setBoard() {
     this.api.setBoard(this.board);
   }
-
-  shareBoard() {
-    /*this.api.shareBoard(localStorage.getItem('currentUser'), targetUser, boardId, msg).subscribe(
-      data => {
-        this.resetBoards.emit();
-      },
-      error => {
-        console.log(error);
-      });*/
-  }
 }

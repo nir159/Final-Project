@@ -27,7 +27,8 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CreateBoardComponent } from './create-board/create-board.component';
-import { UserDashboardModule } from './user-dashboard/user-dashboard.module'
+import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
+import { ShareBoardComponent } from './share-board/share-board.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { UserDashboardModule } from './user-dashboard/user-dashboard.module'
     SignupComponent,
     ContactusComponent,
     CreateBoardComponent,
+    ShareBoardComponent
   ],
   imports: [
     BrowserModule,
