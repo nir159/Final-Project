@@ -1,0 +1,35 @@
+<section id="pricing" class="secondary-color text-center scrollto clearfix ">
+    <div class="row clearfix">
+  
+      <div class="container">
+  
+        <div class="panel">
+          <div class="panel-body">
+          <h4 class="text-center"><i class="ion-log-in"></i>Share Your Board!</h4>
+  
+          <form [formGroup]="shareBoardForm" (ngSubmit)="shareBoard(shareBoardForm.value)">
+            <div class="form-group">
+                <input type="text" class="form-control input-lg" name="email" placeholder="Send to..." formControlName="email">
+                <span class="ion-ios-at form-control-icon"></span>
+                <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                    <div *ngIf="email.errors.required">Required</div>
+                    <div *ngIf="!email.errors.required">Invalid Email</div>
+                </div>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control input-lg" name="msg" placeholder="Message...." formControlName="msg">
+              <span class="ion-md-paper form-control-icon"></span>
+              <div *ngIf="msg.touched && msg.invalid">Required</div>
+            </div>
+  
+            <button type="submit" class="btn btn-block btn-success" [disabled]="!shareBoardForm.valid">Share!</button>
+  
+          </form>
+  
+        </div>
+        </div>
+  
+      </div>
+  
+    </div>
+  <section>
