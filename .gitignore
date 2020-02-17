@@ -202,4 +202,4 @@ speed-measure-plugin*.json
 **/.git*
 **/.git
 **/ClientSide/**
-!*/app/*
+!*/ClientSide/src/app/*
