@@ -15,7 +15,7 @@ export class BoardsComponent implements OnInit {
   pages: any[];
   pageSize = 6;
   pager: any = {};
-  user = localStorage.getItem('currentUser');
+  user = JSON.parse(localStorage.getItem('currentUser'));
   owner = "";
 
   constructor(private api: ApiService, private config: ConfigService, private pagerService: PagerService) { }

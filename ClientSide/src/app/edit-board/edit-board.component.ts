@@ -11,13 +11,13 @@ import { ApiService } from '../api.service';
   viewProviders: [CanvasWhiteboardComponent],
   styleUrls: ['./edit-board.component.css']
 })
-export class EditBoardComponent implements OnInit, OnDestroy {
+export class EditBoardComponent implements OnInit {
   @ViewChild('canvasWhiteboard', {static: true}) canvasWhiteboard: CanvasWhiteboardComponent;
   board;
   lineWidth = 5;
   boardUrl;
   updates = [];
-  boardString = "";
+  boardString = "{}";
   // currUpdate = 0; [ngClass]="{'danger-zone':i>this.currUpdate}"
 
   constructor(private api: ApiService, private _canvasWhiteboardService: CanvasWhiteboardService, private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService, private router: Router, private location: Location, private route: ActivatedRoute, private config: ConfigService) {
@@ -30,22 +30,25 @@ export class EditBoardComponent implements OnInit, OnDestroy {
     if(!this.board) {
       this.router.navigate(['404']);
     }
-    console.log(this.api.getBoard().json_board.split('|'));
-    this.api.getBoard().json_board.split('|').forEach(change => {
-      change = JSON.parse(change);
-      console.log(change);
-      if(change.selectedShape == undefined) {
-        change.selectedShapeOptions = JSON.parse(change.selectedShapeOptions);
-        this.updates[this.updates.length-1].push(change);
-      }
-      else {
-        this.updates.push([change]);
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.saveCanvas();
+    let i = 0;
+    let update = [];
+    let element;
+    if (this.api.getBoard().json_board != '{}') {
+      console.log(this.api.getBoard().json_board.split('|'));
+      this.boardString = this.api.getBoard().json_board;
+      this.api.getBoard().json_board.split('|').forEach(el => {
+        element = JSON.parse(el);
+        if (element.selectedShape != undefined) {
+          this.updates.push([element]);
+        }
+        else {
+          this.updates[this.updates.length-1].push(element);
+        }
+      });
+      setTimeout(() => {
+        this.drawCanvas();
+      }, 100);
+    }
   }
 
   hideUpdates(index: number) {
@@ -58,6 +61,7 @@ export class EditBoardComponent implements OnInit, OnDestroy {
 
   onCanvasClear(){
     this.updates = [];
+    this.boardString = "{}";
     // this.currUpdate = 0;
   }
 
@@ -81,18 +85,30 @@ export class EditBoardComponent implements OnInit, OnDestroy {
           this.saveCanvas(); // auto save canvas
         }
       }
-      if (this.boardString.length == 0) {
-        this.boardString = this.boardString.concat(JSON.stringify(change));
+      if (this.boardString == "{}") {
+        this.boardString = JSON.stringify(change);
       }
       else {
         this.boardString = this.boardString.concat("|" + JSON.stringify(change));
       }
+
+    });
+  }
+
+  drawCanvas() {
+    this.updates.forEach(element => {
+      this._canvasWhiteboardService.drawCanvas(element);
     });
   }
 
   onCanvasUndo(updateUUID: string) {
-    // if it can be done:
-    // this.currUpdate--;
+    this.updates.pop();
+    if (this.updates.length) {
+      this.boardString = this.updates.join('|');
+    }
+    else {
+      this.boardString = "{}";
+    }
     // this._canvasWhiteboardService.undoCanvas(this.updates[i][0].UUID);
   }
 

@@ -29,7 +29,7 @@ export class ShareBoardComponent implements OnInit {
   shareBoard(formData){
     this.api.login(formData.email).subscribe(
       data => {
-        this.api.shareBoard(data.id, this.api.getBoard()).subscribe(
+        this.api.shareBoard(data[0].id, this.api.getBoard()).subscribe(
           data => {
             this.location.back();
           },

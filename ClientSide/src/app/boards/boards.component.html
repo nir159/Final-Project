@@ -2,8 +2,8 @@
     <div class="row clearfix">
 
         <div class="section-heading">
-            <h3>{{ boards.title }}</h3>
-            <h2 class="section-title">Hello {{ user.first_name }}!</h2>
+            <h3>Hello {{ user.first_name }}!</h3>
+            <h2 class="section-title">{{ boards.title }}</h2>
             <a routerLink="/create-board" class="button" id="add-button"><i class="ion-md-add"></i></a>
         </div>
         <div *ngFor="let board of pages" class="board-block col-3 wow fadeInUp" data-wow-delay="0.8s">

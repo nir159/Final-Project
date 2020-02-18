@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ApiService { 
 
-  baseurl = "http://127.0.0.1:8000/"; 
+  baseurl = "http://f18a4a37.ngrok.io/"; 
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   userLogged = false;
   userId = -1;
@@ -84,7 +84,8 @@ export class ApiService {
   }
 
   shareBoard(targetId, board) {
-    const newBoard = {name: board.name, owner : targetId, last_opened: board.last_opened, desc: board.desc, creation_time: board.creation_time, json_board: board.json_board};
+    const newBoard = {name: board.name, owner: targetId, last_opened: board.last_opened, desc: board.desc, creation_time: board.creation_time, json_board: board.json_board};
+    console.log(newBoard);
     return this.http.post(this.baseurl + 'boards/boards/', newBoard, {headers: this.httpHeaders});
   }
 

@@ -4,8 +4,8 @@
             <div class="panel">
                 <div class="panel-body center">
                     <blockquote class="testimonial classic">
-                        <img src="{{ user.userImage }}" alt="User"/>
-                        <q>{{ user.bio }}</q>
+                        <img src="../assets/images/user-images/user-1.jpg" alt="User"/>
+                        <q>information.</q>
                         <footer>
                             <a (click)="logout()" class="button">SIGN OUT</a>
                         </footer>
@@ -17,7 +17,7 @@
             <div class="panel">
                 <div class="panel-body">
                     <div class="pricing-block-content">
-                        <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+                        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
                         <div class="pricing">
                             <p>{{ user.email }}</p>
                         </div>

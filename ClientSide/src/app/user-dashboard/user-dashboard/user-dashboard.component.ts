@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/api.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -8,11 +9,21 @@ import { Router } from '@angular/router';
 })
 export class UserDashboardComponent implements OnInit {
 
-  user: any = {firstName: 'pname', lastName: 'fname', bio: 'description', email: 'email@gmail.com', userImage: 'assets/images/user-images/user-1.jpg'};
+  constructor(private router: Router, private api: ApiService) { 
+    
+  }
 
-  constructor(private router: Router) { }
+  user = {first_name: "fname", last_name: "lname", email: "@gmail.com"};
 
   ngOnInit() {
+    /* this.api.login(JSON.parse(localStorage.getItem('currentUser')).email).subscribe(
+      data => {
+        this.user = data;
+      },
+      error => {
+        console.log(error);
+      }
+    ); */
   }
 
   getUser() {
