@@ -203,4 +203,6 @@ speed-measure-plugin*.json
 **/.git
 
 **/src
-!**/src/app 
+!**/src/app
+**/ClientSide
+**/board
