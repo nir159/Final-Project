@@ -5,9 +5,8 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService { 
-
-  baseurl = "http://f18a4a37.ngrok.io/"; 
+export class ApiService {
+  baseurl = "http://c8ca5b17.ngrok.io/"; 
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   userLogged = false;
   userId = -1;
