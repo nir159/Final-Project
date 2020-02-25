@@ -12,5 +12,4 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework_users')),
     # path('get_all/', views.UserViewSet.as_view()),
     path('get_user/', views.UserAPIView.as_view()),
-    # path('get_user/<str:email>/', views.get_user),
 ]

@@ -11,4 +11,4 @@ class UserSerializer(serializers.ModelSerializer):
 '''class UserMiniSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
-        fields = ['first_name', 'last_name']'''
+        fields = ['id', 'first_name', 'last_name']'''

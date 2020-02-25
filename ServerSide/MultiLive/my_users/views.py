@@ -28,13 +28,3 @@ class UserAPIView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
-def get_user(request, email):
-    try:
-        user = MyUser.objects.get(email=email)
-        result = JsonResponse({'id': user.id})
-    except ObjectDoesNotExist:
-        result = JsonResponse({'id': -1}, status=404)
-        return result
-
-    return redirect('/my_users/my_users/{}'.format(json.loads(result.content)['id']))
-
