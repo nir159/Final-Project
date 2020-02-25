@@ -7,7 +7,7 @@ class MyUser(models.Model):
 
     first_name = models.CharField(max_length=256)
     last_name = models.CharField(max_length=256)
-    email = models.CharField(max_length=256, unique=True)
+    email = models.EmailField(max_length=256, primary_key=True)
     pw = models.CharField(max_length=256)
 
     def __str__(self):

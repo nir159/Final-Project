@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('boards/', include('boards.urls')),
     path('my_users/', include('my_users.urls')),
+    path('users_in_board', include('users_in_board.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

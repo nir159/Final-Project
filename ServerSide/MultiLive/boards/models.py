@@ -10,7 +10,7 @@ class Board(models.Model):
     last_opened = models.DateTimeField(auto_now_add=True)
     desc = models.TextField(max_length=256)
     creation_time = models.DateTimeField(auto_now_add=True)
-    json_board = models.TextField(max_length=1024*10, default='{}')
+    json_board = models.TextField(max_length=1024*100, default='{}')
 
     def __str__(self):
         return self.name

@@ -19,17 +19,7 @@ class BoardViewSet(viewsets.ModelViewSet):
 
 
 class BoardAPIView(generics.ListCreateAPIView):
-    search_fields = ['owner__id']
+    search_fields = ['owner__email']
     filter_backends = (filters.SearchFilter,)
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
-
-
-def get_boards_email(request, email):
-    req = requests.get('http://localhost:8000/my_users/get_user/?search={}'.format(email)).text
-    user = json.loads(req)
-
-    if len(user) > 0:
-        return redirect('/boards/get_boards_id/?search={}'.format(user[0]['id']))  # , status=403)
-    else:
-        raise Http404
