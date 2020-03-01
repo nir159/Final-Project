@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'boards',
     'my_users',
+    'boards',
+    'users_in_board',
 ]
 
 MIDDLEWARE = [
