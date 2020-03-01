@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
           return;
         }
         localStorage.setItem('currentUser', JSON.stringify(data[0]));
-        this.api.logged(data[0].id);
+        this.api.logged();
         this.router.navigate([this.returnUrl]);
       },
       error => {

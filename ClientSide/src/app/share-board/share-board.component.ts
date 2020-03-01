@@ -26,19 +26,47 @@ export class ShareBoardComponent implements OnInit {
   get email() { return this.shareBoardForm.get('email'); }
   get msg() { return this.shareBoardForm.get('msg'); }
 
-  shareBoard(formData){
-    this.api.login(formData.email).subscribe(
+  shareBoard(formData) {
+    if (formData.email == JSON.parse(localStorage.getItem('currentUser')).email) {
+      // message: user already in board
+      return;
+    }
+
+    this.api.getUsers(this.api.getBoard().id).subscribe(
       data => {
-        this.api.shareBoard(data[0].id, this.api.getBoard()).subscribe(
-          data => {
-            this.location.back();
-          },
-          error => {
-            console.log(error);
+        JSON.parse(JSON.stringify(data)).forEach(instance => {
+          if (formData.email == instance.user) {
+            // message: user already in board
+            return;
+          }
         });
       },
       error => {
         console.log(error);
     });
+    
+    /* this.api.shareBoard(formData.email, this.api.getBoard()).subscribe(
+      data => {
+        this.api.createBoardUser(formData.email, this.api.getBoard().id, 'w').subscribe(
+          data => {
+            this.location.back();
+          },
+          error => {
+            console.log(error); // maybe, cancel the creation
+          }
+        );
+      },
+      error => {
+        console.log(error);
+    }); */
+    
+    this.api.createBoardUser(formData.email, this.api.getBoard().id, 'w').subscribe(
+      data => {
+        this.location.back();
+      },
+      error => {
+        console.log(error); // maybe? cancel the creation
+      }
+    );
   }
 }

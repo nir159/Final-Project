@@ -4,12 +4,12 @@
     <div class="row clearfix">
 
         <div class="section-heading">
-            <h3>{{ testimonials.tagline }}</h3>
-            <h2 class="section-title">{{ testimonials.title }}</h2>
+            <h3>{{ members.tagline }}</h3>
+            <h2 class="section-title">{{ members.title }}</h2>
         </div>
 
         <!--User Testimonial-->
-        <blockquote class="col-3 testimonial classic" *ngFor="let feedback of testimonials.feedbacks">
+        <blockquote class="col-3 testimonial classic" *ngFor="let feedback of members.feedbacks">
             <img src="{{ feedback.userimage }}" alt="User"/>
             <q>{{ feedback.comments }}</q>
             <footer>{{ feedback.name }} - {{ feedback.company }}</footer>

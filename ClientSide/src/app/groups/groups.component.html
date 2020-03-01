@@ -5,16 +5,16 @@
         <div class="col-3">
 
             <div class="section-heading">
-                <h3>{{ clients.tagline }}</h3>
-                <h2 class="section-title">{{ clients.title }}</h2>
-                <p class="section-subtitle">{{ clients.description }}</p>
+                <h3>{{ groups.tagline }}</h3>
+                <h2 class="section-title">{{ groups.title }}</h2>
+                <p class="section-subtitle">{{ groups.description }}</p>
             </div>
 
         </div>
 
         <div class="col-2-3">
 
-            <a href="{{ company.weblink }}" class="col-3" *ngFor="let company of clients.companies">
+            <a href="{{ company.weblink }}" class="col-3" *ngFor="let company of groups.companies">
                 <img src="{{ company.logo }}" alt="Company"/>
                 <div class="client-overlay"><span>{{ company.name }}</span></div>
             </a>

@@ -9,12 +9,12 @@
   
               <form [formGroup]="signupForm" (ngSubmit)="signup(signupForm.value)">
                 <div class="form-group">
-                    <input type="text" class="form-control input-lg" name="firstName" placeholder="First Name" formControlName="firstName">
+                    <input type="text" class="form-control input-lg" name="firstName" placeholder="First Name" formControlName="first_name">
                     <span  class="ion-md-person form-control-icon"></span>
                     <div *ngIf="firstName.touched && firstName.invalid">Required</div>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control input-lg" name="lastName" placeholder="Last Name" formControlName="lastName">
+                    <input type="text" class="form-control input-lg" name="lastName" placeholder="Last Name" formControlName="last_name">
                     <span  class="ion-md-person form-control-icon"></span> 
                     <div *ngIf="lastName.touched && lastName.invalid">Required</div>
                 </div>

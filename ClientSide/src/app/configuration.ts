@@ -39,7 +39,7 @@ export const configuration = {
     },
     clients: {
         tagline: "TRUST",
-        title: "Companies who use our services",
+        title: "Groups",
         description: "We created the site to allow people to communicate not only verbally but also graphically with each other. The main goal is to bring a new way, a better one to manage work.",
         companies: [
             {name: 'Tree', weblink: 'assets/images/company-images/company-logo1.png', logo: 'assets/images/company-images/company-logo1.png'},
@@ -82,7 +82,7 @@ export const configuration = {
     ],
     boards: {
         tagline: 'boards section',
-        title: 'Your Boards',
+        title: 'My Boards',
         boardslist: [
             {id: 1, name: 'my-board 1', owner: 'You', last_opened: '2012-04-23T18:25:43.511Z', desc: 'some desc...'},
             {id: 2, name: 'my-board 2', owner: 'You', last_opened: '2020-01-01T07:22Z', desc: 'some desc...'},

@@ -17,12 +17,12 @@ export class EditBoardComponent implements OnInit {
   lineWidth = 5;
   boardUrl;
   updates = [];
+  users = [];
   boardString = "{}";
   // currUpdate = 0; [ngClass]="{'danger-zone':i>this.currUpdate}"
 
   constructor(private api: ApiService, private _canvasWhiteboardService: CanvasWhiteboardService, private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService, private router: Router, private location: Location, private route: ActivatedRoute, private config: ConfigService) {
-    _canvasWhiteboardShapeService.registerShape(RandomShape);
-    _canvasWhiteboardShapeService.registerShape(LineShape);
+    
   }
 
   ngOnInit() {
@@ -33,8 +33,23 @@ export class EditBoardComponent implements OnInit {
     let i = 0;
     let update = [];
     let element;
+
+    //im active
+
+    this.api.getUsers(this.api.getBoard().id).subscribe(
+      data => {
+        JSON.parse(JSON.stringify(data)).forEach(instance => {
+          /* if (instance.isActive) {
+            this.users.push(instance.user);
+          } */
+          this.users.push(instance.user);
+        });
+      },
+      error => {
+        console.log(error);
+    });
+    
     if (this.api.getBoard().json_board != '{}') {
-      console.log(this.api.getBoard().json_board.split('|'));
       this.boardString = this.api.getBoard().json_board;
       this.api.getBoard().json_board.split('|').forEach(el => {
         element = JSON.parse(el);
@@ -53,6 +68,7 @@ export class EditBoardComponent implements OnInit {
 
   hideUpdates(index: number) {
     for (let i=index; i<this.updates.length; i++) {
+      console.log(this.updates[i][0]);
       this._canvasWhiteboardService.undoCanvas(this.updates[i][0].UUID);
     }
     // this.currUpdate = index+1;
@@ -66,6 +82,9 @@ export class EditBoardComponent implements OnInit {
   }
 
   sendBatchUpdate(update: CanvasWhiteboardUpdate[]) {
+    this.board.json_board = this.boardString;
+    this.api.setBoard(this.board);
+    this.saveCanvas();
     update.forEach(change => {
       if(change.selectedShape == undefined) {
         this.updates[this.updates.length-1].push(change);
@@ -81,9 +100,6 @@ export class EditBoardComponent implements OnInit {
         } */
         this.updates.push([change]);
         // this.currUpdate++;
-        if (this.updates.length && this.updates.length%10 == 0) {
-          this.saveCanvas(); // auto save canvas
-        }
       }
       if (this.boardString == "{}") {
         this.boardString = JSON.stringify(change);
@@ -91,7 +107,6 @@ export class EditBoardComponent implements OnInit {
       else {
         this.boardString = this.boardString.concat("|" + JSON.stringify(change));
       }
-
     });
   }
 
@@ -133,96 +148,5 @@ export class EditBoardComponent implements OnInit {
 
   goBack() {
     this.location.back();
-  }
-}
-
-export class RandomShape extends CanvasWhiteboardShape {
-  linePositions: Array<number>;
-
-  constructor(positionPoint?: CanvasWhiteboardPoint, options?: CanvasWhiteboardShapeOptions) {
-      // Optional constructor if you need some additional setup
-      super(positionPoint, options);
-      this.linePositions = [];
-  }
-
-  getShapeName(): string {
-      // Abstract method which should return a string with the shape name
-      // Should be the same as the class name
-      return 'RandomShape';
-  }
-
-  draw(context: CanvasRenderingContext2D): any {
-      // Tell the canvas how to draw your shape here
-
-      // Use the selected options from the canvas whiteboard
-      Object.assign(context, this.options);
-
-      // Start drawing
-      context.save();
-      context.beginPath();
-      context.rect(20, 20, 150, 100);
-      context.stroke();
-      context.fill();
-      context.closePath();
-      context.restore();
-  }
-
-  drawPreview(context: CanvasRenderingContext2D): any {
-      // Provide info or update this object when it's needed for preview drawing.
-      // Example: The CIRCLE selects the center point and updates the radius.
-      // Example: The RECT selects 0,0 and updates width and height to 100%.
-
-      // Then call the draw method with the updated object if you want your shape
-      // to have a proper preview.
-
-      this.draw(context);
-  }
-
-  onUpdateReceived(update: CanvasWhiteboardUpdate): any {
-      // Choose what your shape does when an update is registered for it
-      // For example the CircleShape updates it's radius
-  }
-
-  onStopReceived(update: CanvasWhiteboardUpdate): void {
-      // This method is optional but CAN be overriden
-  }
-}
-
-export class LineShape extends CanvasWhiteboardShape {
-  endPosition: CanvasWhiteboardPoint;
-
-  constructor(positionPoint?: CanvasWhiteboardPoint,
-              options?: CanvasWhiteboardShapeOptions,
-              endPosition?: CanvasWhiteboardPoint) {
-      super(positionPoint, options);
-      this.endPosition = endPosition || new CanvasWhiteboardPoint(this.positionPoint.x, this.positionPoint.y);
-  }
-
-  getShapeName(): string {
-      return 'LineShape';
-  }
-
-  draw(context: CanvasRenderingContext2D) {
-      if (!this.endPosition) {
-          return;
-      }
-      context.beginPath();
-      Object.assign(context, this.options);
-
-      context.moveTo(this.positionPoint.x, this.positionPoint.y);
-      context.lineTo(this.endPosition.x, this.endPosition.y);
-
-      context.closePath();
-      context.stroke();
-  }
-
-  drawPreview(context: CanvasRenderingContext2D) {
-      this.positionPoint = new CanvasWhiteboardPoint(0, 0);
-      this.endPosition = new CanvasWhiteboardPoint(context.canvas.width, context.canvas.height);
-      this.draw(context);
-  }
-
-  onUpdateReceived(update: CanvasWhiteboardUpdate) {
-      this.endPosition = new CanvasWhiteboardPoint(update.x, update.y);
   }
 }

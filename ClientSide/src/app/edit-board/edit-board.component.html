@@ -4,13 +4,7 @@
         <h2 class="section-title">{{ board.desc }}</h2>
     </div>
 </div>
-<div id="history">
-    <h2 id="historyTitle">HistoryList</h2>
-    <ul>
-        <li *ngFor="let change of updates.reverse(); let i=index"><a style="cursor: pointer;" (click)="hideUpdates(updates.length-i-1)">{{ change[0].selectedShape }}</a></li>
-    </ul>
-</div>
-<div style="height: 600px">
+<div style="height: 600px; position: relative;">
     <canvas-whiteboard #canvasWhiteboard
                         [drawButtonClass]="'drawButtonClass'"
                         [drawButtonText]="'Draw'"
@@ -32,6 +26,18 @@
                         (onRedo)="onCanvasRedo($event)"
                         (onSave)="onCanvasSave($event)">
     </canvas-whiteboard>
+</div>
+<div id="history">
+    <h2 id="historyListTitle">History List</h2>
+    <ul>
+        <li *ngFor="let change of updates.reverse(); let i=index"><a style="cursor: pointer;" (click)="hideUpdates(updates.length-i-1)">{{ change[0].selectedShape }}</a></li>
+    </ul>
+</div>
+<div id="users">
+    <h2 id="usersListTitle">Online Users</h2>
+    <ul>
+        <li *ngFor="let user of users; let i=index"><a style="cursor: pointer;">{{ user }}</a></li>
+    </ul>
 </div>
 <div style="text-align:center;">
     <a (click)="goBack()" class="button">BACK</a>

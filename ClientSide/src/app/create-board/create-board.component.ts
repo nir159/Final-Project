@@ -32,13 +32,19 @@ export class CreateBoardComponent implements OnInit {
     let myDate = new Date();
     this.api.createBoard(formData, this.datePipe.transform(myDate, 'yyyy-MM-dd')).subscribe(
       data => {
-        this.location.back();
+        this.api.createBoardUser(JSON.parse(localStorage.getItem('currentUser')).email, data.id, 'w').subscribe(
+          data => {
+            this.location.back();
+          },
+          error => {
+            console.log(error); // maybe? cancel the creation
+          }
+        );
       },
       error => {
         console.log(error);
         //this.config.getConfig().boards.boardslist.push(formData);
       }
     );
-    // first confirm user...
   }
 }

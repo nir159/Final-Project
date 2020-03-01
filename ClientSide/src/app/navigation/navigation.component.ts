@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import * as $ from 'jquery';
+import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -9,41 +8,21 @@ import { ApiService } from '../api.service';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor(private api: ApiService) { }
-
-  ngOnInit() {
-    (<any>$)(document).ready(function () {
-      (<any>$)('#nav-mobile').html((<any>$)('#nav-main').html());
-      (<any>$)('#nav-trigger span').on('click',function() {
-        if ((<any>$)('nav#nav-mobile ul').hasClass('expanded')) {
-          (<any>$)('nav#nav-mobile ul.expanded').removeClass('expanded').slideUp(250);
-          (<any>$)(this).removeClass('open');
-        } else {
-          (<any>$)('nav#nav-mobile ul').addClass('expanded').slideDown(250);
-          (<any>$)(this).addClass('open');
-        }
-      });
-  
-      (<any>$)('#nav-mobile').html((<any>$)('#nav-main').html());
-      (<any>$)('#nav-mobile ul a').on('click',function() {
-        if ((<any>$)('nav#nav-mobile ul').hasClass('expanded')) {
-          (<any>$)('nav#nav-mobile ul.expanded').removeClass('expanded').slideUp(250);
-          (<any>$)('#nav-trigger span').removeClass('open');
-        }
-      });
-    });
-/* 
-    if (!!(<any>$).prototype.stickyNavbar) {
-      (<any>$)('#header').stickyNavbar();
+  isActive = false;
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if(!this.elementRef.nativeElement.contains(event.target) && event.target.id != "navButton") {
+      this.isActive = false;
     }
-  
-    (<any>$)('#content').waypoint(function (direction) {
-      if (direction === 'down') {
-        (<any>$)('#header').addClass('nav-solid fadeInDown');
-      }
-      else {
-        (<any>$)('#header').removeClass('nav-solid fadeInDown');
-      }
-    }); */
+  }
+
+  constructor(private api: ApiService, private elementRef:ElementRef) { }
+
+  ngOnInit() { 
+
+  }
+
+  close() {
+    this.isActive = false;
   }
 }

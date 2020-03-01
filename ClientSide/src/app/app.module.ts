@@ -1,14 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IntroComponent } from './intro/intro.component';
-import { GalleryComponent } from './gallery/gallery.component';
+import { PublicBoardsComponent } from './public-boards/public-boards.component';
 import { ContentComponent } from './content/content.component';
-import { TestimonialComponent } from './testimonial/testimonial.component';
+import { MembersComponent } from './members/members.component';
 import { FooterComponent } from './footer/footer.component';
-import { ClientsComponent } from './clients/clients.component';
+import { GroupsComponent } from './groups/groups.component';
 import { HeaderComponent } from './header/header.component';
 import { SocialComponent } from './social/social.component';
 import { NavigationComponent } from './navigation/navigation.component';
@@ -34,11 +35,11 @@ import { ShareBoardComponent } from './share-board/share-board.component';
   declarations: [
     AppComponent,
     IntroComponent,
-    GalleryComponent,
+    PublicBoardsComponent,
     ContentComponent,
-    TestimonialComponent,
+    MembersComponent,
     FooterComponent,
-    ClientsComponent,
+    GroupsComponent,
     HeaderComponent,
     SocialComponent,
     NavigationComponent,
@@ -61,7 +62,8 @@ import { ShareBoardComponent } from './share-board/share-board.component';
     FormsModule,
     HttpClientModule,
     BrowserModule,
-    UserDashboardModule
+    UserDashboardModule,
+    RouterModule
   ],
   providers: [ConfigService, PagerService],
   bootstrap: [AppComponent]

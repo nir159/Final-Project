@@ -26,24 +26,15 @@ export class BoardsComponent implements OnInit {
   }
 
   resetBoards() {
-    this.api.getId(JSON.parse(localStorage.getItem('currentUser')).email).subscribe(
+    this.api.getBoards().subscribe(
       data => {
-        this.owner = data[0].first_name + " " + data[0].last_name;
-        this.api.getBoards(data[0].id).subscribe(
-          res => {
-            this.allItems = res;
-          },
-          error => {
-            this.allItems = this.boards.boardslist;
-            console.log(error);
-          }).add(() => {
-            this.setPage(1);
-        });
+        this.allItems = data;
+        this.owner = JSON.parse(localStorage.getItem('currentUser')).first_name + " " + JSON.parse(localStorage.getItem('currentUser')).last_name;
       },
       error => {
         this.allItems = this.boards.boardslist;
-        this.owner = "You";
         console.log(error);
+      }).add(() => {
         this.setPage(1);
     });
   }

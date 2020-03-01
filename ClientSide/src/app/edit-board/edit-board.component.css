@@ -1,11 +1,26 @@
 #history{
     width: 300px;
-    position: absolute;
-    bottom: 800px;
-    left: 1100px;
+    position: relative;
+    bottom: 500px;
+    left: 1150px;
+    z-index: 10;
 }
 
-#historyTitle{
+#historyListTitle{
+    font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#users{
+    width: 300px;
+    position: relative;
+    bottom: 300px;
+    left: 1150px;
+    z-index: 10;
+}
+
+#usersListTitle{
     font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
     margin: 0;
     padding: 0;
@@ -17,6 +32,7 @@ ul {
     padding: 0;
     overflow-y: scroll;
     height: 138px;
+    position: absolute;
 }
 
 li {

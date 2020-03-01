@@ -19,8 +19,8 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = this.fb.group({
-      'firstName' : [null, Validators.required],
-      'lastName' : [null, Validators.required],
+      'first_name' : [null, Validators.required],
+      'last_name' : [null, Validators.required],
       'email' : [null, [Validators.required, Validators.email]],
       'pw' : [null, [Validators.required, Validators.minLength(4)]],
       'rePassword' : [null, Validators.required],
@@ -29,8 +29,8 @@ export class SignupComponent implements OnInit {
     this.returnUrl = "/boards";
   }
 
-  get firstName() { return this.signupForm.get('firstName'); }
-  get lastName() { return this.signupForm.get('lastName'); }
+  get firstName() { return this.signupForm.get('first_name'); }
+  get lastName() { return this.signupForm.get('last_name'); }
   get email() { return this.signupForm.get('email'); }
   get pw() { return this.signupForm.get('pw'); }
   get rePassword() { return this.signupForm.get('rePassword'); }
@@ -49,7 +49,7 @@ export class SignupComponent implements OnInit {
         this.api.login(formData.email).subscribe(
           data => {
             localStorage.setItem('currentUser', JSON.stringify(formData));
-            this.api.logged(data[0].id);
+            this.api.logged();
             this.router.navigate([this.returnUrl]);
           },
           error => {

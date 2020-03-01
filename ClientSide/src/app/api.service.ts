@@ -6,23 +6,17 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  baseurl = "http://c8ca5b17.ngrok.io/"; 
+  baseurl = "http://6935b680.ngrok.io/"; 
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   userLogged = false;
-  userId = -1;
-  board;
 
   constructor(private http: HttpClient) {
     if (localStorage.getItem('currentUser')) {
-      localStorage.removeItem('currentUser');
+      this.userLogged = true;
     }
   }
 
   // user authentication
-
-  getUserId() {
-    return this.userId;
-  }
 
   isUserLogged() {
     return this.userLogged;
@@ -37,61 +31,63 @@ export class ApiService {
   }
 
   signup(user): Observable<any> {
-    const newUser = {first_name: user.firstName, last_name: user.lastName, email: user.email, pw: user.pw};
+    const newUser = {first_name: user.first_name, last_name: user.last_name, email: user.email, pw: user.pw};
     return this.http.post(this.baseurl + 'my_users/my_users/', newUser, {headers: this.httpHeaders});
   }
 
-  getId(email: string) {
-    return this.http.get(this.baseurl + 'my_users/get_user/?search=' + email, {headers: this.httpHeaders});
-  }
-  
-  getBoards(id: number) {
-    return this.http.get(this.baseurl + 'boards/get_boards_id/?search=' + this.userId, {headers: this.httpHeaders});
-  }
-
-  logged(id: number) {
-    console.log(id);
+  logged() {
     this.userLogged = true;
-    this.userId = id;
   }
 
   logout() {
     if (localStorage.getItem('currentUser')) {
       localStorage.removeItem('currentUser');
     }
-    this.userId = -1;
     this.userLogged = false;
   }
 
   // board control
 
   setBoard(board) {
-    this.board = board;
+    localStorage.setItem('currentBoard', JSON.stringify(board));
+  }
+
+  getBoard() {
+    return JSON.parse(localStorage.getItem('currentBoard'));
+  }
+
+  getBoards() {
+    return this.http.get(this.baseurl + 'boards/get_boards/?search=' + JSON.parse(localStorage.getItem('currentUser')).email, {headers: this.httpHeaders});
   }
 
   createBoard(board, currDate): Observable<any> {
-    const newBoard = {name: board.name, owner : this.userId, last_opened: currDate, desc: board.desc, creation_time: currDate, json_board: '{}'};
+    const newBoard = {name: board.name, owner : JSON.parse(localStorage.getItem('currentUser')).email, last_opened: currDate, desc: board.desc, creation_time: currDate, json_board: '{}'};
     return this.http.post(this.baseurl + 'boards/boards/', newBoard, {headers: this.httpHeaders});
+  }
+
+  shareBoard(targetEmail, board) {
+    const newBoard = {name: board.name, owner: targetEmail, last_opened: board.last_opened, desc: board.desc, creation_time: board.creation_time, json_board: board.json_board};
+    return this.http.post(this.baseurl + 'boards/boards/', newBoard, {headers: this.httpHeaders});
+  }
+
+  createBoardUser(user, boardId, permissions) {
+    const newInstance = {user: user, board: boardId, permissions: permissions, in_board: false};
+    return this.http.post(this.baseurl + 'users_in_board/users_in_board/', newInstance, {headers: this.httpHeaders});
+  }
+
+  getUsers(boardId) {
+    return this.http.get(this.baseurl + 'users_in_board/get_users_in_board/?search=' + boardId, {headers: this.httpHeaders});
   }
 
   removeBoard(userId: number, boardId: number) {
     return this.http.delete(this.baseurl + 'boards/boards/' + boardId + '/', {headers: this.httpHeaders});
   }
 
-  getBoard() {
-    return this.board;
-  }
-
-  shareBoard(targetId, board) {
-    const newBoard = {name: board.name, owner: targetId, last_opened: board.last_opened, desc: board.desc, creation_time: board.creation_time, json_board: board.json_board};
-    console.log(newBoard);
-    return this.http.post(this.baseurl + 'boards/boards/', newBoard, {headers: this.httpHeaders});
-  }
-
   saveCanvas(shapes) {
-    const newBoard = {name: this.board.name, owner : this.board.owner, last_opened: this.board.last_opened, desc: this.board.desc, creation_time: this.board.creation_time, json_board: shapes.toString()};
+    let board = this.getBoard();
+    const newBoard = {name: board.name, owner : board.owner, last_opened: board.last_opened, desc: board.desc, creation_time: board.creation_time, json_board: shapes.toString()};
     console.log(newBoard);
-    return this.http.put(this.baseurl + 'boards/boards/' + this.board.id + '/', newBoard, {headers: this.httpHeaders})
+    return this.http.put(this.baseurl + 'boards/boards/' + board.id + '/', newBoard, {headers: this.httpHeaders})
   }
 
   /* getAllMovies(): Observable<any>{

@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../config.service';
 
 @Component({
-  selector: 'app-testimonial',
-  templateUrl: './testimonial.component.html',
-  styleUrls: ['./testimonial.component.css']
+  selector: 'app-members',
+  templateUrl: './members.component.html',
+  styleUrls: ['./members.component.css']
 })
-export class TestimonialComponent implements OnInit {
-  testimonials;
+export class MembersComponent implements OnInit {
+  members;
   
   constructor(private config: ConfigService) { }
 
   ngOnInit() {
-    this.testimonials = this.getTestimonials();
+    this.members = this.getTestimonials();
   }
 
   getTestimonials() {

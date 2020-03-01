@@ -1,57 +1,42 @@
-<div id="header" class="nav-collapse nav-solid">
-    <div class="row clearfix">
-        <div class="col-1">
-
-            <!--Logo-->
-            <div id="logo">
-
-                <!--The Logo that is shown on the sticky Navigation Bar-->
-                <img src="assets/images/logo-2.png" id="navigation-logo" alt="Landing Page"/>
-                <!--End of Navigation Logo-->
-
-            </div>
-            <!--End of Logo-->
-            <aside>
-                <app-user-profile-icon [profileImage]="this.api.isUserLogged() ? '../assets/images/user-images/user-1.jpg' : '../assets/images/user-images/default-user.jpg'"></app-user-profile-icon>
-                <app-social></app-social>
-            </aside>
-            <!--Main Navigation-->
-            <nav id="nav-main">
+<div class="container">  
+    <div class="navigation-wrapper">
+        <div (click)="isActive = true" class="navigation-button">
+            <i id="navButton" class="fa fa-bars"></i>
+        </div>
+        <div class="navigation-menu" [ngClass]="{'active': isActive}">
+            <!-- <div id="logo">
+                <img src="assets/images/logo-2.png" class="navigation-logo" alt="Landing Page"/>
+            </div> -->
+            <app-user-profile-icon (click)="close()" class="user" [profileImage]="this.api.isUserLogged() ? '../assets/images/user-images/user-1.jpg' : '../assets/images/user-images/default-user.jpg'"></app-user-profile-icon>
+            <a class="auth" *ngIf="api.isUserLogged()" routerLink="/home" (click)="api.logout(); close();">LOGOUT</a>
+            <a class="auth" *ngIf="!api.isUserLogged()" routerLink="/login" (click)="close()">LOGIN</a>
             <ul>
                 <li>
-                    <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+                    <a routerLink="/home" (click)="close()" routerLinkActive="curr-nav" [routerLinkActiveOptions]="{exact: true}">HOME</a>
                 </li>
                 <li>
-                    <a routerLink="/about" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About</a>
+                    <a routerLink="/about" (click)="close()" routerLinkActive="curr-nav" [routerLinkActiveOptions]="{exact: true}">ABOUT</a>
                 </li>
                 <li>
-                    <a routerLink="/gallery" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Gallery</a>
+                    <a routerLink="/services" (click)="close()" routerLinkActive="curr-nav" [routerLinkActiveOptions]="{exact: true}">SERVICES</a>
                 </li>
                 <li>
-                    <a routerLink="/services" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Services</a>
+                    <a routerLink="/boards" (click)="close()" routerLinkActive="curr-nav" [routerLinkActiveOptions]="{exact: true}">MY BOARDS</a>
                 </li>
                 <li>
-                    <a routerLink="/testimonials" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Testimonials</a>
+                    <a routerLink="/public-boards" (click)="close()" routerLinkActive="curr-nav" [routerLinkActiveOptions]="{exact: true}">PUBLIC BOARDS</a>
                 </li>
                 <li>
-                    <a routerLink="/clients" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Clients</a>
+                    <a routerLink="/members" (click)="close()" routerLinkActive="curr-nav" [routerLinkActiveOptions]="{exact: true}">MEMBERS</a>
                 </li>
                 <li>
-                    <a routerLink="/boards" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Boards</a>
-                </li>
-                <li *ngIf="api.isUserLogged()">
-                    <a routerLink="/home" (click)="api.logout();">Logout</a>
+                    <a routerLink="/groups" (click)="close()" routerLinkActive="curr-nav" [routerLinkActiveOptions]="{exact: true}">GROUPS</a>
                 </li>
                 <li>
-                    <a [routerLink]="[{outlets: {popup: ['contactus']}}]">CONTACT US</a>
+                    <a [routerLink]="[{outlets: {popup: ['contactus']}}]" (click)="close()">CONTACT US</a>
                 </li>
             </ul>
-            </nav>
-<!--End of Main Navigation-->
-
-            <div id="nav-trigger"><span></span></div>
-            <nav id="nav-mobile"></nav>
-
+            <!-- <app-social class="social-header"></app-social> -->
         </div>
     </div>
-</div><!--End of Header-->
+</div>

@@ -1,8 +1,8 @@
 import { NgModule, ContentChild } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TestimonialComponent } from './testimonial/testimonial.component';
-import { ClientsComponent } from './clients/clients.component';
-import { GalleryComponent } from './gallery/gallery.component';
+import { MembersComponent } from './members/members.component';
+import { GroupsComponent } from './groups/groups.component';
+import { PublicBoardsComponent } from './public-boards/public-boards.component';
 import { ContentComponent } from './content/content.component';
 import { IntroComponent } from './intro/intro.component';
 import { HeaderComponent } from './header/header.component';
@@ -24,10 +24,10 @@ const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'contactus', component: ContactusComponent},
   {path: 'about', component: IntroComponent},
-  {path: 'gallery', component: GalleryComponent},
+  {path: 'public-boards', component: PublicBoardsComponent},
   {path: 'services', component: ContentComponent},
-  {path: 'testimonials', component: TestimonialComponent},
-  {path: 'clients', component: ClientsComponent},
+  {path: 'members', component: MembersComponent},
+  {path: 'groups', component: GroupsComponent},
   {path: 'contactus', component: ContactusComponent, outlet: 'popup'},
   {path: 'dashboard', loadChildren: () => UserDashboardModule, canActivate: [RouteguardService]},
   {path: 'boards', component: BoardsComponent, canActivate: [RouteguardService]},

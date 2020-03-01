@@ -3,18 +3,18 @@ import { ConfigService } from '../config.service';
 import * as $ from 'jquery';
 
 @Component({
-  selector: 'app-gallery',
-  templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.css']
+  selector: 'app-public-boards',
+  templateUrl: './public-boards.component.html',
+  styleUrls: ['./public-boards.component.css']
 })
-export class GalleryComponent implements OnInit {
+export class PublicBoardsComponent implements OnInit {
 
-  gallery;
+  publicBoards;
 
   constructor(private config: ConfigService) { }
 
   ngOnInit() {
-    this.gallery = this.getImages();
+    this.publicBoards = this.getImages();
   }
 
   getImages() {
