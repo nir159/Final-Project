@@ -28,18 +28,13 @@ export class CreateBoardComponent implements OnInit {
   get name() { return this.createBoardForm.get('name'); }
   get desc() { return this.createBoardForm.get('desc'); }
 
-  createBoard(formData: NgForm){
+  createBoard(formData){
     let myDate = new Date();
-    this.api.createBoard(formData, this.datePipe.transform(myDate, 'yyyy-MM-dd')).subscribe(
+    const newBoard = {name: formData.name, owner : JSON.parse(localStorage.getItem('currentUser')).email, last_opened: this.datePipe.transform(myDate, 'yyyy-MM-dd'), desc: formData.desc, creation_time: this.datePipe.transform(myDate, 'yyyy-MM-dd'), json_board: '{}'};
+    console.log(newBoard);
+    this.api.createBoard(newBoard).subscribe(
       data => {
-        this.api.createBoardUser(JSON.parse(localStorage.getItem('currentUser')).email, data.id, 'w').subscribe(
-          data => {
-            this.location.back();
-          },
-          error => {
-            console.log(error); // maybe? cancel the creation
-          }
-        );
+        this.location.back();
       },
       error => {
         console.log(error);

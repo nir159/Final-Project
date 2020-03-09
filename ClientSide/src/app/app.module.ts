@@ -30,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CreateBoardComponent } from './create-board/create-board.component';
 import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
 import { ShareBoardComponent } from './share-board/share-board.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -61,9 +62,9 @@ import { ShareBoardComponent } from './share-board/share-board.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    BrowserModule,
     UserDashboardModule,
-    RouterModule
+    RouterModule,
+    FontAwesomeModule
   ],
   providers: [ConfigService, PagerService],
   bootstrap: [AppComponent]

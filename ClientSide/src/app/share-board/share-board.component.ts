@@ -27,46 +27,25 @@ export class ShareBoardComponent implements OnInit {
   get msg() { return this.shareBoardForm.get('msg'); }
 
   shareBoard(formData) {
-    if (formData.email == JSON.parse(localStorage.getItem('currentUser')).email) {
-      // message: user already in board
+    /* if (formData.email == JSON.parse(localStorage.getItem('currentUser')).email) {
+      // If user is already shared 
       return;
+    } */
+    
+    let updatedBoard = this.api.getBoard();
+    if (updatedBoard.users == "") {
+      updatedBoard.users = formData.email;
+    } else {
+      updatedBoard.users += " " + formData.email;
     }
 
-    this.api.getUsers(this.api.getBoard().id).subscribe(
+    this.api.updateBoard(updatedBoard).subscribe(
       data => {
-        JSON.parse(JSON.stringify(data)).forEach(instance => {
-          if (formData.email == instance.user) {
-            // message: user already in board
-            return;
-          }
-        });
+        this.api.setBoard(updatedBoard);
+        // shared successfully
       },
       error => {
         console.log(error);
     });
-    
-    /* this.api.shareBoard(formData.email, this.api.getBoard()).subscribe(
-      data => {
-        this.api.createBoardUser(formData.email, this.api.getBoard().id, 'w').subscribe(
-          data => {
-            this.location.back();
-          },
-          error => {
-            console.log(error); // maybe, cancel the creation
-          }
-        );
-      },
-      error => {
-        console.log(error);
-    }); */
-    
-    this.api.createBoardUser(formData.email, this.api.getBoard().id, 'w').subscribe(
-      data => {
-        this.location.back();
-      },
-      error => {
-        console.log(error); // maybe? cancel the creation
-      }
-    );
   }
 }

@@ -36,17 +36,8 @@ export class EditBoardComponent implements OnInit {
 
     //im active
 
-    this.api.getUsers(this.api.getBoard().id).subscribe(
-      data => {
-        JSON.parse(JSON.stringify(data)).forEach(instance => {
-          /* if (instance.isActive) {
-            this.users.push(instance.user);
-          } */
-          this.users.push(instance.user);
-        });
-      },
-      error => {
-        console.log(error);
+    this.api.getBoard().users.split(' ').forEach(user => {
+      this.users.push(user);
     });
     
     if (this.api.getBoard().json_board != '{}') {

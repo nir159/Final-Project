@@ -26,9 +26,16 @@ export class BoardsComponent implements OnInit {
   }
 
   resetBoards() {
-    this.api.getBoards().subscribe(
+    this.api.getAllBoards().subscribe(
       data => {
-        this.allItems = data;
+        let e = JSON.parse(localStorage.getItem('currentUser')).email;
+        JSON.parse(JSON.stringify(data)).forEach(board => {
+          console.log(board.users);
+          if (e == board.owner || board.users.include(e)) {
+            console.log(board);
+            this.allItems.push(data);
+          }
+        });
         this.owner = JSON.parse(localStorage.getItem('currentUser')).first_name + " " + JSON.parse(localStorage.getItem('currentUser')).last_name;
       },
       error => {

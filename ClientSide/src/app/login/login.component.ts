@@ -31,12 +31,11 @@ export class LoginComponent implements OnInit {
   get pw() { return this.loginForm.get('pw'); }
 
   login(formData){
-    this.api.login(formData.email).subscribe(
+    this.api.getUser(formData.email).subscribe(
       data => {
         if(!data.length) {
           this.errorMsg = "User doesn't exist!";
           this.logFail = true;
-          console.log("Success"); 
           return;
         }
         if(!data[0].pw == formData.pw) {
@@ -45,7 +44,7 @@ export class LoginComponent implements OnInit {
           return;
         }
         localStorage.setItem('currentUser', JSON.stringify(data[0]));
-        this.api.logged();
+        this.api.userLoggedIn();
         this.router.navigate([this.returnUrl]);
       },
       error => {

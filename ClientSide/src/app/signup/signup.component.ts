@@ -39,24 +39,17 @@ export class SignupComponent implements OnInit {
   checkPasswords(group: FormGroup) {
     if (group.get('pw') && group.get('rePassword')){
       return group.get('pw').value == group.get('rePassword').value ? null : { notSame: true };
-  }
+    }
     return null;
   }
 
   signup = (formData) => {
+    const newUser = {first_name: formData.first_name, last_name: formData.last_name, email: formData.email, pw: formData.pw};
     this.api.signup(formData).subscribe(
       data => {
-        this.api.login(formData.email).subscribe(
-          data => {
-            localStorage.setItem('currentUser', JSON.stringify(formData));
-            this.api.logged();
-            this.router.navigate([this.returnUrl]);
-          },
-          error => {
-            console.log(error);
-            this.signFail = true;
-          }
-        );
+        localStorage.setItem('currentUser', JSON.stringify(newUser));
+        this.api.userLoggedIn();
+        this.router.navigate([this.returnUrl]);
       },
       error => {
         console.log(error);
