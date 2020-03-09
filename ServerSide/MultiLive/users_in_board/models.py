@@ -11,3 +11,4 @@ class UserInBoard(models.Model):
 
     def __str__(self):
         return "{} /w {}".format(self.board, self.user)
+

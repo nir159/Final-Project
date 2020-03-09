@@ -11,6 +11,7 @@ class Board(models.Model):
     desc = models.TextField(max_length=256)
     creation_time = models.DateTimeField(auto_now_add=True)
     json_board = models.TextField(max_length=1024*100, default='{}')
+    users = models.TextField(max_length=500, default="{}")
 
     def __str__(self):
         return self.name
