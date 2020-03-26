@@ -12,6 +12,9 @@
             <a class="auth" *ngIf="!api.isUserLogged()" routerLink="/login" (click)="close()">LOGIN</a>
             <ul class="icon-menu">
                 <li>
+                    <a routerLink="/dashboard" routerLinkActive="curr-nav" [routerLinkActiveOptions]="{exact: true}"><i class="fa fa-user"></i></a>
+                </li>
+                <li>
                     <a routerLink="/home" routerLinkActive="curr-nav" [routerLinkActiveOptions]="{exact: true}"><i class="fa fa-home"></i></a>
                 </li>
                 <li>

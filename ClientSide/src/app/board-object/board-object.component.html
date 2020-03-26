@@ -1,0 +1,65 @@
+<div class="settings">
+    <div class="main-settings">
+        <a (click)="goBack()">Back</a>
+        <div class="dropdown">
+            <a (click)="download()" class="dropbtn">Download image</a>
+            <div class="dropdown-content">
+                <p class="input-info">name of file (no Ext.):</p>
+                <input [(ngModel)]="dlname" (keyup.enter)="download()" type='text'/>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="dropbtn">Load image</a>
+            <div class="dropdown-content load-image-dropdown">
+                <input type="file" accept="image/*" (change)="handleFileInput($event.target.files)">
+                <p class="input-info">custom size(width-height): </p>
+                <input [(ngModel)]="imgSize" type='text'/>
+                <a (click)="resetImgSize()">reset</a>
+            </div>
+        </div>
+    </div>
+    <div class="shape-settings">
+        <div class="dropdown">
+            <a class="dropbtn">Shape</a>
+            <div class="dropdown-content shape-dropdown">
+                <a (click)="shapeChanged('circle')">circle</a>
+                <a (click)="shapeChanged('rect')">rect</a>
+                <a (click)="shapeChanged('line')">line</a>
+                <a (click)="shapeChanged('freeHand')">freehand</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="dropbtn">Line Width</a>
+            <div class="dropdown-content line-width-dropdown">
+                <input [(ngModel)]="lineWidth" type='number'/>
+                <a (click)="resetLineWidth()">reset</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="dropbtn">Inner color</a>
+            <div class="dropdown-content inner-color-dropdown">
+                <input (colorPickerClose)="colorChanged($event)" style="width:75px;" value="click here..." [(colorPicker)]="innerColor" [style.background]="innerColor"/>
+                <div class="last-colors">
+                    <p>optional colors:</p>
+                    <color-circle [colors]="lastColors" (onChangeComplete)="innerColorChanged($event)"></color-circle>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="dropbtn">Outter color</a>
+            <div class="dropdown-content outter-color-dropdown">
+                <input (colorPickerClose)="colorChanged($event)" style="width:75px;" value="click here..." [(colorPicker)]="outterColor" [style.background]="outterColor"/>
+                <div class="last-colors">
+                    <p>optional colors:</p>
+                    <color-circle [colors]="lastColors" (onChangeComplete)="outterColorChanged($event)"></color-circle>
+                </div>
+            </div>
+        </div>
+        <a (click)="save()">Save</a>
+        <a style="float: right;" (click)="clear()">Clear</a>
+        <a class="checkbox" [ngClass]="{'active': users}" (click)="usersChanged()">Users</a>
+        <a class="checkbox" [ngClass]="{'active': history}" (click)="historyChanged()">History</a>
+
+    </div>
+</div>
+<canvas (contextmenu)="onRightClick($event)" (mousedown)="onCanvas($event)" #canvas></canvas>

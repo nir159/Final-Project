@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  baseurl = "http://7fa906c6.ngrok.io/"; 
+  baseurl = "http://c2955535.ngrok.io/"; 
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   userLogged = false;
 
@@ -61,6 +61,10 @@ export class ApiService {
     return JSON.parse(localStorage.getItem('currentBoard'));
   }
 
+  getBoardById(id) {
+    return this.http.get(this.baseurl + 'boards/boards/' + id + '/', {headers: this.httpHeaders});
+  }
+
   getBoardsOfUser() {
     return this.http.get(this.baseurl + 'boards/get_boards/?search=' + JSON.parse(localStorage.getItem('currentUser')).email, {headers: this.httpHeaders});
   }
@@ -86,14 +90,14 @@ export class ApiService {
     return this.http.delete(this.baseurl + 'boards/boards/' + boardId + '/', {headers: this.httpHeaders});
   }
 
-  saveCanvas(shapes) {
+  /* saveCanvas(shapes) {
     let board = this.getBoard();
     const newBoard = {name: board.name, owner : board.owner, last_opened: board.last_opened, desc: board.desc, creation_time: board.creation_time, json_board: shapes.toString(), users: board.users};
-    console.log(newBoard);
     return this.http.put(this.baseurl + 'boards/boards/' + board.id + '/', newBoard, {headers: this.httpHeaders})
-  }
+  } */
 
   updateBoard(updatedBoard) {
+    localStorage.setItem('currentBoard', JSON.stringify(updatedBoard));
     return this.http.put(this.baseurl + 'boards/boards/' + updatedBoard.id + '/', updatedBoard, {headers: this.httpHeaders})
   }
 }

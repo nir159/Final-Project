@@ -11,7 +11,7 @@ import { JsonPipe } from '@angular/common';
 })
 export class BoardsComponent implements OnInit {
   boards;
-  allItems: any;
+  allItems: any = [];
   pages: any[];
   pageSize = 6;
   pager: any = {};
@@ -28,12 +28,11 @@ export class BoardsComponent implements OnInit {
   resetBoards() {
     this.api.getAllBoards().subscribe(
       data => {
+        this.allItems = [];
         let e = JSON.parse(localStorage.getItem('currentUser')).email;
         JSON.parse(JSON.stringify(data)).forEach(board => {
-          console.log(board.users);
-          if (e == board.owner || board.users.include(e)) {
-            console.log(board);
-            this.allItems.push(data);
+          if (e == board.owner || board.users.includes(e)) {
+            this.allItems.push(board);
           }
         });
         this.owner = JSON.parse(localStorage.getItem('currentUser')).first_name + " " + JSON.parse(localStorage.getItem('currentUser')).last_name;

@@ -30,8 +30,7 @@ export class CreateBoardComponent implements OnInit {
 
   createBoard(formData){
     let myDate = new Date();
-    const newBoard = {name: formData.name, owner : JSON.parse(localStorage.getItem('currentUser')).email, last_opened: this.datePipe.transform(myDate, 'yyyy-MM-dd'), desc: formData.desc, creation_time: this.datePipe.transform(myDate, 'yyyy-MM-dd'), json_board: '{}'};
-    console.log(newBoard);
+    const newBoard = {name: formData.name, owner : JSON.parse(localStorage.getItem('currentUser')).email, last_opened: this.datePipe.transform(myDate, 'yyyy-MM-dd'), desc: formData.desc, creation_time: this.datePipe.transform(myDate, 'yyyy-MM-dd')};
     this.api.createBoard(newBoard).subscribe(
       data => {
         this.location.back();

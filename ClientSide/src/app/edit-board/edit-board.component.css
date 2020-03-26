@@ -2,28 +2,19 @@
     width: 300px;
     position: relative;
     bottom: 500px;
-    left: 1150px;
+    left: 1000px;
     z-index: 10;
-}
-
-#historyListTitle{
-    font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
 }
 
 #users{
     width: 300px;
     position: relative;
     bottom: 300px;
-    left: 1150px;
-    z-index: 10;
+    left: 1000px;
 }
 
-#usersListTitle{
-    font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
+.removed {
+    display: none;
 }
 
 ul {

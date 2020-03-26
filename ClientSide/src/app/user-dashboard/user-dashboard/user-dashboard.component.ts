@@ -13,23 +13,10 @@ export class UserDashboardComponent implements OnInit {
     
   }
 
-  user = {first_name: "fname", last_name: "lname", email: "@gmail.com"};
+  user = JSON.parse(localStorage.getItem('currentUser'));
 
   ngOnInit() {
-    /* this.api.login(JSON.parse(localStorage.getItem('currentUser')).email).subscribe(
-      data => {
-        this.user = data;
-      },
-      error => {
-        console.log(error);
-      }
-    ); */
-  }
-
-  getUser() {
-    if (localStorage.getItem('currentUser')) {
-      //this.user = JSON.parse(localStorage.getItem('currentUser'));
-    }
+    
   }
 
   logout() {

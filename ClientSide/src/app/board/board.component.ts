@@ -15,7 +15,13 @@ export class BoardComponent implements OnInit {
   constructor(private api: ApiService, private config: ConfigService) { }
 
   ngOnInit() {
-    
+    this.api.getBoardById(this.board.id).subscribe(
+      data => {
+        this.board = data;
+      },
+      error => {
+        console.log(error);
+    });
   }
   
   removeBoard() {

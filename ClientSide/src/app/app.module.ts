@@ -31,6 +31,9 @@ import { CreateBoardComponent } from './create-board/create-board.component';
 import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
 import { ShareBoardComponent } from './share-board/share-board.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BoardObjectComponent } from './board-object/board-object.component';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorCircleModule } from 'ngx-color/circle';
 
 @NgModule({
   declarations: [
@@ -53,7 +56,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SignupComponent,
     ContactusComponent,
     CreateBoardComponent,
-    ShareBoardComponent
+    ShareBoardComponent,
+    BoardObjectComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +68,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     UserDashboardModule,
     RouterModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ColorPickerModule,
+    ColorCircleModule
   ],
   providers: [ConfigService, PagerService],
   bootstrap: [AppComponent]

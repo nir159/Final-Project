@@ -42,7 +42,7 @@ export class ShareBoardComponent implements OnInit {
     this.api.updateBoard(updatedBoard).subscribe(
       data => {
         this.api.setBoard(updatedBoard);
-        // shared successfully
+        this.location.back();
       },
       error => {
         console.log(error);
