@@ -55,6 +55,31 @@
                 </div>
             </div>
         </div>
+        <div class="dropdown">
+            <a class="dropbtn">Text</a>
+            <div class="dropdown-content text-dropdown">
+                <textarea cols="40" rows="10" [(ngModel)]="text" (click)="shapeChanged('text')"></textarea>
+                <div style="margin-top: 5px;">
+                    <label class="input-info">fonts:</label>
+                    <select [(ngModel)]="font">
+                        <option value="Ariel">Ariel</option>
+                        <option value="Lucida Console">Lucida Console</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Verdana">Verdana</option>
+                    </select>
+                    <div style="margin: 5px">
+                        <label class="input-info">text align:</label>
+                        <select [(ngModel)]="textAlign">
+                            <option value="right">Left</option>
+                            <option value="center">Center</option>
+                            <option value="left">Right</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="input-info"><input style="position: relative; top: 15px" [(ngModel)]="italic" type="checkbox" /> Italic</label>
+            </div>
+        </div>
         <a (click)="save()">Save</a>
         <a style="float: right;" (click)="clear()">Clear</a>
         <a class="checkbox" [ngClass]="{'active': users}" (click)="usersChanged()">Users</a>

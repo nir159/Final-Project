@@ -98,6 +98,16 @@ input[type=file] {
     left: 662px;
 }
 
+.text-dropdown {
+    left: 655px;
+    width: 350px;
+    height: 350px;
+}
+
+textarea {
+    margin: 10px;
+}
+
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
     display: block;

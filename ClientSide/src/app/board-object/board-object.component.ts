@@ -16,6 +16,10 @@ export class BoardObjectComponent implements OnInit {
   @Input() updates = [];
 
   title = 'board';
+  text  = '';
+  italic = false;
+  font = "Ariel";
+  textAlign = "center";
   dlname = '';
   history = true;
   users = true;
@@ -73,10 +77,13 @@ export class BoardObjectComponent implements OnInit {
           this.updates[i] = new Line(this.updates[i].firstPoint, this.updates[i].secondPoint, this.updates[i].outterColor, this.updates[i].lineWidth);
           break;
         case "FreeHand":
-          this.updates[i] = new FreeHand(this.updates[i].outterColor, this.updates[i].lineWidth, this.updates[i].x, this.updates[i].y);
+          this.updates[i] = new FreeHand(this.updates[i].outterColor, this.updates[i].lineWidth, -1, -1, this.updates[i].lines);
           break;
         case "ImageShape":
           this.updates[i] = new ImageShape(this.updates[i].x, this.updates[i].y, this.updates[i].imgSize, this.updates[i].src);
+          break;
+        case "Text":
+          this.updates[i] = new Text(this.updates[i].x, this.updates[i].y, this.updates[i].outterColor, this.updates[i].text, this.updates[i].lineWidth, this.updates[i].italic, this.updates[i].font, this.updates[i].innerColor, this.updates[i].textAlign, this.updates[i].lines);
           break;
       }
     }
@@ -96,7 +103,6 @@ export class BoardObjectComponent implements OnInit {
   }
 
   save() {
-    console.log(this.updates);
     this.onSave.emit();
   }
 
@@ -123,6 +129,9 @@ export class BoardObjectComponent implements OnInit {
         break;
       case "freeHand":
         this.updates.push(new FreeHand(this.outterColor, this.lineWidth, this.mouse.x, this.mouse.y));
+        break;
+      case "text":
+        this.updates.push(new Text(this.mouse.x, this.mouse.y, this.outterColor, this.text, this.lineWidth, this.italic, this.font, this.innerColor, this.textAlign));
         break;
     }
     this.updateRequired = true;
@@ -316,9 +325,17 @@ export class Line { // new Line(new Point(this.mouse.x, this.mouse.y), new Point
 export class FreeHand { // new FreeHand(this.outterColor, this.lineWidth, this.mouse.x, this.mouse.y)
 
   focus = true;
-  lines: Line[] = [];
-  constructor(private outterColor, private lineWidth, x, y, private shapeName = "FreeHand") {
-    this.lines.push(new Line(new Point(x, y), new Point(x, y), this.outterColor, this.lineWidth, "round", "round"));
+
+  constructor(private outterColor, private lineWidth, x, y, private lines = [], private shapeName = "FreeHand") {
+    if (lines.length == 0) {
+      this.lines.push(new Line(new Point(x, y), new Point(x, y), this.outterColor, this.lineWidth, "round", "round"));
+    } else {
+      var newLines = []
+      for(let i = 0; i < this.lines.length-2; i+=2) {
+        newLines.push(new Line(new Point(this.lines[i], this.lines[i+1]), new Point(this.lines[i+2], this.lines[i+3]), this.outterColor, this.lineWidth, "round", "round"));
+      }
+      this.lines = newLines;
+    }
   }
 
   draw(ctx) {
@@ -352,6 +369,59 @@ export class ImageShape {
     } else {
       ctx.drawImage(this.img, this.x, this.y);
     }
+  }
+
+  update(mouse) {
+    this.x = mouse.x;
+    this.y = mouse.y;
+  }
+
+  unfocus() { this.focus = false; }
+  select() { this.focus = true; }
+  isFocused() { return this.focus; }
+}
+
+export class Text {
+  focus = true;
+  
+  constructor(private x, private y, private outterColor = "black", text = "Hello!", private lineWidth = 18, private italic = false, private font = "Arial", private innerColor = "rgba(255,255,255,0)", private textAlign = "center", private lines = [], private shapeName = "Text") {
+    if (lines.length == 0) {
+      this.lines = text.split('\n');
+      if (text == "") {
+        this.lines = ["Hello!"];
+      }
+    }
+  }
+
+  draw(ctx) {
+    if (this.italic) {
+      ctx.font = "italic " + this.lineWidth.toString() + "px " + this.font;
+    } else {
+      ctx.font = this.lineWidth.toString() + "px " + this.font;
+    }
+    var hFactor = 0;
+    this.lines.forEach(line => {
+      if (this.innerColor != "rgba(255,255,255,0)") {
+        ctx.fillStyle = this.innerColor;
+        var width = ctx.measureText(line).width;
+        switch (this.textAlign) {
+          case "center":
+            ctx.fillRect(this.x - width/2-5, this.y - parseInt(this.lineWidth.toString(), 10)/2 + hFactor, width+10, parseInt(this.lineWidth.toString(), 10));
+            break;
+          case "left":
+            ctx.fillRect(this.x-5, this.y - parseInt(this.lineWidth.toString(), 10)/2 + hFactor, width+10, parseInt(this.lineWidth.toString(), 10));
+            break;
+          case "right":
+            ctx.fillRect(this.x-width-5, this.y - parseInt(this.lineWidth.toString(), 10)/2 + hFactor, width+10, parseInt(this.lineWidth.toString(), 10));
+            break;
+        }
+      }
+      ctx. textBaseline = 'middle';
+      ctx.textAlign = this.textAlign;
+      ctx.fillStyle = this.outterColor;
+      ctx.fillText(line, this.x, this.y + hFactor); 
+      hFactor += parseInt(this.lineWidth.toString(), 10);
+    });
   }
 
   update(mouse) {

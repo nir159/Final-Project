@@ -35,16 +35,11 @@ export class EditBoardComponent implements OnInit, OnDestroy {
 
     //i'm active
 
+    this.users = JSON.parse(this.api.getBoard().users);
     this.users.push(this.api.getBoard().owner);
-    this.api.getBoard().users.split(' ').forEach(user => {
-      this.users.push(user);
-    });
 
     if (this.api.getBoard().json_board) {
       this.updates = JSON.parse(this.api.getBoard().json_board);
-      /* setTimeout(() => {
-        this.drawCanvas();
-      }, 100); */
     }
 
     /* this.intervalCheck = setInterval(() => {
@@ -91,27 +86,25 @@ export class EditBoardComponent implements OnInit, OnDestroy {
   sendUpdate() {
     this.saveCanvas();
   }
-
-  onCanvasUndo(updateUUID: string) {
-    this.updates.pop();
-    this._canvasWhiteboardService.undoCanvas(this.updates[this.updates.length-1][0].UUID);
-    // this._canvasWhiteboardService.undoCanvas(this.updates[i][0].UUID);
-  }
-
-  onCanvasRedo(updateUUID: string) {
-    // if it can be done:
-    // this.currUpdate++;
-    // this._canvasWhiteboardService.redoCanvas(this.updates[1][0].UUID);
-  }
   
   saveCanvas() {
-    var clearedShapes = [...this.updates];
-    clearedShapes.forEach(shape => {
-      if(shape.shapeName == "ImageShape") {
-        delete shape.img;
+    var saveUpdates = JSON.parse(JSON.stringify(this.updates));
+    saveUpdates.forEach(shape => {
+      if(shape.shapeName == "FreeHand") {
+        var pointsArr = [];
+        for (let i = 0; i < shape.lines.length; i++) {
+          if (i == shape.lines.length-1) {
+            pointsArr.push(shape.lines[i].firstPoint.x, shape.lines[i].firstPoint.y);
+
+          }
+          else {
+            pointsArr.push(shape.lines[i].firstPoint.x, shape.lines[i].firstPoint.y,shape.lines[i].secondPoint.x, shape.lines[i].secondPoint.y);
+          }
+        }
+        shape.lines = pointsArr;
       }
     });
-    this.board.json_board = JSON.stringify(clearedShapes);
+    this.board.json_board = JSON.stringify(saveUpdates);
     this.api.setBoard(this.board);
     this.api.updateBoard(this.board).subscribe(
       data => {
@@ -121,7 +114,7 @@ export class EditBoardComponent implements OnInit, OnDestroy {
         console.log(error);
     });
   }
-
+  
   onCanvasSave(e) {
     this.saveCanvas();
   }
