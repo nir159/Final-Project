@@ -31,6 +31,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   innerColor = "rgba(255,255,255,0)";
   outterColor = "blue";
   currShape = "circle";
+  currSrc = "";
 
   subscription: Subscription;
 
@@ -225,6 +226,11 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
       case "text":
         this.updates.push(new Text(this.mouse.x, this.mouse.y, this.outterColor, this.text, this.lineWidth, this.italic, this.font, this.innerColor, this.textAlign));
         break;
+      case "img":
+        if (this.currSrc) {
+          this.updates.push(new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, this.currSrc));
+        }
+        break;
       case "move":
         this.updates.forEach(shape => {
           if(shape.clicked()) {
@@ -244,7 +250,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     var newImage = new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, src);
     this.shapeChanged('img');
     this.updates.push(newImage);
-    newImage.createUrl(file);
+    this.currSrc = newImage.createUrl(file);
   }
 
   shapeChanged(shape) {
@@ -556,6 +562,7 @@ export class ImageShape {
     reader.onloadend = (e) => {
       this.img.src = reader.result.toString();
     };
+    return this.img.src;
   }
 
   clicked() {
