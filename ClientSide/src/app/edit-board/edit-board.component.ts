@@ -14,8 +14,6 @@ import { VirtualTimeScheduler } from 'rxjs';
 })
 export class EditBoardComponent implements OnInit, OnDestroy {
   @ViewChild('canvasWhiteboard', {static: true}) canvasWhiteboard: CanvasWhiteboardComponent;
-  usersTable = true;
-  historyTable = true;
   board;
   lineWidth = 5;
   updates = [];
@@ -49,27 +47,6 @@ export class EditBoardComponent implements OnInit, OnDestroy {
     } */
   }
 
-  hideUpdates(index: number) {
-    event.preventDefault();
-    // this.currUpdate = index+1;
-    this.updates = this.updates.slice(0, index);
-    this.saveCanvas();
-  }
-
-  hideUpdate(index: number) {
-    // this.currUpdate = index+1;
-    this.updates.splice(index, 1);
-    this.saveCanvas();
-  }
-
-  historyChanged(bool) {
-    this.historyTable = bool;
-  }
-
-  usersChanged(bool) {
-    this.usersTable = bool;
-  }
-
   onCanvasClear() {
     // this.currUpdate = this.updates.length;
   }
@@ -97,13 +74,5 @@ export class EditBoardComponent implements OnInit, OnDestroy {
 
   goBack() {
     this.location.back();
-  }
-
-  markShapes(index) {
-    this.updates[index].markShape();
-  }
-  
-  unmarkShapes(index) {
-    this.updates[index].unmark();
   }
 }

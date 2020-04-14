@@ -3,10 +3,6 @@
     overflow: hidden;
 }
 
-.main-settings {
-    
-}
-
 .settings a {
     color: #f2f2f2;
     text-align: center;
@@ -102,6 +98,60 @@ input[type=file] {
     left: 655px;
     width: 350px;
     height: 350px;
+}
+
+#history{
+    width: 300px;
+    position: absolute;
+    bottom: 350px;
+    right: 0px;
+}
+
+#users{
+    width: 300px;
+    position: absolute;
+    top: 350px;
+    right: 0px;
+}
+
+.removed {
+    display: none;
+}
+
+.items {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+    height: 138px;
+    position: absolute;
+}
+
+.items li {
+    font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+    border-bottom: 1px solid #ccc;
+}
+
+.items li:last-child {
+    border: none;
+}
+
+.items li a {
+    text-decoration: none;
+    color: #000;
+    display: block;
+    width: 300px;
+
+    -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+.items li a:hover {
+    font-size: 30px;
+    background: #f6f6f6;
 }
 
 textarea {

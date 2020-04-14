@@ -28,30 +28,13 @@
                                 (onRedo)="onCanvasRedo($event)"
                                 (onSave)="onCanvasSave($event)">
             </canvas-whiteboard> -->
-            <app-board-object 
+            <app-board-object
+                [usersList] = "users"
                 (back)="goBack()"
                 (sendUpdate)="sendUpdate()"
-                (historySwitch)="historyChanged($event)"
-                (userSwitch)="usersChanged($event)"
-                (onSave)="onCanvasSave()"
                 (onClear)="onCanvasClear()"
                 [(updates)]="updates"
                 ></app-board-object>
         </div>
-        <div [ngClass]="{'removed': !historyTable}" id="history">
-            <h2>History List</h2>
-            <h6>*right click: remove sequence<br>*left click: remove current</h6>
-            <ul>
-                <li *ngFor="let shape of updates; let i=index"><a style="cursor: pointer;" (mouseenter) ="markShapes(i)" (mouseleave)="unmarkShapes(i)" (click)="hideUpdate(i)" (contextmenu)="hideUpdates(i)">{{ shape.shapeName }}</a></li>
-            </ul>
-        </div>
-        
-        <div [ngClass]="{'removed': !usersTable}" id="users">
-            <h2>Online Users</h2>
-            <ul>
-                <li *ngFor="let user of users; let i=index"><a style="cursor: pointer;">{{ user }}</a></li>
-            </ul>
-        </div>
     </div>
-
 </aside>

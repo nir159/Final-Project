@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ViewChild, ElementRef, Output, EventEmitter, Input, OnDestroy, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { ApiService } from '../api.service';
 import { WebsocketService } from './../websocket.service';
 import { Subscription } from 'rxjs';
@@ -9,15 +9,14 @@ import { environment } from '../../environments/environment';
   templateUrl: './board-object.component.html',
   styleUrls: ['./board-object.component.css']
 })
-export class BoardObjectComponent implements OnInit, OnDestroy, OnChanges {
+export class BoardObjectComponent implements OnInit, OnDestroy {
   @Output() back = new EventEmitter();
   @Output() sendUpdate = new EventEmitter();
-  @Output() historySwitch = new EventEmitter<boolean>();
-  @Output() userSwitch = new EventEmitter<boolean>();
   @Output() onSave = new EventEmitter();
   @Output() onClear = new EventEmitter();
   @Output() updatesChange = new EventEmitter();
   @Input() updates = [];
+  @Input() usersList = [];
 
   title = 'board';
   text  = '';
@@ -55,6 +54,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy, OnChanges {
       this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
       this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
       this.updates[this.updates.length-1].unfocus();
+      this.wsService.sendMsg({json_board: this.updates});
     }
   }
   @HostListener('window:resize', ['$event'])
@@ -100,13 +100,6 @@ export class BoardObjectComponent implements OnInit, OnDestroy, OnChanges {
 
     this.updatesChange.emit(this.updates);
     this.animate();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('got item: ', changes);
-    /* if(changes.item.currentValue){
-      //this.scannedUPC = changes.item.currentValue.upc;
-    } */
   }
 
   ngOnDestroy() {
@@ -170,10 +163,38 @@ export class BoardObjectComponent implements OnInit, OnDestroy, OnChanges {
     return false; */
   }
 
+  hideUpdates(index: number) {
+    event.preventDefault();
+    // this.currUpdate = index+1;
+    this.updates = this.updates.slice(0, index);
+    this.wsService.sendMsg({json_board: this.updates});
+  }
+
+  hideUpdate(index: number) {
+    // this.currUpdate = index+1;
+    this.updates.splice(index, 1);
+    this.wsService.sendMsg({json_board: this.updates});
+  }
+
+  markShapes(index) {
+    this.updates[index].markShape();
+  }
+  
+  unmarkShapes(index) {
+    this.updates[index].unmark();
+  }
+
+  usersChanged() {
+    this.users = !this.users;
+  }
+
+  historyChanged() {
+    this.history = !this.history;
+  }
+
   save() {
     this.onSave.emit();
     this.updatesChange.emit(this.updates);
-    this.wsService.sendMsg({json_board: this.updates});
   }
 
   clear() {
@@ -224,8 +245,6 @@ export class BoardObjectComponent implements OnInit, OnDestroy, OnChanges {
     this.shapeChanged('img');
     this.updates.push(newImage);
     newImage.createUrl(file);
-    this.updatesChange.emit(this.updates);
-    this.wsService.sendMsg({json_board: this.updates})
   }
 
   shapeChanged(shape) {
@@ -255,16 +274,6 @@ export class BoardObjectComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  usersChanged() {
-    this.users = !this.users;
-    this.userSwitch.emit(this.users);
-  }
-
-  historyChanged() {
-    this.history = !this.history;
-    this.historySwitch.emit(this.history);
-  }
-
   resetLineWidth() {
     this.lineWidth = 5;
   }
@@ -291,6 +300,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy, OnChanges {
       this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
       this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
       this.updates[this.updates.length-2].unfocus();
+      this.wsService.sendMsg({json_board: this.updates});
     }
   }
 

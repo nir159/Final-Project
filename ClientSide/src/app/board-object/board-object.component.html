@@ -86,4 +86,17 @@
         <a class="checkbox" [ngClass]="{'active': history}" (click)="historyChanged()">History</a>
     </div>
 </div>
+<div [ngClass]="{'removed': !history}" id="history">
+    <h2>History List</h2>
+    <h6>*right click: remove sequence<br>*left click: remove current</h6>
+    <ul class="items">
+        <li *ngFor="let shape of updates; let i=index"><a style="cursor: pointer;" (mouseenter) ="markShapes(i)" (mouseleave)="unmarkShapes(i)" (click)="hideUpdate(i)" (contextmenu)="hideUpdates(i)">{{ shape.shapeName }}</a></li>
+    </ul>
+</div>
+<div [ngClass]="{'removed': !users}" id="users">
+    <h2>Online Users</h2>
+    <ul class="items">
+        <li *ngFor="let user of usersList; let i=index"><a style="cursor: pointer;">{{ user }}</a></li>
+    </ul>
+</div>
 <canvas (contextmenu)="onRightClick($event)" (mousedown)="onCanvas($event)" #canvas></canvas>
