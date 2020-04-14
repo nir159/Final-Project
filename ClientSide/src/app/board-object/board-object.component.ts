@@ -79,9 +79,9 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
         if (this.currUser != JSON.parse(msg).user && JSON.parse(msg).json_board != this.updates) {
           if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
             var last = this.updates[this.updates.length-1];
-            this.updates.pop();
             this.updates = JSON.parse(msg).json_board;
             this.resetShapes();
+            this.updates.splice(this.updates.length-2, 1);
             this.updates.push(last);
           } else {
             this.updates = JSON.parse(msg).json_board;
