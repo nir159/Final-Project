@@ -7,7 +7,7 @@
             <a routerLink="/create-board" class="button" id="add-button"><i class="ion-md-add"></i></a>
         </div>
         <div *ngFor="let board of pages" class="board-block col-3 wow fadeInUp" data-wow-delay="0.8s">
-            <app-board (resetBoards)="resetBoards()" [owner]="owner" [board]="board"></app-board>
+            <app-board (resetBoards)="resetBoards()" [owner]="board.owner.split('@')[0]" [board]="board"></app-board>
         </div>
     </div>
     <div class="row clearfix" *ngIf="pager.totalPages > 1">

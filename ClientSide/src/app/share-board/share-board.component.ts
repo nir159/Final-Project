@@ -30,11 +30,12 @@ export class ShareBoardComponent implements OnInit {
 
   shareBoard(formData) {
     if (formData.email == JSON.parse(localStorage.getItem('currentUser')).email) {
-      // If user is already shared
+      this.error = true;
       return;
-    } else {
-
-    }
+    } /* else {
+      this.error = false;
+      return;
+    } */
     
     let updatedBoard = this.api.getBoard();
     updatedBoard.users = JSON.parse(updatedBoard.users);

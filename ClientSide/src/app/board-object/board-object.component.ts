@@ -34,6 +34,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   currShape = "circle";
   currSrc = "";
   imgDrawn = false;
+  currUser;
 
   subscription: Subscription;
 
@@ -48,6 +49,9 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     const rect = this.canvas.nativeElement.getBoundingClientRect();
     this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
     this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
+    if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
+      this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
+    }
   }
   @HostListener('document:mouseup', ['$event'])
   onMouseUp(e) {
@@ -57,7 +61,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
       this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
       this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
       this.updates[this.updates.length-1].unfocus();
-      this.wsService.sendMsg({json_board: this.updates});
+      this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
     }
   }
   @HostListener('window:resize', ['$event'])
@@ -67,13 +71,21 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   }
 
   constructor(private api: ApiService, private wsService: WebsocketService) {
+    this.currUser = JSON.parse(localStorage.getItem('currentUser')).email;
+
     this.subscription = wsService.createSocket(environment.wsurl + api.getBoard().id + '/')
     .subscribe(
       msg => {
-        if (JSON.parse(msg).json_board != this.updates) {
-          this.updates = JSON.parse(msg).json_board;
-          this.updatesChange.emit(this.updates);
-          this.resetShapes();
+        if (this.currUser != JSON.parse(msg).user && JSON.parse(msg).json_board != this.updates) {
+          if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
+            var last = this.updates[this.updates.length-1];
+            this.updates = JSON.parse(msg).json_board;
+            this.resetShapes();
+            this.updates.push(last);
+          } else {
+            this.updates = JSON.parse(msg).json_board;
+            this.resetShapes();
+          }
         }
       },
       err => console.log(err)
@@ -125,6 +137,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
           this.updates[i] = new FreeHand(this.updates[i].outterColor, this.updates[i].lineWidth, -1, -1, this.updates[i].points, false);
           break;
         case "ImageShape":
+          console.log(this.updates[i].src);
           this.updates[i] = new ImageShape(this.updates[i].x, this.updates[i].y, this.updates[i].imgSize, this.updates[i].src, false);
           break;
         case "Text":
@@ -170,13 +183,13 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     event.preventDefault();
     // this.currUpdate = index+1;
     this.updates = this.updates.slice(0, index);
-    this.wsService.sendMsg({json_board: this.updates});
+    this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
   }
 
   hideUpdate(index: number) {
     // this.currUpdate = index+1;
     this.updates.splice(index, 1);
-    this.wsService.sendMsg({json_board: this.updates});
+    this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
   }
 
   markShapes(index) {
@@ -196,15 +209,15 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    this.onSave.emit();
     this.updatesChange.emit(this.updates);
+    this.onSave.emit();
   }
 
   clear() {
     this.updates = [];
     this.onClear.emit();
     this.updatesChange.emit(this.updates);
-    this.wsService.sendMsg({json_board: this.updates});
+    this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
   }
 
   onCanvas(e) {
@@ -252,12 +265,20 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   handleFileInput(files) {
     this.imgDrawn = false;
     var file = files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = (e) => {
+      this.currSrc = reader.result.toString();
+      var newImage = new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, this.currSrc);
+      this.shapeChanged('img');
+      this.updates.push(newImage);
+      this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
+    };
+
+    /* var file = files[0];
     var url = window.URL;
     var src = url.createObjectURL(file);
-    var newImage = new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, src);
-    this.shapeChanged('img');
-    this.updates.push(newImage);
-    this.currSrc = newImage.createUrl(file);
+    var newImage = new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, src);*/
   }
 
   shapeChanged(shape) {
@@ -313,11 +334,12 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
       this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
       this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
       this.updates[this.updates.length-2].unfocus();
-      this.wsService.sendMsg({json_board: this.updates});
+      this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
     }
   }
 
   goBack() {
+    this.save();
     this.back.emit();
   }
 }
@@ -562,20 +584,12 @@ export class ImageShape {
     }
   }
 
-  createUrl(file) {
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = (e) => {
-      this.img.src = reader.result.toString();
-    };
-    return this.img.src;
-  }
-
   clicked() {
     return true;
   }
   
+  setSrc(src) { this.img.src = src; }
+  getSrc() { return this.img.src; }
   unfocus() { this.focus = false; }
   select() { this.focus = true; }
   isFocused() { return this.focus; }

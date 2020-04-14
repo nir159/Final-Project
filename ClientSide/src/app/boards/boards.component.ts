@@ -16,7 +16,6 @@ export class BoardsComponent implements OnInit {
   pageSize = 6;
   pager: any = {};
   user = JSON.parse(localStorage.getItem('currentUser'));
-  owner = "";
 
   constructor(private api: ApiService, private config: ConfigService, private pagerService: PagerService) { }
 
@@ -35,7 +34,6 @@ export class BoardsComponent implements OnInit {
             this.allItems.push(board);
           }
         });
-        this.owner = JSON.parse(localStorage.getItem('currentUser')).first_name + " " + JSON.parse(localStorage.getItem('currentUser')).last_name;
       },
       error => {
         this.allItems = this.boards.boardslist;
