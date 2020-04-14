@@ -3,6 +3,7 @@ import { Validators, FormGroup, NgForm, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
 import { Location } from '@angular/common';
+import { ConditionalExpr } from '@angular/compiler';
 
 @Component({
   selector: 'app-share-board',
@@ -33,15 +34,12 @@ export class ShareBoardComponent implements OnInit {
     } */
     
     let updatedBoard = this.api.getBoard();
-    if (updatedBoard.users == "") {
-      updatedBoard.users = formData.email;
-    } else {
-      updatedBoard.users += " " + formData.email;
-    }
+    updatedBoard.users = JSON.parse(updatedBoard.users);
+    updatedBoard.users.push(formData.email);
+    updatedBoard.users = JSON.stringify(updatedBoard.users);
 
     this.api.updateBoard(updatedBoard).subscribe(
       data => {
-        this.api.setBoard(updatedBoard);
         this.location.back();
       },
       error => {

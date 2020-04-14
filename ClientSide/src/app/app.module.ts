@@ -34,6 +34,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BoardObjectComponent } from './board-object/board-object.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { ColorCircleModule } from 'ngx-color/circle';
+import { WebsocketService } from './websocket.service';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,7 @@ import { ColorCircleModule } from 'ngx-color/circle';
     ColorPickerModule,
     ColorCircleModule
   ],
-  providers: [ConfigService, PagerService],
+  providers: [ConfigService, PagerService, WebsocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

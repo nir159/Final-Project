@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  baseurl = "http://fb9da4fd.ngrok.io/"; 
+  baseurl = environment.baseurl;
   httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   userLogged = false;
 
@@ -98,6 +99,6 @@ export class ApiService {
 
   updateBoard(updatedBoard) {
     localStorage.setItem('currentBoard', JSON.stringify(updatedBoard));
-    return this.http.put(this.baseurl + 'boards/boards/' + updatedBoard.id + '/', updatedBoard, {headers: this.httpHeaders})
+    return this.http.put(this.baseurl + 'boards/boards/' + updatedBoard.id + '/', updatedBoard, {headers: this.httpHeaders});
   }
 }
