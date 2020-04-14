@@ -205,3 +205,4 @@ speed-measure-plugin*.json
 !**/ClientSide/src
 **/ClientSide/src/*
 !**/ClientSide/src/app
+!**/ClientSide/src/environments
