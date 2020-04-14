@@ -23,3 +23,11 @@ class BoardAPIView(generics.ListCreateAPIView):
     filter_backends = (filters.SearchFilter,)
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
+
+# ---
+
+
+def room(request, room_name):
+    return render(request, 'boards/room.html', {
+        'room_name': room_name
+    })

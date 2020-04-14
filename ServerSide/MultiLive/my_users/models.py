@@ -9,7 +9,7 @@ class MyUser(models.Model):
     last_name = models.CharField(max_length=256)
     email = models.EmailField(max_length=256, primary_key=True)
     pw = models.CharField(max_length=256)
-    boards = models.TextField(max_length=500, default="{}")
+    # boards = models.TextField(max_length=500, default="")
 
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)

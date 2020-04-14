@@ -21,6 +21,15 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)'''
 
 
+class EmailUserViewSet(viewsets.ModelViewSet):
+    queryset = MyUser.objects.all()
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        email = self.kwargs['email']
+        return MyUser.objects.filter(email=email)
+
+
 class UserAPIView(generics.ListCreateAPIView):
     search_fields = ['email']
     filter_backends = (filters.SearchFilter,)
