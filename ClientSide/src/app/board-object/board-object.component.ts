@@ -49,9 +49,9 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     const rect = this.canvas.nativeElement.getBoundingClientRect();
     this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
     this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
-    /* if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
+    if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
       this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
-    } */
+    }
   }
   @HostListener('document:mouseup', ['$event'])
   onMouseUp(e) {
@@ -81,7 +81,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
             var last = this.updates[this.updates.length-1];
             this.updates = JSON.parse(msg).json_board;
             this.resetShapes();
-            this.updates.splice(this.updates.length-2, 1);
+            this.updates.splice(this.updates.length-2, 1); //
             this.updates.push(last);
           } else {
             this.updates = JSON.parse(msg).json_board;
