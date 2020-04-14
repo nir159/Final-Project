@@ -73,6 +73,7 @@ export class EditBoardComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
+    this.saveCanvas();
     this.location.back();
   }
 }

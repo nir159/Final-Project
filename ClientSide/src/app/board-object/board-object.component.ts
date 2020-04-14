@@ -3,6 +3,7 @@ import { ApiService } from '../api.service';
 import { WebsocketService } from './../websocket.service';
 import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-board-object',
@@ -32,6 +33,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   outterColor = "blue";
   currShape = "circle";
   currSrc = "";
+  imgDrawn = false;
 
   subscription: Subscription;
 
@@ -228,7 +230,11 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
         break;
       case "img":
         if (this.currSrc) {
-          this.updates.push(new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, this.currSrc));
+          if (this.imgDrawn) {
+            this.updates.push(new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, this.currSrc));
+          } else {
+            this.imgDrawn = true;
+          }
         }
         break;
       case "move":
@@ -244,6 +250,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   }
 
   handleFileInput(files) {
+    this.imgDrawn = false;
     var file = files[0];
     var url = window.URL;
     var src = url.createObjectURL(file);
