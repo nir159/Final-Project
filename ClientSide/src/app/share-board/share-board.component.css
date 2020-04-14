@@ -123,3 +123,7 @@ button[disabled]{
   color: #666666;
   cursor: default;
 }
+
+.hide-error {
+    display: none;
+}

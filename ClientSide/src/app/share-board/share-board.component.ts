@@ -14,6 +14,7 @@ export class ShareBoardComponent implements OnInit {
 
   shareBoardForm: FormGroup;
   returnUrl: string;
+  error = false;
 
   constructor(private fb: FormBuilder, private router: Router, private location: Location, private api: ApiService) { }
 
@@ -28,10 +29,12 @@ export class ShareBoardComponent implements OnInit {
   get msg() { return this.shareBoardForm.get('msg'); }
 
   shareBoard(formData) {
-    /* if (formData.email == JSON.parse(localStorage.getItem('currentUser')).email) {
-      // If user is already shared 
+    if (formData.email == JSON.parse(localStorage.getItem('currentUser')).email) {
+      // If user is already shared
       return;
-    } */
+    } else {
+
+    }
     
     let updatedBoard = this.api.getBoard();
     updatedBoard.users = JSON.parse(updatedBoard.users);
