@@ -24,10 +24,3 @@ class BoardAPIView(generics.ListCreateAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
 
-# ---
-
-
-def room(request, room_name):
-    return render(request, 'boards/room.html', {
-        'room_name': room_name
-    })

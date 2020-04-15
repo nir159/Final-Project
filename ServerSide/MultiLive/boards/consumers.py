@@ -25,22 +25,25 @@ class BoardConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        board = text_data_json['json_board']
+        board, user = text_data_json['json_board'], text_data_json['user']
 
         # Send message to room group
         await self.channel_layer.group_send(
             self.board_group_name,
             {
                 'type': 'board_msg',
+                'user': user,
                 'json_board': board,
             }
         )
 
     # Receive message from room group
     async def board_msg(self, event):
-        board = event['json_board']
+        board, user = event['json_board'], event['user']
+        print("{}: {}".format(self.board_group_name, user))
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
+            'user': user,
             'json_board': board,
         }))
