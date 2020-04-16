@@ -14,7 +14,8 @@ export class ShareBoardComponent implements OnInit {
 
   shareBoardForm: FormGroup;
   returnUrl: string;
-  error = false;
+  err = false;
+  error = '';
 
   constructor(private fb: FormBuilder, private router: Router, private location: Location, private api: ApiService) { }
 
@@ -30,24 +31,46 @@ export class ShareBoardComponent implements OnInit {
 
   shareBoard(formData) {
     if (formData.email == JSON.parse(localStorage.getItem('currentUser')).email) {
-      this.error = true;
+      this.err = true;
+      this.error = "The email is yours!";
       return;
-    } /* else {
-      this.error = false;
+    } else if (this.api.getBoard().users.includes(formData.email)) {
+      this.err = true;
+      this.error = "User is already in board!";
       return;
-    } */
-    
-    let updatedBoard = this.api.getBoard();
-    updatedBoard.users = JSON.parse(updatedBoard.users);
-    updatedBoard.users.push(formData.email);
-    updatedBoard.users = JSON.stringify(updatedBoard.users);
-
-    this.api.updateBoard(updatedBoard).subscribe(
-      data => {
-        this.location.back();
-      },
-      error => {
-        console.log(error);
-    });
+    }
+    else {
+      this.api.getUser(formData.email).subscribe(
+        data => {
+          console.log(data.length);
+          if(!data.length) {
+            this.error = "User doesn't exist!";
+            this.err = true;
+            return;
+          }
+          else {
+            let updatedBoard = this.api.getBoard();
+            updatedBoard.users = JSON.parse(updatedBoard.users);
+            updatedBoard.users.push(formData.email);
+            updatedBoard.users = JSON.stringify(updatedBoard.users);
+        
+            this.api.updateBoard(updatedBoard).subscribe(
+              data => {
+                this.location.back();
+              },
+              error => {
+                console.log(error);
+                this.err = true;
+                this.error = "Communication error!";
+            });
+          }
+        },
+        error => {
+          this.error = "Server communication error!";
+          this.err = true;
+          console.log(error);
+        }
+      );
+    }
   }
 }

@@ -22,7 +22,7 @@
               <div *ngIf="msg.touched && msg.invalid">Required</div>
             </div>
 
-            <div [ngClass]="{'hide-error': !error}" style="margin: 5px;">error</div>
+            <div [ngClass]="{'hide-error': !err}" style="margin: 5px;">{{error}}</div>
   
             <button type="submit" class="btn btn-block btn-success" [disabled]="!shareBoardForm.valid">Share!</button>
   

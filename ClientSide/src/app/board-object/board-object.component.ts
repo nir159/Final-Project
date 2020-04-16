@@ -49,13 +49,13 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
     this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
     /* if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
-      this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
+      this.wsService.sendMsg({user: this.currUser, message: 'obj:' + JSON.stringify(this.updates[this.updates.length-1]) + ',x:' + this.mouse.x + ',y:' + this.mouse.y});
     } */
   }
   @HostListener('document:mouseup', ['$event'])
   onMouseUp(e) {
     //this.sendUpdate.emit();
-    if(this.updates.length > 0) {
+    if(this.updates.length && this.updates[this.updates.length-1].isFocused()) {
       const rect = this.canvas.nativeElement.getBoundingClientRect();
       this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
       this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
@@ -77,7 +77,16 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     .subscribe(
       msg => {
         if (this.currUser != JSON.parse(msg).user) {
-          if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
+          if (JSON.parse(msg).message.toString().startsWith("clear")) {
+            this.updates = [];
+          }
+          else if (JSON.parse(msg).message.toString().startsWith("hide-update")) {
+            this.updates.splice(JSON.parse(msg).message.toString().split(':')[1], 1);
+          }
+          else if (JSON.parse(msg).message.toString().startsWith("consecutive")) {
+            this.updates = this.updates.slice(0, JSON.parse(msg).message.toString().split(':')[1]);
+          }
+          else if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
             var last = this.updates[this.updates.length-1];
             this.updates.splice(this.updates.length-1, 1);
             this.updates.push(JSON.parse(msg).message);
@@ -150,7 +159,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   }
 
   resetShape(index) {
-    switch (this.updates[index]) {
+    switch (this.updates[index].shapeName) {
       case "Circle":
         this.updates[index] = new Circle(this.updates[index].x, this.updates[index].y, this.updates[index].radius, this.updates[index].outterColor, this.updates[index].innerColor, this.updates[index].lineWidth, false);
         break;
@@ -210,14 +219,14 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     // this.currUpdate = index+1;
     this.updates = this.updates.slice(0, index);
     this.save();
-    this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
+    this.wsService.sendMsg({user: this.currUser, message: 'consecutive:' + index.toString()});
   }
 
   hideUpdate(index: number) {
     // this.currUpdate = index+1;
     this.updates.splice(index, 1);
     this.save();
-    this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
+    this.wsService.sendMsg({user: this.currUser, message: 'hide-update:' + index.toString()});
   }
 
   markShapes(index) {
@@ -246,7 +255,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     this.onClear.emit();
     this.updatesChange.emit(this.updates);
     this.save();
-    this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
+    this.wsService.sendMsg({user: this.currUser, message: 'clear'});
   }
 
   onCanvas(e) {
@@ -301,7 +310,6 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
       var newImage = new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, this.currSrc);
       this.shapeChanged('img');
       this.updates.push(newImage);
-      this.save();
       this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
     };
 
