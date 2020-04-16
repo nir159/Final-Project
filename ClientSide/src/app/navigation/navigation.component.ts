@@ -16,7 +16,7 @@ export class NavigationComponent implements OnInit {
     }
   }
 
-  constructor(private api: ApiService, private elementRef:ElementRef) { }
+  constructor(public api: ApiService, private elementRef:ElementRef) { }
 
   ngOnInit() { 
 
