@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../api.service';
 import { ConfigService } from '../config.service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+
 import { RenameBoardComponent } from '../rename-board/rename-board.component';
 
 @Component({
@@ -18,7 +19,7 @@ export class BoardComponent implements OnInit {
   constructor(private api: ApiService, private config: ConfigService, public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.notOwner = JSON.parse(localStorage.getItem('currentUser')).email.split('@')[0] != this.owner;
+    this.notOwner = false;//JSON.parse(localStorage.getItem('currentUser')).email.split('@')[0] != this.owner;
 
     this.api.getBoardById(this.board.id).subscribe(
       data => {

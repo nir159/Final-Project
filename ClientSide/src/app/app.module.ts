@@ -37,6 +37,7 @@ import { ColorCircleModule } from 'ngx-color/circle';
 import { WebsocketService } from './websocket.service';
 import { RenameBoardComponent } from './rename-board/rename-board.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     FontAwesomeModule,
     ColorPickerModule,
     ColorCircleModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    MatDialogModule
+  ],
+  entryComponents: [
+    RenameBoardComponent
   ],
   providers: [ConfigService, PagerService, WebsocketService],
   bootstrap: [AppComponent]
