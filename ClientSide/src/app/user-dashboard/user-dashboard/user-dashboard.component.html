@@ -21,6 +21,11 @@
                         <div class="pricing">
                             <p>{{ user.email }}</p>
                         </div>
+                        <label>first name: </label>
+                        <input (change)="firstChanged($event)" type="text"/>
+                        <label>last name: </label>
+                        <input (change)="lastChanged($event)" type="text"/>
+                        <a (click)="update()" class="button">update</a>
                     </div>
                 </div>
             </div>

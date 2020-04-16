@@ -3,7 +3,6 @@ import { ApiService } from '../api.service';
 import { WebsocketService } from './../websocket.service';
 import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-board-object',
@@ -50,7 +49,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
     this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
     /* if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
-      this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
+      this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
     } */
   }
   @HostListener('document:mouseup', ['$event'])
@@ -61,7 +60,8 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
       this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
       this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
       this.updates[this.updates.length-1].unfocus();
-      this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
+      this.save();
+      this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
     }
   }
   @HostListener('window:resize', ['$event'])
@@ -76,15 +76,16 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     this.subscription = wsService.createSocket(environment.wsurl + api.getBoard().id + '/')
     .subscribe(
       msg => {
-        if (this.currUser != JSON.parse(msg).user && JSON.parse(msg).json_board != this.updates) {
+        if (this.currUser != JSON.parse(msg).user) {
           if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
             var last = this.updates[this.updates.length-1];
-            this.updates = JSON.parse(msg).json_board;
-            this.resetShapes();
+            this.updates.splice(this.updates.length-1, 1);
+            this.updates.push(JSON.parse(msg).message);
+            this.resetShape(this.updates.length-1);
             this.updates.push(last);
           } else {
-            this.updates = JSON.parse(msg).json_board;
-            this.resetShapes();
+            this.updates.push(JSON.parse(msg).message);
+            this.resetShape(this.updates.length-1);
           }
         }
       },
@@ -119,6 +120,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.save();
   }
 
   resetShapes() {
@@ -144,6 +146,30 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
           this.updates[i] = new Text(this.updates[i].x, this.updates[i].y, this.updates[i].outterColor, this.updates[i].text, this.updates[i].lineWidth, this.updates[i].italic, this.updates[i].font, this.updates[i].innerColor, this.updates[i].textAlign, false, this.updates[i].lines);
           break;
       }
+    }
+  }
+
+  resetShape(index) {
+    switch (this.updates[index]) {
+      case "Circle":
+        this.updates[index] = new Circle(this.updates[index].x, this.updates[index].y, this.updates[index].radius, this.updates[index].outterColor, this.updates[index].innerColor, this.updates[index].lineWidth, false);
+        break;
+      case "Rectangle":
+        this.updates[index] = new Rectangle(this.updates[index].x, this.updates[index].y, this.updates[index].width, this.updates[index].height, this.updates[index].outterColor, this.updates[index].innerColor, this.updates[index].lineWidth, false);
+        break;
+      case "Line":
+        this.updates[index] = new Line(new Point(this.updates[index].firstPoint.x, this.updates[index].firstPoint.y), new Point(this.updates[index].secondPoint.x, this.updates[index].secondPoint.y), this.updates[index].outterColor, this.updates[index].lineWidth, "round", "round", false);
+        break;
+      case "FreeHand":
+        this.updates[index] = new FreeHand(this.updates[index].outterColor, this.updates[index].lineWidth, -1, -1, this.updates[index].points, false);
+        break;
+      case "ImageShape":
+        console.log(this.updates[index].src);
+        this.updates[index] = new ImageShape(this.updates[index].x, this.updates[index].y, this.updates[index].imgSize, this.updates[index].src, false);
+        break;
+      case "Text":
+        this.updates[index] = new Text(this.updates[index].x, this.updates[index].y, this.updates[index].outterColor, this.updates[index].text, this.updates[index].lineWidth, this.updates[index].italic, this.updates[index].font, this.updates[index].innerColor, this.updates[index].textAlign, false, this.updates[index].lines);
+        break;
     }
   }
 
@@ -183,13 +209,15 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     event.preventDefault();
     // this.currUpdate = index+1;
     this.updates = this.updates.slice(0, index);
-    this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
+    this.save();
+    this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
   }
 
   hideUpdate(index: number) {
     // this.currUpdate = index+1;
     this.updates.splice(index, 1);
-    this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
+    this.save();
+    this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
   }
 
   markShapes(index) {
@@ -217,7 +245,8 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     this.updates = [];
     this.onClear.emit();
     this.updatesChange.emit(this.updates);
-    this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
+    this.save();
+    this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
   }
 
   onCanvas(e) {
@@ -272,7 +301,8 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
       var newImage = new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, this.currSrc);
       this.shapeChanged('img');
       this.updates.push(newImage);
-      this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
+      this.save();
+      this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
     };
 
     /* var file = files[0];
@@ -334,7 +364,8 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
       this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
       this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
       this.updates[this.updates.length-2].unfocus();
-      this.wsService.sendMsg({user: this.currUser, json_board: this.updates});
+      this.save();
+      this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
     }
   }
 

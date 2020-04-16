@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseurl: "http://bb3238d1.ngrok.io/",
-  wsurl: "ws://bb3238d1.ngrok.io/ws/boards/chat/"
+  baseurl: "http://91b067d5.ngrok.io/",
+  wsurl: "ws://91b067d5.ngrok.io/ws/boards/chat/"
 };
 
 /*

@@ -47,7 +47,6 @@ export class ApiService {
   }
 
   updateUser(user) {
-    let board = this.getBoard();
     const newUser = {first_name: user.first_name, last_name: user.last_name, email: user.email, pw: user.pw, boards: user.boards};
     return this.http.put(this.baseurl + 'my_users/_user/' + user.email + '/', newUser, {headers: this.httpHeaders})
   }
