@@ -42,7 +42,6 @@ export class ShareBoardComponent implements OnInit {
     else {
       this.api.getUser(formData.email).subscribe(
         data => {
-          console.log(data.length);
           if(!data.length) {
             this.error = "User doesn't exist!";
             this.err = true;

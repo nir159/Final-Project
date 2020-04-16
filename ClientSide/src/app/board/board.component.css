@@ -66,3 +66,17 @@
   line-height:auto;
   margin:0;
 }
+
+.edit-icon {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 5px;
+  margin: 0px;
+  position: absolute;
+  top: 40px;
+  right: 10px;
+}
+
+.invisible {
+  display: none;
+}

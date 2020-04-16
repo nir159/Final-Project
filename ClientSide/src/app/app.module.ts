@@ -35,6 +35,8 @@ import { BoardObjectComponent } from './board-object/board-object.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { ColorCircleModule } from 'ngx-color/circle';
 import { WebsocketService } from './websocket.service';
+import { RenameBoardComponent } from './rename-board/rename-board.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ import { WebsocketService } from './websocket.service';
     ContactusComponent,
     CreateBoardComponent,
     ShareBoardComponent,
-    BoardObjectComponent
+    BoardObjectComponent,
+    RenameBoardComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +74,8 @@ import { WebsocketService } from './websocket.service';
     RouterModule,
     FontAwesomeModule,
     ColorPickerModule,
-    ColorCircleModule
+    ColorCircleModule,
+    NoopAnimationsModule
   ],
   providers: [ConfigService, PagerService, WebsocketService],
   bootstrap: [AppComponent]
