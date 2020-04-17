@@ -38,6 +38,8 @@ import { WebsocketService } from './websocket.service';
 import { RenameBoardComponent } from './rename-board/rename-board.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,13 @@ import { MatDialogModule } from '@angular/material/dialog';
     ColorPickerModule,
     ColorCircleModule,
     NoopAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
+  ],
+  exports: [
+    MatFormFieldModule,
+    MatInputModule
   ],
   entryComponents: [
     RenameBoardComponent

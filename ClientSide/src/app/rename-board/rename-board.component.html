@@ -1,12 +1,15 @@
-<h1 mat-dialog-title>Rename board {{board.name}}</h1>
-<div mat-dialog-content>
-  <p>What's your favorite animal?</p>
+<h1>Edit Board: <span class="mark">{{ name }}</span></h1>
+<div>
   <mat-form-field>
-    <mat-label>Favorite Animal</mat-label>
-    <input matInput [(ngModel)]="data.animal">
+    <mat-label>Name: </mat-label>
+    <input matInput [(ngModel)]="name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description: </mat-label>
+    <input matInput [(ngModel)]="desc">
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+<div>
+  <button class="button fit left" (click)="onNoClick()">Cancel</button>
+  <button class="button fit" [mat-dialog-close]="{name: name, desc: desc}" cdkFocusInitial>Apply</button>
 </div>

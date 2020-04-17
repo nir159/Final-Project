@@ -49,13 +49,25 @@ export class BoardComponent implements OnInit {
 
   openRename() {
     let dialogRef = this.dialog.open(RenameBoardComponent, {
-      width: '250px',
-      data: {name: this.board}
+      width: '400px',
+      height: '340px',
+      data: {board: this.board}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Time to rename if name was choosen');
-      ;
+      if (result && result.name && result.desc) {
+        if (result.name != this.board.name || result.desc != this.board.desc) {
+          this.board.name = result.name;
+          this.board.desc = result.desc;
+          this.api.updateBoard(this.board).subscribe(
+            data => {
+              this.resetBoards.emit();
+            },
+            error => {
+              console.log(error);
+          });
+        }
+      }
     });
   }
 }

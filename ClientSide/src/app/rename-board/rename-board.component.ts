@@ -8,7 +8,14 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 })
 export class RenameBoardComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<RenameBoardComponent>, @Inject(MAT_DIALOG_DATA) public board: any) { }
+  name = "";
+  desc = "";
+
+  constructor(public dialogRef: MatDialogRef<RenameBoardComponent>, @Inject(MAT_DIALOG_DATA) public board: any) {
+    board = board.board;
+    this.name = board.name;
+    this.desc = board.desc;
+  }
 
   ngOnInit() {
     

@@ -48,9 +48,9 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     const rect = this.canvas.nativeElement.getBoundingClientRect();
     this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
     this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
-    /* if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
-      this.wsService.sendMsg({user: this.currUser, message: 'obj:' + JSON.stringify(this.updates[this.updates.length-1]) + ',x:' + this.mouse.x + ',y:' + this.mouse.y});
-    } */
+    if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
+      this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
+    }
   }
   @HostListener('document:mouseup', ['$event'])
   onMouseUp(e) {
@@ -89,17 +89,25 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
           else if (this.updates.length && this.updates[this.updates.length-1].isFocused()) {
             var last = this.updates[this.updates.length-1];
             this.updates.splice(this.updates.length-1, 1);
-            this.updates.push(JSON.parse(msg).message);
-            this.resetShape(this.updates.length-1);
+            this.pushUpdate(msg);
             this.updates.push(last);
           } else {
-            this.updates.push(JSON.parse(msg).message);
-            this.resetShape(this.updates.length-1);
+            this.pushUpdate(msg);
           }
         }
       },
       err => console.log(err)
     )
+  }
+
+  pushUpdate(newUpdate) {
+    this.updates.forEach(function(update, index) {
+      if (update.id() == JSON.parse(newUpdate).message.id) {
+        this.updates.splice(index, 1);
+      }
+    });
+    this.updates.push(JSON.parse(newUpdate).message);
+    this.resetShape(this.updates.length-1);
   }
 
   ngOnInit() {
@@ -396,7 +404,7 @@ export class Point {
 
 export class Circle { // new Circle(this.x, this.y, this.radius, this.outsideColor, this.outterColor, this.lineWidth)
 
-  constructor(private x, private y, private radius, private outterColor, private innerColor, private lineWidth, private focus = true, private shapeName = "Circle", private mark = false) { }
+  constructor(private x, private y, private radius, private outterColor, private innerColor, private lineWidth, private focus = true, private shapeName = "Circle", private mark = false, private uniqueId = Date.now()) { }
 
   draw(ctx) {
     ctx.beginPath();
@@ -437,11 +445,12 @@ export class Circle { // new Circle(this.x, this.y, this.radius, this.outsideCol
   markShape() { this.mark = true; }
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
+  id() { return this.uniqueId; }
 }
 
 export class Rectangle { // new Rectangle(this.mouse.x, this.mouse.y, 1, 1, this.outterColor, this.innerColor, this.lineWidth)
 
-  constructor(private x, private y, private width, private height, private outterColor, private innerColor, private lineWidth, private focus = true, private shapeName = "Rectangle", private mark = false) { }
+  constructor(private x, private y, private width, private height, private outterColor, private innerColor, private lineWidth, private focus = true, private shapeName = "Rectangle", private mark = false,  private uniqueId = Date.now()) { }
 
   draw(ctx) {
     ctx.beginPath();
@@ -488,11 +497,12 @@ export class Rectangle { // new Rectangle(this.mouse.x, this.mouse.y, 1, 1, this
   markShape() { this.mark = true; }
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
+  id() { return this.uniqueId; }
 }
 
 export class Line { // new Line(new Point(this.mouse.x, this.mouse.y), new Point(this.mouse.x+1, this.mouse.y+1), this.outterColor, this.lineWidth)
 
-  constructor(private firstPoint, private secondPoint, private outterColor, private lineWidth, private lineJoin = "mitter", private lineCap = "butt", private focus = true, private shapeName = "Line", private mark = false) { }
+  constructor(private firstPoint, private secondPoint, private outterColor, private lineWidth, private lineJoin = "mitter", private lineCap = "butt", private focus = true, private shapeName = "Line", private mark = false, private uniqueId = Date.now()) { }
 
   draw(ctx) {
     ctx.beginPath();
@@ -533,11 +543,12 @@ export class Line { // new Line(new Point(this.mouse.x, this.mouse.y), new Point
   markShape() { this.mark = true; }
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
+  id() { return this.uniqueId; }
 }
 
 export class FreeHand { // new FreeHand(this.outterColor, this.lineWidth, this.mouse.x, this.mouse.y)
 
-  constructor(private outterColor, private lineWidth, x, y, private points = [], private focus = true,  private shapeName = "FreeHand", private mark = false) {
+  constructor(private outterColor, private lineWidth, x, y, private points = [], private focus = true,  private shapeName = "FreeHand", private mark = false, private uniqueId = Date.now()) {
     if (points.length == 0) {
       this.points.push(x, y);
     } else {
@@ -593,12 +604,13 @@ export class FreeHand { // new FreeHand(this.outterColor, this.lineWidth, this.m
   markShape() { this.mark = true; }
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
+  id() { return this.uniqueId; }
 }
 
 export class ImageShape {
   img = new Image();
   
-  constructor(private x, private y, private imgSize, private src, private focus = true, private shapeName = "ImageShape", private mark = false) {
+  constructor(private x, private y, private imgSize, private src, private focus = true, private shapeName = "ImageShape", private mark = false, private uniqueId = Date.now()) {
     this.img.src = src;
   }
 
@@ -635,11 +647,12 @@ export class ImageShape {
   markShape() { this.mark = true; }
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
+  id() { return this.uniqueId; }
 }
 
 export class Text {
   
-  constructor(private x, private y, private outterColor = "black", text = "Hello!", private lineWidth = 18, private italic = false, private font = "Arial", private innerColor = "rgba(255,255,255,0)", private textAlign = "center", private focus = true, private lines = [], private shapeName = "Text", private mark = false) {
+  constructor(private x, private y, private outterColor = "black", text = "Hello!", private lineWidth = 18, private italic = false, private font = "Arial", private innerColor = "rgba(255,255,255,0)", private textAlign = "center", private focus = true, private lines = [], private shapeName = "Text", private mark = false, private uniqueId = Date.now()) {
     if (lines.length == 0) {
       this.lines = text.split('\n');
       if (text == "") {
@@ -709,4 +722,5 @@ export class Text {
   markShape() { this.mark = true; }
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
+  id() { return this.uniqueId; }
 }
