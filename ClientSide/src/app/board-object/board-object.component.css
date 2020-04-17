@@ -52,7 +52,7 @@ input[type=number] {
 .dropdown-content {
     display: none;
     position: absolute;
-    top: 53px;
+    top: 50px;
     left: 67px;
     background-color: #333;
 }
@@ -63,7 +63,7 @@ input[type=number] {
 }
 
 .load-image-dropdown {
-    left: 231px;
+    left: 224px;
 }
 
 .angle-dropdown {
@@ -71,7 +71,7 @@ input[type=number] {
 }
 
 .shape-dropdown {
-    left: 352px;
+    left: 343px;
 }
 
 input[type=file] {
@@ -79,23 +79,23 @@ input[type=file] {
 }
 
 .line-width-dropdown {
-    left: 431px;
+    left: 420px;
 }
 
 .inner-color-dropdown {
     width: 400px;
     height: 400px;
-    left: 546px;
+    left: 529px;
 }
 
 .outter-color-dropdown {
     width: 400px;
     height: 400px;
-    left: 662px;
+    left: 639px;
 }
 
 .text-dropdown {
-    left: 655px;
+    left: 630px;
     width: 350px;
     height: 350px;
 }
