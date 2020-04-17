@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'channels',
     'my_users',
     'boards',
-    'users_in_board',
 ]
 
 MIDDLEWARE = [
