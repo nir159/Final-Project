@@ -19,7 +19,7 @@ export class BoardComponent implements OnInit {
   constructor(private api: ApiService, private config: ConfigService, public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.notOwner = false;//JSON.parse(localStorage.getItem('currentUser')).email.split('@')[0] != this.owner;
+    this.notOwner = JSON.parse(localStorage.getItem('currentUser')).email.split('@')[0] != this.owner;
 
     this.api.getBoardById(this.board.id).subscribe(
       data => {

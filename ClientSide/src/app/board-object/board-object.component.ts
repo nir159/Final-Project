@@ -101,13 +101,15 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   }
 
   pushUpdate(newUpdate) {
-    this.updates.forEach(function(update, index) {
-      if (update.id() == JSON.parse(newUpdate).message.id) {
-        this.updates.splice(index, 1);
+    for (let i = this.updates.length-1; i >= 0; i--) {
+      if (this.updates[i].id() == JSON.parse(newUpdate).message.uniqueId) {
+        this.updates.splice(i, 1);
+        break;
       }
-    });
+    }
     this.updates.push(JSON.parse(newUpdate).message);
     this.resetShape(this.updates.length-1);
+    this.updates[this.updates.length-1].setId(JSON.parse(newUpdate).message.uniqueId);
   }
 
   ngOnInit() {
@@ -446,6 +448,7 @@ export class Circle { // new Circle(this.x, this.y, this.radius, this.outsideCol
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
   id() { return this.uniqueId; }
+  setId(id) { this.uniqueId = id; }
 }
 
 export class Rectangle { // new Rectangle(this.mouse.x, this.mouse.y, 1, 1, this.outterColor, this.innerColor, this.lineWidth)
@@ -498,6 +501,7 @@ export class Rectangle { // new Rectangle(this.mouse.x, this.mouse.y, 1, 1, this
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
   id() { return this.uniqueId; }
+  setId(id) { this.uniqueId = id; }
 }
 
 export class Line { // new Line(new Point(this.mouse.x, this.mouse.y), new Point(this.mouse.x+1, this.mouse.y+1), this.outterColor, this.lineWidth)
@@ -544,6 +548,7 @@ export class Line { // new Line(new Point(this.mouse.x, this.mouse.y), new Point
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
   id() { return this.uniqueId; }
+  setId(id) { this.uniqueId = id; }
 }
 
 export class FreeHand { // new FreeHand(this.outterColor, this.lineWidth, this.mouse.x, this.mouse.y)
@@ -605,6 +610,7 @@ export class FreeHand { // new FreeHand(this.outterColor, this.lineWidth, this.m
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
   id() { return this.uniqueId; }
+  setId(id) { this.uniqueId = id; }
 }
 
 export class ImageShape {
@@ -648,6 +654,7 @@ export class ImageShape {
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
   id() { return this.uniqueId; }
+  setId(id) { this.uniqueId = id; }
 }
 
 export class Text {
@@ -723,4 +730,5 @@ export class Text {
   unmark() { this.mark = false; }
   isMarked() { return this.mark; }
   id() { return this.uniqueId; }
+  setId(id) { this.uniqueId = id; }
 }
