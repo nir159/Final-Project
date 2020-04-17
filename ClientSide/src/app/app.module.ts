@@ -40,6 +40,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { RenameUserComponent } from './rename-user/rename-user.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     CreateBoardComponent,
     ShareBoardComponent,
     BoardObjectComponent,
-    RenameBoardComponent
+    RenameBoardComponent,
+    RenameUserComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +90,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatInputModule
   ],
   entryComponents: [
-    RenameBoardComponent
+    RenameBoardComponent,
+    RenameUserComponent
   ],
   providers: [ConfigService, PagerService, WebsocketService],
   bootstrap: [AppComponent]

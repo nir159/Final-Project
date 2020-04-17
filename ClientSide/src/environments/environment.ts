@@ -16,3 +16,13 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+
+/*
+server:
+http://2ee43e7e.ngrok.io/
+ws://2ee43e7e.ngrok.io/ws/boards/chat/
+
+local:
+http://127.0.0.1:8000/
+ws://127.0.0.1:8000/ws/boards/chat/
+*/

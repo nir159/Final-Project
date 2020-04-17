@@ -3,6 +3,9 @@ import { ConfigService } from '../config.service';
 import { PagerService } from '../pager.service';
 import { ApiService } from '../api.service';
 import { JsonPipe } from '@angular/common';
+import { WebsocketService } from '../websocket.service';
+import { Subscription } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-boards',
@@ -16,12 +19,26 @@ export class BoardsComponent implements OnInit {
   pageSize = 6;
   pager: any = {};
   user = JSON.parse(localStorage.getItem('currentUser'));
+  subscription: Subscription;
 
-  constructor(private api: ApiService, private config: ConfigService, private pagerService: PagerService) { }
+  constructor(private api: ApiService, private config: ConfigService, private pagerService: PagerService, private wsService: WebsocketService) { 
+    /* this.subscription = wsService.createSocket(environment.wsurl + 'lobby' + '/')
+    .subscribe(
+      msg => {
+        //popup-msg reload remove-notification
+      },
+      err => console.log(err)
+    ) */
+  }
 
   ngOnInit() {
     this.boards = this.config.getConfig().boards;
     this.resetBoards();
+    //check notifications
+  }
+
+  boardShared() {
+    this.wsService.sendMsg({user: JSON.parse(localStorage.getItem('currentUser')).email, message: 'name:,msg:'});
   }
 
   resetBoards() {

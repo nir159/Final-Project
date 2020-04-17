@@ -3,6 +3,8 @@ import { ApiService } from '../api.service';
 import { WebsocketService } from './../websocket.service';
 import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
+import {timer} from 'rxjs';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-board-object',
@@ -16,8 +18,8 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   @Output() onClear = new EventEmitter();
   @Output() updatesChange = new EventEmitter();
   @Input() updates = [];
-  @Input() usersList = [];
 
+  usersList = [];
   title = 'board';
   text  = '';
   italic = false;
@@ -77,8 +79,24 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     .subscribe(
       msg => {
         if (this.currUser != JSON.parse(msg).user) {
-          if (JSON.parse(msg).message.toString().startsWith("clear")) {
-            this.updates = [];
+          if (JSON.parse(msg).message.toString().startsWith("joined")) {
+            const index = this.usersList.indexOf(JSON.parse(msg).user);
+            if (index == -1) {
+              this.usersList.push(JSON.parse(msg).user);
+            }
+            this.wsService.sendMsg({user: this.currUser, message: 'welcome'});
+          }
+          else if (JSON.parse(msg).message.toString().startsWith("welcome")) {
+            const index = this.usersList.indexOf(JSON.parse(msg).user);
+            if (index == -1) {
+              this.usersList.push(JSON.parse(msg).user);
+            }
+          }
+          else if (JSON.parse(msg).message.toString().startsWith("left")) {
+            const index = this.usersList.indexOf(JSON.parse(msg).user);
+            if (index > -1) {
+              this.usersList.splice(index, 1);
+            }
           }
           else if (JSON.parse(msg).message.toString().startsWith("hide-update")) {
             this.updates.splice(JSON.parse(msg).message.toString().split(':')[1], 1);
@@ -133,11 +151,19 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
       });
     }, 20000); */
 
+
+    timer(1000, 1000).pipe(
+      take(1)).subscribe(x=>{
+        this.usersList.push(this.currUser);
+        this.wsService.sendMsg({user: this.currUser, message: 'joined'});
+    })
+
     this.updatesChange.emit(this.updates);
     this.animate();
   }
 
   ngOnDestroy() {
+    this.wsService.sendMsg({user: this.currUser, message: 'left'});
     this.subscription.unsubscribe();
     this.save();
   }

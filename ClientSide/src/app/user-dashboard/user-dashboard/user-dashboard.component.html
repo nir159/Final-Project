@@ -17,15 +17,10 @@
             <div class="panel">
                 <div class="panel-body">
                     <div class="pricing-block-content">
-                        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                        <h3>{{ user.first_name }} {{ user.last_name }}</h3><a (click)="openRename()" class="edit-icon"><i class="ion-md-create"></i></a>
                         <div class="pricing">
                             <p>{{ user.email }}</p>
                         </div>
-                        <label>first name: </label>
-                        <input (change)="firstChanged($event)" type="text"/>
-                        <label>last name: </label>
-                        <input (change)="lastChanged($event)" type="text"/>
-                        <a (click)="update()" class="button">update</a>
                     </div>
                 </div>
             </div>

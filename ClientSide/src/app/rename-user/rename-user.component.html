@@ -1,0 +1,15 @@
+<h1>Edit Name: </h1>
+<div>
+  <mat-form-field>
+    <mat-label>First Name: </mat-label>
+    <input matInput [(ngModel)]="first">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Last Name: </mat-label>
+    <input matInput [(ngModel)]="last">
+  </mat-form-field>
+</div>
+<div>
+  <button class="button fit left" (click)="onNoClick()">Cancel</button>
+  <button class="button fit" [mat-dialog-close]="{first: first, last: last}" cdkFocusInitial>Apply</button>
+</div>
