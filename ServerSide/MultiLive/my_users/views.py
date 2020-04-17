@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, mixins
 from .serializers import UserSerializer#, UserMiniSerializer
 from .models import MyUser
 from rest_framework.response import Response
@@ -21,15 +21,6 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)'''
 
 
-class EmailUserViewSet(viewsets.ModelViewSet):
-    queryset = MyUser.objects.all()
-    serializer_class = UserSerializer
-
-    def get_queryset(self):
-        email = self.kwargs['email']
-        return MyUser.objects.filter(email=email)
-
-
 class UserAPIView(generics.ListCreateAPIView):
     search_fields = ['email']
     filter_backends = (filters.SearchFilter,)
@@ -37,3 +28,6 @@ class UserAPIView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
+class EmailUserDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MyUser.objects.all()
+    serializer_class = UserSerializer
