@@ -21,7 +21,7 @@ export class ApiService {
     if (localStorage.getItem('currentUser')) {
       return JSON.parse(localStorage.getItem('currentUser')).profile_picture;
     } else {
-      return "http://9815b11c.ngrok.io/media/default.png";
+      return "../assets/images/user-images/default-user.jpg";
     }
   }
 
@@ -66,7 +66,8 @@ export class ApiService {
   }
 
   updateUser(user) {
-    return this.http.put(this.baseurl + 'my_users/_user/' + user.email + '/', user, {headers: this.httpHeaders})
+    var updated = {first_name: user.first_name, last_name: user.last_name, email: user.email, pw: user.pw, notifications: user.notifications};
+    return this.http.put(this.baseurl + 'my_users/_user/' + updated.email + '/', updated, {headers: this.httpHeaders})
   }
 
   removeUser(user) {
@@ -77,6 +78,21 @@ export class ApiService {
 
   setBoard(board) {
     localStorage.setItem('currentBoard', JSON.stringify(board));
+  }
+
+  boardPicture(board, file) {
+    const uploadData = new FormData();
+    uploadData.append('id', board.id);
+    uploadData.append('name', board.name);
+    uploadData.append('owner', board.owner);
+    uploadData.append('desc', board.desc);
+    uploadData.append('users', board.users);
+    uploadData.append('permissions', board.permissions);
+    uploadData.append('creation_time', board.creation_time);
+    uploadData.append('last_opened', board.last_opened);
+    uploadData.append('json_board', board.json_board);
+    uploadData.append('thumbnail_picture', file, file.name);
+    return this.http.put(this.baseurl + 'boards/boards/' + board.id + '/', uploadData);
   }
 
   getBoard() {
@@ -108,7 +124,8 @@ export class ApiService {
   }
 
   updateBoard(updatedBoard) {
+    var newBoard = {id: updatedBoard.id, name: updatedBoard.name, owner: updatedBoard.owner, desc: updatedBoard.desc, users: updatedBoard.users, permissions: updatedBoard.permissions, creation_time: updatedBoard.creation_time, last_opened: updatedBoard.last_opened, json_board: updatedBoard.json_board};
     localStorage.setItem('currentBoard', JSON.stringify(updatedBoard));
-    return this.http.put(this.baseurl + 'boards/boards/' + updatedBoard.id + '/', updatedBoard, {headers: this.httpHeaders});
+    return this.http.put(this.baseurl + 'boards/boards/' + updatedBoard.id + '/', newBoard, {headers: this.httpHeaders});
   }
 }

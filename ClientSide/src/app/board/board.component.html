@@ -2,7 +2,8 @@
     <h3>{{ board.name }}</h3><a [ngClass]="{'invisible':notOwner}" (click)="openRename()" class="edit-icon"><i class="ion-md-create"></i></a>
     <p class="board-sub">owner: {{ owner }}, last opened: {{ board.last_opened | date:'dd.MM.yyyy' }}</p>
     <div class="board-image">
-        <img [src]="image" alt="{{ board.name }}">
+        <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+        <img (click)="fileInput.click()" class="img" style="height: 100%; width: 100%;" [src]="board.thumbnail_picture" alt="{{ board.name }}">
     </div>
     <ul>
         {{ board.desc }}

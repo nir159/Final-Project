@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../api.service';
 import { ConfigService } from '../config.service';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from '../../environments/environment';
 
 import { RenameBoardComponent } from '../rename-board/rename-board.component';
 
@@ -17,19 +18,27 @@ export class BoardComponent implements OnInit {
   @Output() onUser = new EventEmitter();
   @Input() owner: any;
   notOwner = true;
-  image;
 
   constructor(private api: ApiService, private config: ConfigService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.notOwner = JSON.parse(localStorage.getItem('currentUser')).email.split('@')[0] != this.owner;
-    this.image = JSON.parse(localStorage.getItem('currentUser')).profile_picture;
     this.api.getBoardById(this.board.id).subscribe(
       data => {
         this.board = data;
       },
       error => {
         console.log(error);
+    });
+  }
+
+  onFileChanged(event) {
+    this.api.boardPicture(this.board, event.target.files[0]).subscribe(event => {
+      localStorage.setItem('currentBoard', JSON.stringify(event));
+      this.resetBoards.emit();
+    },
+    error => {
+      console.log(error);
     });
   }
   

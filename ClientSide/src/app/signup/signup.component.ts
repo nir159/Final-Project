@@ -49,7 +49,6 @@ export class SignupComponent implements OnInit {
       data => {
         this.api.getUser(formData.email).subscribe(
           data => {
-            
             localStorage.setItem('currentUser', JSON.stringify(data[0]));
             this.api.userLoggedIn();
             this.router.navigate([this.returnUrl]);
