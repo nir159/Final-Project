@@ -12,5 +12,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework_boards')),
     path('get_boards/', views.BoardAPIView.as_view()),
+    path('board_img/', views.BoardThumbPictureCreate.as_view()),
 
 ]

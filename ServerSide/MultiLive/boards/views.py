@@ -1,4 +1,4 @@
-from rest_framework import viewsets, generics, filters
+from rest_framework import viewsets, generics, filters, status
 from .serializers import BoardSerializer, BoardMiniSerializer
 from .models import Board
 from rest_framework.response import Response
@@ -21,3 +21,19 @@ class BoardAPIView(generics.ListCreateAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
 
+
+class BoardThumbPictureCreate(generics.CreateAPIView):
+
+    serializer_class = BoardSerializer
+
+    def post(self, request):
+
+        serializer = BoardSerializer(data=request.data)
+        if serializer.is_valid():
+
+            # Save request image in the database
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

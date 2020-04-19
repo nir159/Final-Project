@@ -41,10 +41,10 @@ class BoardConsumer(AsyncWebsocketConsumer):
     async def board_msg(self, event):
         msg, user = event['message'], event['user']
 
+        # print("{}: {}".format(self.board_group_name, user))
+
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'user': user,
             'message': msg,
         }))
-
-        print("{}: {}".format(self.board_group_name, user))

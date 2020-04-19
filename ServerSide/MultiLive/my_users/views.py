@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from .serializers import UserSerializer#, UserMiniSerializer
 from .models import MyUser
 from rest_framework.response import Response
@@ -27,3 +27,20 @@ class UserAPIView(generics.ListCreateAPIView):
 class EmailUserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = MyUser.objects.all()
     serializer_class = UserSerializer
+
+
+class UserProfilePictureCreate(generics.CreateAPIView):
+
+    serializer_class = UserSerializer
+
+    def post(self, request):
+
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+
+            # Save request image in the database
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
