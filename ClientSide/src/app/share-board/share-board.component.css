@@ -124,6 +124,10 @@ button[disabled]{
   cursor: default;
 }
 
+input[type=checkbox] {
+    height: auto;
+}
+
 .hide-error {
     display: none;
 }

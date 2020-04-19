@@ -44,6 +44,7 @@ import { RenameUserComponent } from './rename-user/rename-user.component';
 import { NewBoardComponent } from './new-board/new-board.component';
 import { AreYouSureComponent } from './are-you-sure/are-you-sure.component';
 import { BoardDeletedComponent } from './board-deleted/board-deleted.component';
+import { ReadOnlyComponent } from './read-only/read-only.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { BoardDeletedComponent } from './board-deleted/board-deleted.component';
     RenameUserComponent,
     NewBoardComponent,
     AreYouSureComponent,
-    BoardDeletedComponent
+    BoardDeletedComponent,
+    ReadOnlyComponent
   ],
   imports: [
     BrowserModule,

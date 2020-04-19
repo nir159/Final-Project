@@ -4,7 +4,6 @@ import {CanvasWhiteboardComponent, CanvasWhiteboardService, CanvasWhiteboardShap
 import { ConfigService } from '../config.service';
 import { Location } from '@angular/common';
 import { ApiService } from '../api.service';
-import { VirtualTimeScheduler } from 'rxjs';
 
 @Component({
   selector: 'app-edit-board',
@@ -19,6 +18,7 @@ export class EditBoardComponent implements OnInit, OnDestroy {
   updates = [];
   users = [];
   intervalCheck;
+  allowed;
   // currUpdate = 0; [ngClass]="{'danger-zone':i>this.currUpdate}"
 
   constructor(private api: ApiService, private _canvasWhiteboardService: CanvasWhiteboardService, private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService, private router: Router, private location: Location, private route: ActivatedRoute, private config: ConfigService) {
@@ -31,8 +31,6 @@ export class EditBoardComponent implements OnInit, OnDestroy {
       this.router.navigate(['404']);
     }
 
-    //i'm active
-
     this.users = JSON.parse(this.api.getBoard().users);
     this.users.push(this.api.getBoard().owner);
 
@@ -42,9 +40,7 @@ export class EditBoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    /* if (this.intervalCheck) {
-      clearInterval(this.intervalCheck);
-    } */
+    
   }
 
   onCanvasClear() {

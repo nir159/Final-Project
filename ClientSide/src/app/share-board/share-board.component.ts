@@ -19,6 +19,7 @@ export class ShareBoardComponent implements OnInit, OnDestroy {
   returnUrl: string;
   err = false;
   error = '';
+  allowed = true;
   subscription: Subscription;
 
   constructor(private fb: FormBuilder, private router: Router, private location: Location, private api: ApiService, private wsService: WebsocketService) { 
@@ -45,12 +46,16 @@ export class ShareBoardComponent implements OnInit, OnDestroy {
   get email() { return this.shareBoardForm.get('email'); }
   get msg() { return this.shareBoardForm.get('msg'); }
 
+  allowedChanged() {
+    this.allowed = !this.allowed;
+  }
+
   shareBoard(formData) {
-    /* if (formData.email == JSON.parse(localStorage.getItem('currentUser')).email) {
+    if (formData.email == JSON.parse(localStorage.getItem('currentUser')).email) {
       this.err = true;
       this.error = "The email is yours!";
       return;
-    } else  */if (this.api.getBoard().users.includes(formData.email)) {
+    } else if (this.api.getBoard().users.includes(formData.email)) {
       this.err = true;
       this.error = "User is already in board!";
       return;
@@ -68,6 +73,13 @@ export class ShareBoardComponent implements OnInit, OnDestroy {
             updatedBoard.users = JSON.parse(updatedBoard.users);
             updatedBoard.users.push(formData.email);
             updatedBoard.users = JSON.stringify(updatedBoard.users);
+            updatedBoard.permissions = JSON.parse(updatedBoard.permissions);
+            if (this.allowed) {
+              updatedBoard.permissions.push('w');
+            } else {
+              updatedBoard.permissions.push('r');
+            }
+            updatedBoard.permissions = JSON.stringify(updatedBoard.permissions);
 
             data[0].notifications = JSON.parse(data[0].notifications);
             data[0].notifications.push('new;' + JSON.parse(localStorage.getItem('currentUser')).email + ';' + updatedBoard.name + ';' + formData.msg);

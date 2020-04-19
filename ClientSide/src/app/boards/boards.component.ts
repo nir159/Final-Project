@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
 import { MatDialog, matDialogAnimations } from '@angular/material/dialog';
 import { NewBoardComponent } from '../new-board/new-board.component';
 import { BoardDeletedComponent } from '../board-deleted/board-deleted.component';
+import { ReadOnlyComponent } from '../read-only/read-only.component';
 
 @Component({
   selector: 'app-boards',

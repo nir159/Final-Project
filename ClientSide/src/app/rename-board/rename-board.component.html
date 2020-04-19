@@ -12,8 +12,12 @@
 <div *ngIf="users.length" style="position: relative;">
   <h3>users control:</h3>
   <ul>
-    <li *ngFor="let user of users; let i = index">{{ user }}<a class="side" (click)="removeUser(i)"><i class="ion-md-close x-icon"></i></a></li>
+    <li *ngFor="let user of users; let i = index">{{ user }}
+        <input class="side" type="checkbox" name="permissions" checked>
+        <a (click)="removeUser(i)"><i class="ion-md-close x-icon"></i></a>
+    </li>
   </ul>
+  <p class="sub">*checkbox - allow to draw, x - remove user</p>
 </div>
 <div>
   <button class="button fit left" (click)="onNoClick()">Cancel</button>

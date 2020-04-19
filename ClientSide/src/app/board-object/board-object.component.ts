@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {timer} from 'rxjs';
 import {take} from 'rxjs/operators';
+import { ReadOnlyComponent } from '../read-only/read-only.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-board-object',
@@ -18,7 +20,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   @Output() onClear = new EventEmitter();
   @Output() updatesChange = new EventEmitter();
   @Input() updates = [];
-
+  
   usersList = [];
   title = 'board';
   text  = '';
@@ -36,6 +38,7 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   currSrc = "";
   imgDrawn = false;
   currUser;
+  allowedToDraw;
 
   subscription: Subscription;
 
@@ -72,8 +75,9 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
     this.canvas.nativeElement.height = window.innerHeight;
   }
 
-  constructor(private api: ApiService, private wsService: WebsocketService) {
+  constructor(private api: ApiService, private wsService: WebsocketService, public dialog: MatDialog) {
     this.currUser = JSON.parse(localStorage.getItem('currentUser')).email;
+    this.allowedToDraw = this.api.getBoard().owner == this.currUser || JSON.parse(this.api.getBoard().permissions)[JSON.parse(this.api.getBoard().users).indexOf(this.currUser)] == 'w';
 
     this.subscription = wsService.createSocket(environment.wsurl + api.getBoard().id + '/')
     .subscribe(
@@ -253,16 +257,32 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   hideUpdates(index: number) {
     event.preventDefault();
     // this.currUpdate = index+1;
-    this.updates = this.updates.slice(0, index);
-    this.save();
-    this.wsService.sendMsg({user: this.currUser, message: 'consecutive:' + index.toString()});
+    if (this.allowedToDraw) {
+      this.updates = this.updates.slice(0, index);
+      this.save();
+      this.wsService.sendMsg({user: this.currUser, message: 'consecutive:' + index.toString()});
+    } else {
+      let dialogRef = this.dialog.open(ReadOnlyComponent, {
+        width: '400px',
+        height: 'auto'
+      });
+      dialogRef.afterClosed().subscribe(result => {});
+    }
   }
 
   hideUpdate(index: number) {
     // this.currUpdate = index+1;
-    this.updates.splice(index, 1);
-    this.save();
-    this.wsService.sendMsg({user: this.currUser, message: 'hide-update:' + index.toString()});
+    if (this.allowedToDraw) {
+      this.updates.splice(index, 1);
+      this.save();
+      this.wsService.sendMsg({user: this.currUser, message: 'hide-update:' + index.toString()});
+    } else {
+      let dialogRef = this.dialog.open(ReadOnlyComponent, {
+        width: '400px',
+        height: 'auto'
+      });
+      dialogRef.afterClosed().subscribe(result => {});
+    }
   }
 
   markShapes(index) {
@@ -287,68 +307,90 @@ export class BoardObjectComponent implements OnInit, OnDestroy {
   }
 
   clear() {
-    this.updates = [];
-    this.onClear.emit();
-    this.updatesChange.emit(this.updates);
-    this.save();
-    this.wsService.sendMsg({user: this.currUser, message: 'clear'});
+    if (this.allowedToDraw) {
+      this.updates = [];
+      this.onClear.emit();
+      this.updatesChange.emit(this.updates);
+      this.save();
+      this.wsService.sendMsg({user: this.currUser, message: 'clear'});
+    } else {
+      let dialogRef = this.dialog.open(ReadOnlyComponent, {
+        width: '400px',
+        height: 'auto'
+      });
+      dialogRef.afterClosed().subscribe(result => {});
+    }
   }
 
   onCanvas(e) {
-    //this.sendUpdate.emit();
-    const rect = this.canvas.nativeElement.getBoundingClientRect();
-    this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
-    this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
-    switch (this.currShape) {
-      case "circle":
-        this.updates.push(new Circle(this.mouse.x, this.mouse.y, 1, this.outterColor, this.innerColor, this.lineWidth));
-        break;
-      case "rect":
-        this.updates.push(new Rectangle(this.mouse.x, this.mouse.y, 1, 1, this.outterColor, this.innerColor, this.lineWidth));
-        break;
-      case "line":
-        this.updates.push(new Line(new Point(this.mouse.x, this.mouse.y), new Point(this.mouse.x+1, this.mouse.y+1), this.outterColor, this.lineWidth, "round", "round"));
-        break;
-      case "freeHand":
-        this.updates.push(new FreeHand(this.outterColor, this.lineWidth, this.mouse.x, this.mouse.y));
-        break;
-      case "text":
-        this.updates.push(new Text(this.mouse.x, this.mouse.y, this.outterColor, this.text, this.lineWidth, this.italic, this.font, this.innerColor, this.textAlign));
-        break;
-      case "img":
-        if (this.currSrc) {
-          if (this.imgDrawn) {
-            this.updates.push(new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, this.currSrc));
-          } else {
-            this.imgDrawn = true;
+    if (this.allowedToDraw) {
+      const rect = this.canvas.nativeElement.getBoundingClientRect();
+      this.mouse.x = Math.floor( ( e.clientX - rect.left ) / ( rect.right - rect.left ) * this.ctx.canvas.width );
+      this.mouse.y = Math.floor( ( e.clientY - rect.top ) / ( rect.bottom - rect.top ) * this.ctx.canvas.height );
+      switch (this.currShape) {
+        case "circle":
+          this.updates.push(new Circle(this.mouse.x, this.mouse.y, 1, this.outterColor, this.innerColor, this.lineWidth));
+          break;
+        case "rect":
+          this.updates.push(new Rectangle(this.mouse.x, this.mouse.y, 1, 1, this.outterColor, this.innerColor, this.lineWidth));
+          break;
+        case "line":
+          this.updates.push(new Line(new Point(this.mouse.x, this.mouse.y), new Point(this.mouse.x+1, this.mouse.y+1), this.outterColor, this.lineWidth, "round", "round"));
+          break;
+        case "freeHand":
+          this.updates.push(new FreeHand(this.outterColor, this.lineWidth, this.mouse.x, this.mouse.y));
+          break;
+        case "text":
+          this.updates.push(new Text(this.mouse.x, this.mouse.y, this.outterColor, this.text, this.lineWidth, this.italic, this.font, this.innerColor, this.textAlign));
+          break;
+        case "img":
+          if (this.currSrc) {
+            if (this.imgDrawn) {
+              this.updates.push(new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, this.currSrc));
+            } else {
+              this.imgDrawn = true;
+            }
           }
-        }
-        break;
-      case "move":
-        this.updates.forEach(shape => {
-          if(shape.clicked()) {
-            shape.markShape();
-            shape.updatePosition(this.mouse);
-          }
-        });
-        break;
+          break;
+        case "move":
+          this.updates.forEach(shape => {
+            if(shape.clicked()) {
+              shape.markShape();
+              shape.updatePosition(this.mouse);
+            }
+          });
+          break;
+      }
+      this.updatesChange.emit(this.updates);
+    } else {
+      let dialogRef = this.dialog.open(ReadOnlyComponent, {
+        width: '400px',
+        height: 'auto'
+      });
+      dialogRef.afterClosed().subscribe(result => {});
     }
-    this.updatesChange.emit(this.updates);
   }
 
   handleFileInput(files) {
-    this.imgDrawn = false;
-    var file = files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = (e) => {
-      this.currSrc = reader.result.toString();
-      var newImage = new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, this.currSrc);
-      this.shapeChanged('img');
-      this.updates.push(newImage);
-      this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
-    };
-
+    if (this.allowedToDraw) {
+      this.imgDrawn = false;
+      var file = files[0];
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = (e) => {
+        this.currSrc = reader.result.toString();
+        var newImage = new ImageShape(this.mouse.x, this.mouse.y, this.imgSize, this.currSrc);
+        this.shapeChanged('img');
+        this.updates.push(newImage);
+        this.wsService.sendMsg({user: this.currUser, message: this.updates[this.updates.length-1]});
+      };
+    } else {
+      let dialogRef = this.dialog.open(ReadOnlyComponent, {
+        width: '400px',
+        height: 'auto'
+      });
+      dialogRef.afterClosed().subscribe(result => {});
+    }
     /* var file = files[0];
     var url = window.URL;
     var src = url.createObjectURL(file);

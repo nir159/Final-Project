@@ -43,4 +43,15 @@ li:first-child {
     border: 1px solid black;
     border-radius: 5px;
     padding: 1px;
-  }
+    position: absolute;
+    right: 50px;
+}
+
+input[type=checkbox] {
+    height: auto;
+}
+
+.sub {
+    font-style: italic;
+    color:#ccc;
+}
