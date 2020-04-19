@@ -16,6 +16,25 @@ export class ApiService {
       this.userLogged = true;
     }
   }
+  
+  userPic() {
+    if (localStorage.getItem('currentUser')) {
+      return JSON.parse(localStorage.getItem('currentUser')).profile_picture;
+    } else {
+      return "http://9815b11c.ngrok.io/media/default.png";
+    }
+  }
+
+  userPicture(user, file) {
+    const uploadData = new FormData();
+    uploadData.append('first_name', user.first_name);
+    uploadData.append('last_name', user.last_name);
+    uploadData.append('email', user.email);
+    uploadData.append('pw', user.pw);
+    uploadData.append('notifications', user.notifications);
+    uploadData.append('profile_picture', file, file.name);
+    return this.http.put(this.baseurl + 'my_users/_user/' + user.email + '/', uploadData);
+  }
 
   // user authentication
 

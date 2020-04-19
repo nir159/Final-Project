@@ -7,7 +7,7 @@
             <div id="logo">
                 <img src="assets/images/logo-2.png" class="navigation-logo" alt="Landing Page"/>
             </div>
-            <app-user-profile-icon (click)="close()" class="user" [profileImage]="this.api.isUserLogged() ? '../assets/images/user-images/user-1.jpg' : '../assets/images/user-images/default-user.jpg'"></app-user-profile-icon>
+            <app-user-profile-icon (click)="close()" class="user" [profileImage]="api.userPic()"></app-user-profile-icon>
             <a class="auth" *ngIf="api.isUserLogged()" routerLink="/home" (click)="api.userLoggedOut(); close();">LOGOUT</a>
             <a class="auth" *ngIf="!api.isUserLogged()" routerLink="/login" (click)="close()">LOGIN</a>
             <ul class="icon-menu">

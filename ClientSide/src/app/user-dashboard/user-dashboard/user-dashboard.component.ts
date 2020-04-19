@@ -12,14 +12,23 @@ import { AreYouSureComponent } from 'src/app/are-you-sure/are-you-sure.component
 })
 export class UserDashboardComponent implements OnInit {
 
-  constructor(private router: Router, private api: ApiService, public dialog: MatDialog) { 
+  constructor(private router: Router, public api: ApiService, public dialog: MatDialog) { 
     
   }
 
   user = JSON.parse(localStorage.getItem('currentUser'));
-
+  
   ngOnInit() {
     
+  }
+
+  onFileChanged(event) {
+    this.api.userPicture(this.user, event.target.files[0]).subscribe(event => {
+      localStorage.setItem('currentUser', JSON.stringify(event));
+    },
+    error => {
+      console.log(error);
+    });
   }
 
   logout() {

@@ -47,9 +47,14 @@ export class SignupComponent implements OnInit {
     const newUser = {first_name: formData.first_name, last_name: formData.last_name, email: formData.email, pw: formData.pw};
     this.api.signup(formData).subscribe(
       data => {
-        localStorage.setItem('currentUser', JSON.stringify(newUser));
-        this.api.userLoggedIn();
-        this.router.navigate([this.returnUrl]);
+        this.api.getUser(formData.email).subscribe(
+          data => {
+            
+            localStorage.setItem('currentUser', JSON.stringify(data[0]));
+            this.api.userLoggedIn();
+            this.router.navigate([this.returnUrl]);
+          }
+        );
       },
       error => {
         console.log(error);

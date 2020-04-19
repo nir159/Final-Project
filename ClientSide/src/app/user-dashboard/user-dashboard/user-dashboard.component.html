@@ -4,7 +4,8 @@
             <div class="panel">
                 <div class="panel-body center">
                     <blockquote class="testimonial classic">
-                        <img src="../assets/images/user-images/user-1.jpg" alt="User"/>
+                        <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+                        <img (click)="fileInput.click()" class="img" [src]="api.userPic()" alt="User"/>
                         <q>status: online</q>
                         <footer>
                             <a (click)="logout()" class="button">SIGN OUT</a>

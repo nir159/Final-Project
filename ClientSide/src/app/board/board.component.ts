@@ -17,12 +17,13 @@ export class BoardComponent implements OnInit {
   @Output() onUser = new EventEmitter();
   @Input() owner: any;
   notOwner = true;
+  image;
 
   constructor(private api: ApiService, private config: ConfigService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.notOwner = JSON.parse(localStorage.getItem('currentUser')).email.split('@')[0] != this.owner;
-
+    this.image = JSON.parse(localStorage.getItem('currentUser')).profile_picture;
     this.api.getBoardById(this.board.id).subscribe(
       data => {
         this.board = data;

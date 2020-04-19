@@ -13,11 +13,12 @@
   <h3>users control:</h3>
   <ul>
     <li *ngFor="let user of users; let i = index">{{ user }}
-        <input class="side" type="checkbox" name="permissions" checked>
-        <a (click)="removeUser(i)"><i class="ion-md-close x-icon"></i></a>
+      <input *ngIf="permissions[users.indexOf(user)] == 'w'" (change)="permissionsChanged(user)" class="side" type="checkbox" name="permissions" checked>
+      <input *ngIf="permissions[users.indexOf(user)] == 'r'" (change)="permissionsChanged(user)" class="side" type="checkbox" name="permissions">
+      <a (click)="removeUser(i)"><i class="ion-md-close x-icon"></i></a>
     </li>
   </ul>
-  <p class="sub">*checkbox - allow to draw, x - remove user</p>
+  <p class="sub">*checkbox - allowed to draw, x - remove user</p>
 </div>
 <div>
   <button class="button fit left" (click)="onNoClick()">Cancel</button>

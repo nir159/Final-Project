@@ -9,6 +9,7 @@ import { ApiService } from '../api.service';
 export class NavigationComponent implements OnInit {
 
   isActive = false;
+  profileImage = "'../assets/images/user-images/default-user.jpg'";
   @HostListener('document:click', ['$event'])
   clickout(event) {
     if(!this.elementRef.nativeElement.contains(event.target) && event.target.id != "navButton") {
@@ -16,7 +17,11 @@ export class NavigationComponent implements OnInit {
     }
   }
 
-  constructor(public api: ApiService, private elementRef:ElementRef) { }
+  constructor(public api: ApiService, private elementRef:ElementRef) {
+    if (localStorage.getItem('currentUser')) {
+      this.profileImage = JSON.parse(localStorage.getItem('currentUser')).profile_picture;
+    }
+  }
 
   ngOnInit() { 
 
