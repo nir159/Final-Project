@@ -20,3 +20,27 @@ h1 {
     margin-left: 100px;
     margin-right: 10px;
 }
+
+ul {
+    list-style-type: none;
+    margin-bottom: 20px;
+}
+
+li{
+    margin-top: 10px;
+}
+
+li:first-child {
+    margin-top:0;
+}
+
+.side {
+    position: absolute;
+    right: 100px;
+}
+
+.x-icon {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 1px;
+  }

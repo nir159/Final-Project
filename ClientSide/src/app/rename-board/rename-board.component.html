@@ -9,6 +9,12 @@
     <input matInput [(ngModel)]="desc">
   </mat-form-field>
 </div>
+<div *ngIf="users.length" style="position: relative;">
+  <h3>users control:</h3>
+  <ul>
+    <li *ngFor="let user of users; let i = index">{{ user }}<a class="side" (click)="removeUser(i)"><i class="ion-md-close x-icon"></i></a></li>
+  </ul>
+</div>
 <div>
   <button class="button fit left" (click)="onNoClick()">Cancel</button>
   <button class="button fit" [mat-dialog-close]="{name: name, desc: desc}" cdkFocusInitial>Apply</button>

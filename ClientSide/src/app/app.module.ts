@@ -41,6 +41,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RenameUserComponent } from './rename-user/rename-user.component';
+import { NewBoardComponent } from './new-board/new-board.component';
+import { AreYouSureComponent } from './are-you-sure/are-you-sure.component';
+import { BoardDeletedComponent } from './board-deleted/board-deleted.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +69,10 @@ import { RenameUserComponent } from './rename-user/rename-user.component';
     ShareBoardComponent,
     BoardObjectComponent,
     RenameBoardComponent,
-    RenameUserComponent
+    RenameUserComponent,
+    NewBoardComponent,
+    AreYouSureComponent,
+    BoardDeletedComponent
   ],
   imports: [
     BrowserModule,

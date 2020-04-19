@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RenameUserComponent } from 'src/app/rename-user/rename-user.component';
+import { AreYouSureComponent } from 'src/app/are-you-sure/are-you-sure.component';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -26,6 +27,29 @@ export class UserDashboardComponent implements OnInit {
       localStorage.removeItem('currentUser');
     }
     this.router.navigate(['/login']);
+  }
+
+  delete() {
+    if (localStorage.getItem('currentUser')) {
+      let dialogRef = this.dialog.open(AreYouSureComponent, {
+        width: '300px',
+        height: '260px'
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.api.removeUser(this.user).subscribe(
+            data => {
+              
+            },
+            error => {
+              console.log(error);
+          });
+          localStorage.removeItem('currentUser');
+          this.router.navigate(['/login']);
+        }
+      });
+    }
   }
 
   openRename() {

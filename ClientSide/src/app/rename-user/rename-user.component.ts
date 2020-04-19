@@ -12,7 +12,7 @@ export class RenameUserComponent implements OnInit {
   first = "";
   last = "";
 
-  constructor(public dialogRef: MatDialogRef<RenameBoardComponent>, @Inject(MAT_DIALOG_DATA) public name: any) {
+  constructor(public dialogRef: MatDialogRef<RenameUserComponent>, @Inject(MAT_DIALOG_DATA) public name: any) {
     this.first = name.first;
     this.last = name.last;
   }

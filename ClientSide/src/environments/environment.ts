@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseurl: "http://2ee43e7e.ngrok.io/",
-  wsurl: "ws://2ee43e7e.ngrok.io/ws/boards/chat/"
+  baseurl: "http://b4ec6960.ngrok.io/",
+  wsurl: "ws://b4ec6960.ngrok.io/ws/boards/chat/"
 };
 
 /*
@@ -19,8 +19,8 @@ export const environment = {
 
 /*
 server:
-http://2ee43e7e.ngrok.io/
-ws://2ee43e7e.ngrok.io/ws/boards/chat/
+http://b4ec6960.ngrok.io/
+ws://b4ec6960.ngrok.io/ws/boards/chat/
 
 local:
 http://127.0.0.1:8000/

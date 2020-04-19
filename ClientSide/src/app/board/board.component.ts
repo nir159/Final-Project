@@ -13,6 +13,8 @@ import { RenameBoardComponent } from '../rename-board/rename-board.component';
 export class BoardComponent implements OnInit {
   @Input() board: any;
   @Output() resetBoards = new EventEmitter();
+  @Output() deletedBoard = new EventEmitter();
+  @Output() onUser = new EventEmitter();
   @Input() owner: any;
   notOwner = true;
 
@@ -49,6 +51,7 @@ export class BoardComponent implements OnInit {
       this.api.removeBoard(this.board.owner, this.board.id).subscribe(
         data => {
           this.resetBoards.emit();
+          this.deletedBoard.emit(this.board);
         },
         error => {
           let list = this.config.getConfig().boards.boardslist;
@@ -66,8 +69,12 @@ export class BoardComponent implements OnInit {
   openRename() {
     let dialogRef = this.dialog.open(RenameBoardComponent, {
       width: '400px',
-      height: '340px',
+      height: 'auto',
       data: {board: this.board}
+    });
+
+    const sub = dialogRef.componentInstance.onUser.subscribe(msg => {
+      this.onUser.emit({email: msg, board: this.board});
     });
 
     dialogRef.afterClosed().subscribe(result => {
