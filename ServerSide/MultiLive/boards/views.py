@@ -1,10 +1,7 @@
-from django.http import Http404, JsonResponse
-from django.shortcuts import render, redirect
 from rest_framework import viewsets, generics, filters
 from .serializers import BoardSerializer, BoardMiniSerializer
 from .models import Board
 from rest_framework.response import Response
-import requests, json
 # Create your views here.
 
 
