@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../api.service';
 import { ConfigService } from '../config.service';
 import { MatDialog } from '@angular/material/dialog';
-import { environment } from '../../environments/environment';
 
 import { RenameBoardComponent } from '../rename-board/rename-board.component';
 

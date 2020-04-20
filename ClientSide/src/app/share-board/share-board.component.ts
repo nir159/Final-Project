@@ -55,7 +55,7 @@ export class ShareBoardComponent implements OnInit, OnDestroy {
       this.err = true;
       this.error = "The email is yours!";
       return;
-    } else if (this.api.getBoard().users.includes(formData.email)) {
+    } else if (JSON.parse(this.api.getBoard().users).includes(formData.email)) {
       this.err = true;
       this.error = "User is already in board!";
       return;
