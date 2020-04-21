@@ -163,13 +163,13 @@ export class BoardsComponent implements OnInit, OnDestroy {
   }
 
   removeNote() {
-    this.api.getUser(this.user.email).subscribe(
+    this.api.getUserByEmail(this.user.email).subscribe(
       data => {
-        data[0].notifications = JSON.parse(data[0].notifications);
-        if (data[0].notifications.length) {
-          data[0].notifications.pop();
-          data[0].notifications = JSON.stringify(data[0].notifications);
-          this.api.updateUser(data[0]).subscribe(
+        data.notifications = JSON.parse(data.notifications);
+        if (data.notifications.length) {
+          data.notifications.pop();
+          data.notifications = JSON.stringify(data.notifications);
+          this.api.updateUser(data).subscribe(
             data => {
               
             },
@@ -187,12 +187,12 @@ export class BoardsComponent implements OnInit, OnDestroy {
   deletedBoard(board) {
     var users = JSON.parse(board.users);
     users.forEach(user => {
-      this.api.getUser(user).subscribe(
+      this.api.getUserByEmail(user).subscribe(
         data => {
-          data[0].notifications = JSON.parse(data[0].notifications);
-          data[0].notifications.push('deleted;' + board.name);
-          data[0].notifications = JSON.stringify(data[0].notifications);
-          this.api.updateUser(data[0]).subscribe(
+          data.notifications = JSON.parse(data.notifications);
+          data.notifications.push('deleted;' + board.name);
+          data.notifications = JSON.stringify(data.notifications);
+          this.api.updateUser(data).subscribe(
             data => {
               
             },
@@ -223,12 +223,12 @@ export class BoardsComponent implements OnInit, OnDestroy {
       board.users = JSON.stringify(board.users);
       this.api.updateBoard(board).subscribe(
         data => {
-          this.api.getUser(info.email).subscribe(
+          this.api.getUserByEmail(info.email).subscribe(
             data => {
-              data[0].notifications = JSON.parse(data[0].notifications);
-              data[0].notifications.push('removed;' + board.name);
-              data[0].notifications = JSON.stringify(data[0].notifications);
-              this.api.updateUser(data[0]).subscribe(
+              data.notifications = JSON.parse(data.notifications);
+              data.notifications.push('removed;' + board.name);
+              data.notifications = JSON.stringify(data.notifications);
+              this.api.updateUser(data).subscribe(
                 data => {
                   
                 },

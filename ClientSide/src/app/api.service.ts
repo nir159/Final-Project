@@ -57,8 +57,8 @@ export class ApiService {
     return this.http.get(this.baseurl + '/users/', {headers: this.httpHeaders});
   }
 
-  getUser(email: string): Observable<any> {
-    return this.http.get(this.baseurl + 'my_users/get_user/?search=' + email, {headers: this.httpHeaders});
+  getUserByEmail(email: string): Observable<any> {
+    return this.http.get(this.baseurl + 'my_users/_user/' + email + '/', {headers: this.httpHeaders});
   }
 
   signup(user): Observable<any> {

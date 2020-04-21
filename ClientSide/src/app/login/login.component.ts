@@ -31,37 +31,29 @@ export class LoginComponent implements OnInit {
   get pw() { return this.loginForm.get('pw'); }
 
   login(formData){
-    let myUser;
-    this.api.getUser(formData.email).subscribe(
+    this.api.getUserByEmail(formData.email).subscribe(
       data => {
-        if(!data.length) {
+        if(!data) {
           this.errorMsg = "User doesn't exist!";
           this.logFail = true;
           return;
         }
-        else if (data.length > 1){
-          data.forEach(user => {
-            if (user.email == formData.email) {
-              myUser = user;
-            }
-          });
-        }
-        else {
-          myUser = data[0];
-        }
-        if(!myUser.pw == formData.pw) {
+        if(!data.pw == formData.pw) {
           this.errorMsg = "Wrong password!";
           this.logFail = true;
           return;
         }
-        localStorage.setItem('currentUser', JSON.stringify(myUser));
+        localStorage.setItem('currentUser', JSON.stringify(data));
         this.api.userLoggedIn();
         this.router.navigate([this.returnUrl]);
       },
       error => {
-        this.errorMsg = "Server communication error!";
+        this.errorMsg = "User doesn't exist!";
         this.logFail = true;
-        console.log(error);
+        return;
+        /* this.errorMsg = "Server communication error!";
+        this.logFail = true;
+        console.log(error); */
       }
     );
   }

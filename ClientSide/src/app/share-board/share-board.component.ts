@@ -61,9 +61,9 @@ export class ShareBoardComponent implements OnInit, OnDestroy {
       return;
     }
     else {
-      this.api.getUser(formData.email).subscribe(
+      this.api.getUserByEmail(formData.email).subscribe(
         data => {
-          if(!data.length) {
+          if(!data) {
             this.error = "User doesn't exist!";
             this.err = true;
             return;
@@ -81,10 +81,10 @@ export class ShareBoardComponent implements OnInit, OnDestroy {
             }
             updatedBoard.permissions = JSON.stringify(updatedBoard.permissions);
 
-            data[0].notifications = JSON.parse(data[0].notifications);
-            data[0].notifications.push('new;' + JSON.parse(localStorage.getItem('currentUser')).email + ';' + updatedBoard.name + ';' + formData.msg);
-            data[0].notifications = JSON.stringify(data[0].notifications);
-            this.api.updateUser(data[0]).subscribe(
+            data.notifications = JSON.parse(data.notifications);
+            data.notifications.push('new;' + JSON.parse(localStorage.getItem('currentUser')).email + ';' + updatedBoard.name + ';' + formData.msg);
+            data.notifications = JSON.stringify(data.notifications);
+            this.api.updateUser(data).subscribe(
               data => {
                 
               },
@@ -106,9 +106,10 @@ export class ShareBoardComponent implements OnInit, OnDestroy {
           }
         },
         error => {
-          this.error = "Server communication error!";
+          this.error = "User doesn't exist!";
           this.err = true;
           console.log(error);
+          return;
         }
       );
     }
