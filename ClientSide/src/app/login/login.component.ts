@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
   get pw() { return this.loginForm.get('pw'); }
 
   login(formData){
+    let myUser;
     this.api.getUser(formData.email).subscribe(
       data => {
         if(!data.length) {
@@ -38,12 +39,22 @@ export class LoginComponent implements OnInit {
           this.logFail = true;
           return;
         }
-        if(!data[0].pw == formData.pw) {
+        else if (data.length > 1){
+          data.forEach(user => {
+            if (user.email == formData.email) {
+              myUser = user;
+            }
+          });
+        }
+        else {
+          myUser = data[0];
+        }
+        if(!myUser.pw == formData.pw) {
           this.errorMsg = "Wrong password!";
           this.logFail = true;
           return;
         }
-        localStorage.setItem('currentUser', JSON.stringify(data[0]));
+        localStorage.setItem('currentUser', JSON.stringify(myUser));
         this.api.userLoggedIn();
         this.router.navigate([this.returnUrl]);
       },
