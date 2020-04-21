@@ -47,11 +47,12 @@ export class BoardsComponent implements OnInit, OnDestroy {
             }
             break;
           case 'deleted':
-            if (JSON.parse(msg.message.split(';')[1]).users.includes(this.user.email)) {
+            let board = JSON.parse(msg.message.split(';')[1]);
+            if (board.users.includes(this.user.email)) {
               dialogRef = this.dialog.open(BoardDeletedComponent, {
                 width: '400px',
                 height: 'auto',
-                data: {name: JSON.parse(msg.message.split(';')[1]).name, reason: 'Board was deleted!'}
+                data: {name: board.name, reason: 'Board was deleted!'}
               });
           
               dialogRef.afterClosed().subscribe(result => {
@@ -219,6 +220,9 @@ export class BoardsComponent implements OnInit, OnDestroy {
     board.users = JSON.parse(board.users);
     const index = board.users.indexOf(info.email);
     if (index > -1) {
+      board.permissions = JSON.parse(board.permissions);
+      board.permissions.splice(index, 1);
+      board.permissions = JSON.stringify(board.permissions);
       board.users.splice(index, 1);
       board.users = JSON.stringify(board.users);
       this.api.updateBoard(board).subscribe(

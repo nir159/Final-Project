@@ -46,6 +46,9 @@ export class BoardComponent implements OnInit {
       this.board.users = JSON.parse(this.board.users)
       const index = this.board.users.indexOf(JSON.parse(localStorage.getItem('currentUser')).email);
       if (index > -1) {
+        this.board.permissions = JSON.parse(this.board.permissions);
+        this.board.permissions.splice(index, 1);
+        this.board.permissions = JSON.stringify(this.board.permissions);
         this.board.users.splice(index, 1);
         this.board.users = JSON.stringify(this.board.users);
         this.api.updateBoard(this.board).subscribe(

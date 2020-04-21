@@ -34,6 +34,7 @@ export class RenameBoardComponent implements OnInit {
   removeUser(i) {
     this.onUser.emit(this.users[i]);
     this.users.splice(i, 1);
+    this.permissions.splice(i, 1);
   }
 
   permissionsChanged(user) {
